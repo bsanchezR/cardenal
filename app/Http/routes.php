@@ -21,6 +21,11 @@ Route::get('/usuario', function () {
 
 Route::resource('user', 'userController');
 Route::resource('cliente', 'clienteController');
+Route::resource('marcas', 'marcaController');
+Route::resource('pedidos', 'pedidoController');
+Route::resource('modelos', 'modeloController');
+Route::resource('colors', 'colorController');
+Route::resource('persianas', 'persianaController');
 
 Route::get('login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');

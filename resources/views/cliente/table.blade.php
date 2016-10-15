@@ -37,7 +37,7 @@
             <td>{!! $cliente->telefono2!!}</td>
             <td>{!! $cliente->tipo !!}</td>
             <td>{!! $cliente->email!!}</td>
-            <td style="text-align: center;"
+            <td style="text-align: center;">
                 {!! Form::open(['route' => ['cliente.destroy', $cliente->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('cliente.show', [$cliente->id]) !!}" class='btn btn-default btn-xs'><i class="glyph-icon icon-eye"></i></a>
