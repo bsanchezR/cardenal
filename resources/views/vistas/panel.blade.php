@@ -169,6 +169,30 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Colores</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('colors.index') !!}" title="Labels &amp; Badges"><span>Listado de Colores</span></a></li>
+                                    <li><a href="{!! route('colors.create') !!}" title="Buttons"><span>Nuevo Color</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Marcas</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('marcas.index') !!}" title="Labels &amp; Badges"><span>Listado de Marcas</span></a></li>
+                                    <li><a href="{!! route('marcas.create') !!}" title="Buttons"><span>Nueva Marca</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Modelos</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('modelos.index') !!}" title="Labels &amp; Badges"><span>Listado de Modelos</span></a></li>
+                                    <li><a href="{!! route('modelos.create') !!}" title="Buttons"><span>Nuevo Modelo</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -297,6 +321,22 @@
             $(".multi-select").multiSelect();
             $(".ms-container").append('<i class="glyph-icon icon-exchange"></i>');
         });
+    </script>
+    <script type="text/javascript">
+    $(function () {
+      if($('#demo-form').parsley() != undefined)
+      {
+
+              $('#demo-form').parsley().on('field:validated', function() {
+                var ok = $('.parsley-error').length === 0;
+                $('.bs-callout-info').toggleClass('hidden', !ok);
+                $('.bs-callout-warning').toggleClass('hidden', ok);
+              })
+              .on('form:submit', function() {
+                return false; // Don't submit form for this demo
+              });
+        }
+            });
     </script>
     <script type="text/javascript" src="{{ asset('widgets/uniform/uniform.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/uniform/uniform-demo.js') }}"></script>

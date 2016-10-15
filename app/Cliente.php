@@ -37,4 +37,9 @@ class Cliente extends Model
         'apellido_paterno' => 'required',
         'apellido_materno' => 'required',
     ];
+
+    public function pedidos()
+    {
+      return $this->hasMany('App\Models\pedido');
+    }
 }

@@ -15,14 +15,14 @@
 <div class="form-group">
     {!! Form::label('telefono', 'Telefono :', ['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">
-    {!! Form::text('telefono', null, ['class' => 'form-control']) !!}
+    {!! Form::text('telefono', null, ['class' => 'form-control', 'data-parsley-error-message' => 'El correo ingresado no es valido.']) !!}
     </div>
 </div>
 
 <div class="form-group">
     {!! Form::label('email', 'E-mail :', ['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">
-    {!! Form::email('email', null, ['class' => 'form-control']) !!}
+    {!! Form::email('email', null, ['class' => 'form-control','data-parsley-required-message' => 'Porfavor ingresa tu email','data-parsley-error-message' => 'El correo ingresado no es valido.']) !!}
     </div>
 </div>
 

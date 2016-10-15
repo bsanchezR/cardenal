@@ -1,3 +1,5 @@
+
+
 @extends('vistas.panel')
 
 @section('content')
@@ -7,10 +9,11 @@
 
                     <div class="panel">
                         <div class="panel-body">
-                            <h3 class="title-hero">Nuevo Usuario</h3>
+                            <h3 class="title-hero">Nuevo Pedido</h3>
                             <div class="example-box-wrapper">
-                              {!! Form::open(['route' => 'user.store','class' => 'form-horizontal bordered-row','id'=>'demo-form']) !!}
-                                  @include('user.fields')
+                              {!! Form::open(['route' => 'pedidos.store','class' => 'form-horizontal bordered-row']) !!}
+
+                                  @include('pedidos.fields')
 
                               {!! Form::close() !!}
                             </div>

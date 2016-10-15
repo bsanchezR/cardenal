@@ -36,4 +36,9 @@ class User extends Authenticatable
         'tipo_usuario' => 'required',
         'email' => 'required',
     ];
+
+    public function pedidos()
+    {
+	    return $this->hasMany('App\Models\pedido');
+    }
 }

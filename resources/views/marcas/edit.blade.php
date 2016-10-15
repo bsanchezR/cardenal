@@ -1,3 +1,5 @@
+
+
 @extends('vistas.panel')
 
 @section('content')
@@ -7,10 +9,10 @@
 
                     <div class="panel">
                         <div class="panel-body">
-                            <h3 class="title-hero">Nuevo Usuario</h3>
+                            <h3 class="title-hero">Cambiar Marca</h3>
                             <div class="example-box-wrapper">
-                              {!! Form::open(['route' => 'user.store','class' => 'form-horizontal bordered-row','id'=>'demo-form']) !!}
-                                  @include('user.fields')
+                              {!! Form::model($marca, ['route' => ['marcas.update', $marca->id], 'method' => 'patch','class' => 'form-horizontal bordered-row']) !!}
+                                  @include('marcas.fields')
 
                               {!! Form::close() !!}
                             </div>
