@@ -6,6 +6,13 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label('max_ancho', 'Ancho máximo:', ['class' => 'control-label col-sm-3']) !!}
+    <div class="col-sm-6">
+    {!! Form::text('max_ancho', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+<div class="form-group">
     {!! Form::label('codigo', 'Codigo:', ['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">
     {!! Form::text('codigo', null, ['class' => 'form-control']) !!}

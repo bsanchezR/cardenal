@@ -22,6 +22,13 @@
     </div>
 </div>
 
+<div class="form-group">
+    {!! Form::label('max_ancho', 'Ancho Máximo:',['class' => 'control-label col-sm-3']) !!}
+    <div class="col-sm-6">
+    <p>{!! $modelo->max_ancho !!}</p>
+    </div>
+</div>
+
 <!-- Codigo Field -->
 <div class="form-group">
     {!! Form::label('codigo', 'Codigo:',['class' => 'control-label col-sm-3']) !!}

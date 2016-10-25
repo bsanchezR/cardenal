@@ -9,6 +9,10 @@
   font-size: 70px;
 
 }
+.tooltip-inner
+{
+  height: 100px !important;
+}
 .dash-list:hover
 {
   transform: scale(1.2,1.2);

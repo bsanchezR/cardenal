@@ -27,9 +27,16 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('control', 'Control :',['class' => 'control-label col-sm-3']) !!}
+    {!! Form::label('control', 'Observaciones :',['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">
     <p>{!! $pedido->control !!}</p>
+    </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label('estado', 'Estado :',['class' => 'control-label col-sm-3']) !!}
+    <div class="col-sm-6">
+    <p>{!! $pedido->estado !!}</p>
     </div>
 </div>
 
@@ -42,7 +49,7 @@
     </div>
   </div>
   @foreach($pedido->persianas as $persiana)
-  <div class="col s12 divider" style ="margin-top:10px; margin-bottom:10px; background:red;"></div>
+  <div class="col s12 divider" style ="margin-top:10px; margin-bottom:10px; background:red;"></div>     
   <div class="form-group">
     {!! Form::label('ids', 'Persiana :',['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">

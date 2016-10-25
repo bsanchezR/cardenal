@@ -11,6 +11,7 @@ use App\Repositories\persianaRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use DB;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -54,19 +55,53 @@ class pedidoController extends InfyOmBaseController
      */
     public function create()
     {
+        // $usuarios = \App\User::all();
+        // $clientes = \App\Cliente::all();
+        // $marcas = \App\marca::all();
+        // $modelos = \App\modelo::all();
+        // foreach ($modelos as $key )
+        // {
+        //   $key->colors;
+        // }
+        // foreach ($marcas as $key )
+        // {
+        //   $key->modelos;
+        // }
+        // return view('pedidos.create',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'modelos'=> $modelos]);
+
         $usuarios = \App\User::all();
         $clientes = \App\Cliente::all();
         $marcas = \App\marca::all();
-        $modelos = \App\modelo::all();
-        foreach ($modelos as $key )
-        {
-          $key->colors;
-        }
-        foreach ($marcas as $key )
-        {
-          $key->modelos;
-        }
-        return view('pedidos.create',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'modelos'=> $modelos]);
+        // $modelos = DB::table('modelos')->select('nombre')->distinct()->get();
+        // $colores= DB::table('modelos')->select('color')->distinct()->get();
+        return view('pedidos.create',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas]);
+    }
+
+    public function get_marcas($tipo)
+    {
+      $marcas = DB::table('modelos')->select('marca_id')->distinct()->where('id_tipo' , '=' ,$tipo)->get();
+      return response()->json(['status'=>'ok','data'=>$marcas], 200);
+    }
+
+    public function get_modelos($marca)
+    {
+      $porciones = explode(",", $marca);
+      $modelos = DB::table('modelos')->select('nombre')->distinct()->where([['marca_id' , '=' , $porciones[0]],['id_tipo','=',$porciones[1]]])->get();
+      return response()->json(['status'=>'ok','data'=>$modelos], 200);
+    }
+
+    public function get_colores($modelo)
+    {
+      $porciones = explode(",", $modelo);
+      $colores= DB::table('modelos')->select('color')->distinct()->where([['nombre' , '=' , $porciones[0]],['id_tipo','=',$porciones[1]]])->get();
+      return response()->json(['status'=>'ok','data'=>$colores], 200);
+    }
+
+    public function get_id($cadena)
+    {
+      $porciones = explode(",", $cadena);
+      $id= DB::table('modelos')->select('*')->where([['id_tipo' , '=' , $porciones[0]] , ['marca_id' , '=' , $porciones[1]] , ['nombre' , '=' , $porciones[2]] , ['color' , '=' , $porciones[3]]])->get();
+      return response()->json(['status'=>'ok','data'=>$id], 200);
     }
 
     /**
@@ -78,23 +113,33 @@ class pedidoController extends InfyOmBaseController
      */
     public function store(CreatepedidoRequest $request)
     {
-        if($request->fecha_entrega == NULL || $request->fecha_entrega == '' || $request->fecha_entrega == '-0001-11-30 00:00:00' || $request->fecha_entrega == '0000-00-00')
-          $request->fecha_entrega = NULL;
-        if($request->fecha_produccion == NULL || $request->fecha_produccion == '' || $request->fecha_produccion == '-0001-11-30 00:00:00' || $request->fecha_produccion == '0000-00-00')
-          $request->fecha_produccion = NULL;
-        if($request->fecha_instalacion == NULL || $request->fecha_instalacion == '' || $request->fecha_instalacion == '-0001-11-30 00:00:00' || $request->fecha_instalacion == '0000-00-00')
-          $request->fecha_instalacion = NULL;
-        $input = $request->all();
+      $usuarios = \App\User::all();
+      $clientes = \App\Cliente::all();
+      $marcas = \App\marca::all();
 
-        $persianas=[];
+        if($request->fecha_entrega == NULL || $request->fecha_entrega == '' || $request->fecha_entrega == '-0001-11-30 00:00:00' || $request->fecha_entrega == '0000-00-00')
+        {
+            $request->fecha_entrega = NULL;
+        }
+        if($request->fecha_produccion == NULL || $request->fecha_produccion == '' || $request->fecha_produccion == '-0001-11-30 00:00:00' || $request->fecha_produccion == '0000-00-00')
+        {
+          $request->fecha_produccion = NULL;
+        }
+        if($request->fecha_instalacion == NULL || $request->fecha_instalacion == '' || $request->fecha_instalacion == '-0001-11-30 00:00:00' || $request->fecha_instalacion == '0000-00-00')
+        {
+          $request->fecha_instalacion = NULL;
+        }
+        $input = $request->all();
+        //  dd( $request);
+
+          $persianas=[];
           $pedido = $this->pedidoRepository->create($input);
-        //$persiana = new CreatepersianaRequest;
           for($i=0;$i<$request->numero;$i++)
           {
             $persiana= new \App\persiana();
             $persiana->pedido_id=$pedido->id;
             $persiana->modelo_id=$request->modelo_id;
-            $persiana->color_id=$request->color_id;
+            $persiana->color=$request->color;
             $persiana->tipo=$request->tipo;
             $persiana->subtipo='sheer';
             $persiana->control_p=$request->{'control_p'.$i};
@@ -110,17 +155,24 @@ class pedidoController extends InfyOmBaseController
             $persiana->save();
             $persianas[$i]=$persiana;
           }
-        //  dd($persianas,$request);
-      //  Flash::success('pedido saved successfully.');
 
-        // $noti= new \App\Models\notificacion();
-        // $noti->mensaje='Nuevo pedido';
-        // $noti->leido=0;
-        // $noti->id_remitente=$pedido->cliente_id;
-        // $noti->id_destinatario=$pedido->user_id;
-        // $noti->save();
+          $pedido = $this->pedidoRepository->findWithoutFail($pedido->id);
 
-       return redirect(route('pedidos.index'));
+        if($request->nuevas && $request->nuevas == '1')
+        {
+          return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'nuevas' => '1','pedido'=>$pedido]);
+        }
+        else if($request->mismas && $request->mismas == '1')
+        {
+          return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'mismas' => '1','pedido'=>$pedido]);
+        }
+        else
+        {
+          Flash::success('Pedido guardado !!! .');
+          return redirect(route('cotizar.pedidos',['id'=>$pedido->id]));
+        }
+
+
     }
 
     /**
@@ -172,8 +224,7 @@ class pedidoController extends InfyOmBaseController
         $usuarios = \App\User::all();
         $clientes = \App\Cliente::all();
         $marcas = \App\marca::all();
-        $modelos = \App\modelo::all();
-        return view('pedidos.edit',['pedido' => $pedido , 'usuarios' => $usuarios , 'clientes'=> $clientes, 'marcas'=> $marcas, 'modelos'=> $modelos]);
+        return view('pedidos.edit',['pedido' => $pedido , 'usuarios' => $usuarios , 'clientes'=> $clientes, 'marcas'=> $marcas,]);
     }
 
     /**
@@ -201,7 +252,7 @@ class pedidoController extends InfyOmBaseController
           $request->fecha_instalacion = NULL;
         $pedido = $this->pedidoRepository->update($request->all(), $id);
 
-        Flash::success('pedido updated successfully.');
+        Flash::success('Pedido actualizado !!!.');
 
         return redirect(route('pedidos.index'));
     }
@@ -225,9 +276,96 @@ class pedidoController extends InfyOmBaseController
 
         $this->pedidoRepository->delete($id);
 
-        Flash::success('pedido deleted successfully.');
+        Flash::success('Pedido borrado !!!.');
 
         return redirect(route('pedidos.index'));
+    }
+
+    public function cotiza($id)
+    {
+      $pedido = $this->pedidoRepository->findWithoutFail($id);
+
+      if (empty($pedido))
+      {
+          Flash::error('pedido not found');
+
+          return redirect(route('pedidos.index'));
+      }
+      $persianas =$pedido->persianas;
+      foreach ($persianas as $key )
+      {
+        $key->modelo;
+        $key->color;
+      }
+      return view('pedidos.cotiza',['pedido'=>$pedido,'persianas'=>$persianas]);
+    }
+
+    public function agregar($id, Request $request)
+    {
+      $usuarios = \App\User::all();
+      $clientes = \App\Cliente::all();
+      $marcas = \App\marca::all();
+
+      $pedido = $this->pedidoRepository->findWithoutFail($id);
+
+      if (empty($pedido)) {
+          Flash::error('pedido not found');
+
+          return redirect(route('pedidos.index'));
+      }
+
+
+      if($pedido->fecha_produccion == '0000-00-00')
+        $pedido->fecha_produccion=null;
+      $pedido->cliente;
+      $pedido->user;
+      if($pedido->fecha_entrega == NULL || $pedido->fecha_entrega == '' || $pedido->fecha_entrega == '-0001-11-30 00:00:00' || $pedido->fecha_entrega == '0000-00-00')
+        $pedido->fecha_entrega = NULL;
+      if($pedido->fecha_produccion == NULL || $pedido->fecha_produccion == '' || $pedido->fecha_produccion == '-0001-11-30 00:00:00' || $pedido->fecha_produccion == '0000-00-00')
+        $pedido->fecha_produccion = NULL;
+      if($pedido->fecha_instalacion == NULL || $pedido->fecha_instalacion == '' || $pedido->fecha_instalacion == '-0001-11-30 00:00:00' || $pedido->fecha_instalacion == '0000-00-00')
+        $pedido->fecha_instalacion = NULL;
+
+      $persianas=[];
+      for($i=0;$i<$request->numero;$i++)
+      {
+        $persiana= new \App\persiana();
+        $persiana->pedido_id=$pedido->id;
+        $persiana->modelo_id=$request->modelo_id;
+        $persiana->color=$request->color;
+        $persiana->tipo=$request->tipo;
+        $persiana->subtipo='sheer';
+        $persiana->control_p=$request->{'control_p'.$i};
+        $persiana->altura_control=$request->{'altura_control'.$i};
+        $persiana->motor=$request->{'motor'.$i};
+        $persiana->soporte_u=$request->{'soporte_u'.$i};
+        $persiana->soporte_m=$request->{'soporte_m'.$i};
+        $persiana->soporte_p=$request->{'soporte_p'.$i};
+        $persiana->tipo_motor=$request->{'tipo_motor'.$i};
+        $persiana->lado_motor=$request->{'lado_motor'.$i};
+        $persiana->alto=$request->{'alto'.$i};
+        $persiana->ancho=$request->{'ancho'.$i};
+        $persiana->save();
+        $persianas[$i]=$persiana;
+      }
+
+      if($request->nuevas && $request->nuevas == '1')
+      {
+        return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'nuevas' => '1','pedido'=>$pedido]);
+      }
+      else if($request->mismas && $request->mismas == '1')
+      {
+        return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'mismas' => '1','pedido'=>$pedido]);
+      }
+      else
+      {
+        Flash::success('Pedido guardado !!!.');
+
+        return redirect(route('cotizar.pedidos',['id'=>$pedido->id]));
+      }
+
+
+
     }
 
     // public function precios($id)

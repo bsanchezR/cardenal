@@ -33,7 +33,7 @@ class persiana extends Model
         'lado_motor',
         'altura_control',
         'area',
-        'largo',
+        'color',
         'observaciones',
         'alto',
         'ancho'
@@ -49,7 +49,6 @@ class persiana extends Model
         'color_id' => 'integer',
         'pedido_id'=> 'integer',
         'area' => 'string',
-        'largo' => 'string',
         'observaciones' => 'string',
         'alto' => 'double',
         'ancho' => 'double'
@@ -63,13 +62,11 @@ class persiana extends Model
     public static $rules = [
         'modelo_id' => 'required',
         'pedido_id' => 'required',
-        'color_id' => 'required',
         'tipo' => 'required',
         'control_p' => 'required',
         'soporte_u' => 'required',
         'soporte_m' => 'required',
         'soporte_p' => 'required',
-        'largo' => 'required',
         'alto' => 'required',
         'ancho' => 'required'
     ];

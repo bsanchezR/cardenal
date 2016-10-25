@@ -3,12 +3,14 @@
         <th>Nombre</th>
         <th>Marca Id</th>
         <th>Codigo</th>
+        <th>Max Ancho</th>
         <th colspan="3">Acciones</th>
     </thead>
     <tfoot>
         <th>Nombre</th>
         <th>Marca Id</th>
         <th>Codigo</th>
+        <th>Max Ancho</th>
         <th colspan="3">Acciones</th>
     </tfoot>
     <tbody>
@@ -17,6 +19,7 @@
             <td>{!! $modelo->nombre !!}</td>
             <td>{!! $modelo->marca_id !!}</td>
             <td>{!! $modelo->codigo !!}</td>
+            <td>{!! $modelo->max_ancho !!}</td>
             <td style="text-align: center;">
                 {!! Form::open(['route' => ['modelos.destroy', $modelo->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
