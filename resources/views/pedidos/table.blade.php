@@ -4,10 +4,8 @@
         <th>No. Usuario</th>
         <th>Folio</th>
         <th>Observaciones</th>
+        <th>Estado</th>
         <th>Fecha Pedido</th>
-        <th>Fecha Entrega</th>
-        <th>Fecha Produccion</th>
-        <th>Fecha Instalacion</th>
         <th colspan="3">Acciones</th>
     </thead>
     <tfoot>
@@ -15,10 +13,8 @@
         <th>No. Usuario</th>
         <th>Folio</th>
         <th>Observaciones</th>
+        <th>Estado</th>
         <th>Fecha Pedido</th>
-        <th>Fecha Entrega</th>
-        <th>Fecha Produccion</th>
-        <th>Fecha Instalacion</th>
         <th colspan="3">Acciones</th>
     </tfoot>
     <tbody>
@@ -28,10 +24,8 @@
             <td>{!! $pedido->user_id !!}</td>
             <td>{!! $pedido->folio !!}</td>
             <td>{!! $pedido->control !!}</td>
+            <td>{!! $pedido->estado !!}</td>
             <td>{!! $pedido->fecha_pedido !!}</td>
-            <td>{!! $pedido->fecha_entrega !!}</td>
-            <td>{!! $pedido->fecha_produccion !!}</td>
-            <td>{!! $pedido->fecha_instalacion !!}</td>
             <td style="text-align: center;">
                 {!! Form::open(['route' => ['pedidos.destroy', $pedido->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

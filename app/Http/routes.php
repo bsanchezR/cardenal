@@ -26,6 +26,17 @@ Route::resource('pedidos', 'pedidoController');
 Route::resource('modelos', 'modeloController');
 Route::resource('colors', 'colorController');
 Route::resource('persianas', 'persianaController');
+Route::post('agregar/{id}', ['as' => 'agregar.pedidos', 'uses' => 'pedidoController@agregar']);
+
+Route::get('cotizacion/{id}', ['as' => 'cotizar.pedidos', 'uses' => 'pedidoController@cotiza']);
+
+Route::get('model/{id}', ['as' => 'modelos.pedidos', 'uses' => 'pedidoController@get_modelos']);
+
+Route::get('colo/{id}', ['as' => 'colores.pedidos', 'uses' => 'pedidoController@get_colores']);
+
+Route::get('marc/{id}', ['as' => 'marcas.pedidos', 'uses' => 'pedidoController@get_marcas']);
+
+Route::get('get_id/{id}', ['as' => 'get.pedidos', 'uses' => 'pedidoController@get_id']);
 
 Route::get('login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');

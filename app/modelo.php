@@ -64,7 +64,9 @@ class modelo extends Model
     public $fillable = [
         'nombre',
         'marca_id',
-        'codigo'
+        'codigo',
+        'max_ancho',
+        'color'
     ];
 
     /**
@@ -86,13 +88,14 @@ class modelo extends Model
     public static $rules = [
         'nombre' => 'required',
         'marca_id' => 'required',
-        'codigo' => 'required'
+        'codigo' => 'required',
+        'max_ancho'=> 'required'
     ];
 
-    public function colors()
-  	{
-  		return $this->belongsToMany('App\color')->withTimestamps();
-  	}
+    // public function colors()
+  	// {
+  	// 	return $this->belongsToMany('App\color')->withTimestamps();
+  	// }
 
     public function marca()
   	{

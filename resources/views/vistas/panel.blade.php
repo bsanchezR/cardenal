@@ -9,6 +9,36 @@
             left: 50%;
             margin: -50px 0 0 -50px;
         }
+        .tooltip-inner
+        {
+          width: 200px !important;
+        }
+
+        #loader
+        {
+          display: block;
+          background: rgba(255, 255, 255, 0.8);
+          color: white;
+          width: 100%;
+          height: 100%;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 1000000;
+        }
+        #loader p
+        {
+          display: block;
+          width: 100px;
+          height: 30px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          font-size: 30px;
+          margin: auto;
+        }
     </style>
     <meta charset="UTF-8">
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
@@ -126,6 +156,7 @@
             }, 300);
         });
     </script>
+    
 </head>
 
 <body>
