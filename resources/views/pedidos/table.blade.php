@@ -26,7 +26,7 @@
             <td>{!! $pedido->control !!}</td>
             <td>{!! $pedido->estado !!}</td>
             <td>{!! $pedido->fecha_pedido !!}</td>
-            <td style="text-align: center;">
+            <td >
                 {!! Form::open(['route' => ['pedidos.destroy', $pedido->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('pedidos.show', [$pedido->id]) !!}" class='btn btn-default btn-xs'><i class="glyph-icon icon-eye"></i></a>
