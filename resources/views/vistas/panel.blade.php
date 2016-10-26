@@ -156,7 +156,7 @@
             }, 300);
         });
     </script>
-    
+
 </head>
 
 <body>
@@ -175,12 +175,12 @@
                 <div class="scroll-sidebar">
                     <ul id="sidebar-menu">
                         <li class="header"><span>Administrador</span></li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Administración</span></a>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Pedidos</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="buttons.html" title="Buttons"><span>Menú 1</span></a></li>
-                                    <li><a href="labels-badges.html" title="Labels &amp; Badges"><span>Menú 2 </span></a></li>
-                                    <li><a href="content-boxes.html" title="Content boxes"><span>Menú 3</span></a></li>
+                                    <li><a href="{!! route('pedidos.index') !!}" title="Buttons"><span>Listado de Pedidos</span></a></li>
+                                    <li><a href="{!! route('pedidos.create') !!}" title="Labels &amp; Badges"><span>Nuevo Pedido</span></a></li>
+
                                 </ul>
                             </div>
                         </li>
