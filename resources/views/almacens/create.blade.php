@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('vistas.panel')
 
 @section('content')
     <div class="row">

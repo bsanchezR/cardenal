@@ -90,7 +90,7 @@ class almacen extends Model
     use SoftDeletes;
 
     public $table = 'almacens';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -138,7 +138,7 @@ class almacen extends Model
         'codigo' => 'required|max:30',
         'marca' => 'required|max: 30',
         'tipo' => 'required|max: 30',
-        'categoria' => 'required|mex: 30',
+        'categoria' => 'required|max: 30',
         'precio' => 'required|max:30',
         'color' => 'required|max:30',
         'diametro' => 'max:30',

@@ -81,4 +81,3 @@
     {!! Form::label('updated_at', 'Updated At:') !!}
     <p>{!! $almacen->updated_at !!}</p>
 </div>
-

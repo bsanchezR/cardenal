@@ -1,4 +1,4 @@
-<table class="table table-responsive" id="almacens-table">
+<!-- <table class="table table-responsive" id="almacens-table"> -->
     <thead>
         <th>Nombre</th>
         <th>Codigo</th>
@@ -13,6 +13,20 @@
         <th>Stock</th>
         <th colspan="3">Action</th>
     </thead>
+    <tfoot>
+        <th>Nombre</th>
+        <th>Codigo</th>
+        <th>Marca</th>
+        <th>Tipo</th>
+        <th>Categoria</th>
+        <th>Precio</th>
+        <th>Color</th>
+        <th>Diametro</th>
+        <th>Largo</th>
+        <th>Alto</th>
+        <th>Stock</th>
+        <th colspan="3">Action</th>
+    </tfoot>
     <tbody>
     @foreach($almacens as $almacen)
         <tr>
@@ -39,4 +53,4 @@
         </tr>
     @endforeach
     </tbody>
-</table>
+<!-- </table> -->
