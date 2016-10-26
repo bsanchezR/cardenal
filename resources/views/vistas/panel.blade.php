@@ -156,7 +156,7 @@
             }, 300);
         });
     </script>
-    
+
 </head>
 
 <body>
@@ -289,7 +289,7 @@
 
                     $(document).ready(function() {
                         $('#datatable-responsive').DataTable({
-                            responsive: true
+                            responsive: true,
                         });
                     });
 

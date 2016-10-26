@@ -1,5 +1,6 @@
 
     <thead>
+        <th>Id</th>
         <th>No. Cliente</th>
         <th>No. Usuario</th>
         <th>Folio</th>
@@ -9,6 +10,7 @@
         <th colspan="3">Acciones</th>
     </thead>
     <tfoot>
+        <th>Id</th>
         <th>No. Cliente</th>
         <th>No. Usuario</th>
         <th>Folio</th>
@@ -20,6 +22,7 @@
     <tbody>
     @foreach($pedidos as $pedido)
         <tr>
+            <td>{!! $pedido->id !!}</td>
             <td>{!! $pedido->cliente_id !!}</td>
             <td>{!! $pedido->user_id !!}</td>
             <td>{!! $pedido->folio !!}</td>
@@ -29,7 +32,7 @@
             <td style="text-align: center;">
                 {!! Form::open(['route' => ['pedidos.destroy', $pedido->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
-                    <a href="{!! route('pedidos.show', [$pedido->id]) !!}" class='btn btn-default btn-xs'><i class="glyph-icon icon-eye"></i></a>
+                    <a href="{!! route('cotizar.pedidos', [$pedido->id]) !!}" class='btn btn-default btn-xs'><i class="glyph-icon icon-eye"></i></a>
                     <a href="{!! route('pedidos.edit', [$pedido->id]) !!}" class='btn btn-default btn-xs'><i class="glyph-icon icon-pencil"></i></a>
                     {!! Form::button('<i class="glyph-icon icon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Estas seguro?')"]) !!}
                 </div>

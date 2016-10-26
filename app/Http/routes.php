@@ -28,6 +28,8 @@ Route::resource('colors', 'colorController');
 Route::resource('persianas', 'persianaController');
 Route::post('agregar/{id}', ['as' => 'agregar.pedidos', 'uses' => 'pedidoController@agregar']);
 
+Route::post('imagen', ['as' => 'imagen.agregar', 'uses' => 'imagesController@store']);
+
 Route::get('cotizacion/{id}', ['as' => 'cotizar.pedidos', 'uses' => 'pedidoController@cotiza']);
 
 Route::get('model/{id}', ['as' => 'modelos.pedidos', 'uses' => 'pedidoController@get_modelos']);

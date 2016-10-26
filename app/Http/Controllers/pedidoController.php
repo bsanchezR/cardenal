@@ -169,7 +169,7 @@ class pedidoController extends InfyOmBaseController
         else
         {
           Flash::success('Pedido guardado !!! .');
-          return redirect(route('cotizar.pedidos',['id'=>$pedido->id]));
+          return redirect(route('cotizar.pedidos',['id'=>$pedido->id,'pedido' => $pedido]));
         }
 
 
@@ -292,6 +292,7 @@ class pedidoController extends InfyOmBaseController
           return redirect(route('pedidos.index'));
       }
       $persianas =$pedido->persianas;
+      $pedido->images;
       foreach ($persianas as $key )
       {
         $key->modelo;
