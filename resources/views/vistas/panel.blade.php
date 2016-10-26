@@ -224,6 +224,14 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Almacén</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('almacens.index') !!}" title="Labels &amp; Badges"><span>Listado de Almacén</span></a></li>
+                                    <li><a href="{!! route('almacens.create') !!}" title="Buttons"><span>Nuevo Articulo</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
