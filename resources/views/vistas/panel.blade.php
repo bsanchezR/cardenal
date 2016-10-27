@@ -382,6 +382,20 @@
     <script type="text/javascript" src="{{ asset('widgets/chosen/chosen.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/chosen/chosen-demo.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/parsley/parsley.js') }}"></script>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>
