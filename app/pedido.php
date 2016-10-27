@@ -173,6 +173,11 @@ class pedido extends Model
 	    return $this->hasMany('App\persiana');
     }
 
+    public function images()
+    {
+	    return $this->hasMany('App\images');
+    }
+
     public function user()
   	{
   		return $this->belongsTo('App\User');
