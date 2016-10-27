@@ -54,3 +54,5 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 
 Route::resource('almacens', 'almacenController');
+
+Route::resource('citas', 'citaController');
