@@ -232,6 +232,14 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Citas</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('citas.index') !!}" title="Labels &amp; Badges"><span>Calendario</span></a></li>
+                                    <li><a href="{!! route('citas.create') !!}" title="Buttons"><span>Nueva cita</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -385,7 +393,7 @@
 
 
 
-    
+
 
 
 
