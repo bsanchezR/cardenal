@@ -22,6 +22,7 @@ class pedidoController extends InfyOmBaseController
 
     public function __construct(pedidoRepository $pedidoRepo)
     {
+        $this->middleware('auth');
         $this->pedidoRepository = $pedidoRepo;
     }
 

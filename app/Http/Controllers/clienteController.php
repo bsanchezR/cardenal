@@ -19,6 +19,7 @@ class clienteController extends InfyOmBaseController
 
     public function __construct(clienteRepository $clienteRepo)
     {
+        $this->middleware('auth');
         $this->clienteRepository = $clienteRepo;
     }
 
