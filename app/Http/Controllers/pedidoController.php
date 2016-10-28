@@ -164,7 +164,9 @@ class pedidoController extends InfyOmBaseController
         }
         else if($request->mismas && $request->mismas == '1')
         {
-          return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'mismas' => '1','pedido'=>$pedido]);
+          $num_pers=$request->mismas_total;
+          $pers_medidas=$request->mismas_medidas;
+          return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'mismas' => '1', 'pedido'=>$pedido, 'num_persianas' => $num_pers, 'persianas_medidas' => $pers_medidas]);
         }
         else
         {
@@ -356,7 +358,9 @@ class pedidoController extends InfyOmBaseController
       }
       else if($request->mismas && $request->mismas == '1')
       {
-        return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'mismas' => '1','pedido'=>$pedido]);
+        $num_pers=$request->mismas_total;
+        $pers_medidas=$request->mismas_medidas;
+        return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'mismas' => '1', 'pedido'=>$pedido, 'num_persianas' => $num_pers, 'persianas_medidas' => $pers_medidas]);
       }
       else
       {
