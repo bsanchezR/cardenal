@@ -175,7 +175,6 @@
 <div class="form-group col-sm-12">
 
     <a id="subir" class="btn btn-lg btn-primary">Avanzar</a>
-    <a id="subir3" href="{!! route('cotizar.pedidos', '30') !!}" class="btn btn-lg btn-primary">Aca</a>
     <a href="{!! route('pedidos.index') !!}" class="btn btn-lg btn-default">Cancelar</a>
 
     <a id="mismas" class="btn btn-lg btn-default">Mismas medidas</a>
