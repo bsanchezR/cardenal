@@ -19,6 +19,7 @@ class persianaController extends InfyOmBaseController
 
     public function __construct(persianaRepository $persianaRepo)
     {
+        $this->middleware('auth');
         $this->persianaRepository = $persianaRepo;
     }
 

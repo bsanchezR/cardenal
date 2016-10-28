@@ -19,6 +19,7 @@ class marcaController extends InfyOmBaseController
 
     public function __construct(marcaRepository $marcaRepo)
     {
+        $this->middleware('auth');
         $this->marcaRepository = $marcaRepo;
     }
 

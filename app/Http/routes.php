@@ -15,9 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/usuario', function () {
-    return view('usuario.usuarioCrear');
-});
+// Route::get('/usuario', function () {
+//     return view('usuario.usuarioCrear');
+// });
 
 Route::resource('user', 'userController');
 Route::resource('cliente', 'clienteController');

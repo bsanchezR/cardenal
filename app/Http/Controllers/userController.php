@@ -19,6 +19,7 @@ class userController extends InfyOmBaseController
 
     public function __construct(userRepository $userRepo)
     {
+        $this->middleware('auth');
         $this->userRepository = $userRepo;
     }
 
@@ -61,7 +62,15 @@ class userController extends InfyOmBaseController
     {
         $input = $request->all();
 
-        $user = $this->userRepository->create($input);
+        //$user = $this->userRepository->create($input);
+
+        \App\User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'telefono' => $request->telefono,
+            'tipo_usuario'=> $request->tipo_usuario,
+            'password' => bcrypt($request->password),
+        ]);
 
         Flash::success('user saved successfully.');
 

@@ -19,6 +19,7 @@ class colorController extends InfyOmBaseController
 
     public function __construct(colorRepository $colorRepo)
     {
+        $this->middleware('auth');
         $this->colorRepository = $colorRepo;
     }
 
