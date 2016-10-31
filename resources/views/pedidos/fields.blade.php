@@ -763,7 +763,7 @@ function cambiar_manual(pos)
   {
     if((document.getElementById("vinculado"+i).value == ' ' || !$.trim($('#vinculado'+i).html())) && $('#chequear'+i).css("color")!= 'rgb(0, 128, 0)')
     {
-      console.log($('#chequear'+i).css("color"));
+      //console.log($('#chequear'+i).css("color"));
       $('#sistema'+i).val('manual');
       sistema(i);
       $('#soporte'+i).val('2');
@@ -1475,12 +1475,15 @@ function cuantas()
   }
   if(mismas != undefined && mismas == 1)
   {
-    $('#noper').val(num_persianas);
+    //$('#noper').val(num_persianas);
     var medidas_coma = persianas_medidas.split(",");
-    for(var i=0;i<num_persianas;i++)
+    for(var i=0;i<total;i++)
     {
-      $('#ancho'+i).val(medidas_coma[i+i]);
-      $('#alto'+i).val(medidas_coma[(i+i)+1]);
+      if(i < num_persianas)
+      {
+        $('#ancho'+i).val(medidas_coma[i+i]);
+        $('#alto'+i).val(medidas_coma[(i+i)+1]);
+      }
     }
     for(var i=0;i<num_persianas;i++)
     {
