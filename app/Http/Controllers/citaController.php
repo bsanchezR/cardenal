@@ -152,4 +152,9 @@ class citaController extends InfyOmBaseController
 
         return redirect(route('citas.index'));
     }
+
+
+    public function asignar(){
+      return "<h1> hola </h1>";
+    }
 }

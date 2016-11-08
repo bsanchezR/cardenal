@@ -232,6 +232,14 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Cupones</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('almacens.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
+                                    <li><a href="{!! route('almacens.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -382,19 +390,6 @@
     <script type="text/javascript" src="{{ asset('widgets/chosen/chosen.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/chosen/chosen-demo.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/parsley/parsley.js') }}"></script>
-
-
-
-    
-
-
-
-
-
-
-
-
-
 
 </body>
 

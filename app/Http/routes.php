@@ -26,6 +26,7 @@ Route::resource('pedidos', 'pedidoController');
 Route::resource('modelos', 'modeloController');
 Route::resource('colors', 'colorController');
 Route::resource('persianas', 'persianaController');
+
 Route::post('agregar/{id}', ['as' => 'agregar.pedidos', 'uses' => 'pedidoController@agregar']);
 
 Route::post('imagen', ['as' => 'imagen.agregar', 'uses' => 'imagesController@store']);
@@ -58,3 +59,11 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 Route::resource('almacens', 'almacenController');
 
 Route::resource('citas', 'citaController');
+// Route::post('asignar/{id}', ['as' => 'asignar.citas', 'uses' => 'citaController@asignar']);
+
+
+
+Route::get('asignar', ['uses' => 'citaController@asignar', 'as' => 'asignar']);
+
+
+Route::resource('cupons', 'cuponController');
