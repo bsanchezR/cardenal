@@ -5,19 +5,28 @@
 </div>
 
 <!-- Estado Field -->
-<div class="form-group col-sm-6">
+<!-- <div class="form-group col-sm-6">
     {!! Form::label('estado', 'Estado:') !!}
     {!! Form::text('estado', null, ['class' => 'form-control']) !!}
+</div> -->
+
+<!-- Selection type Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('tipo', 'Tipo de descuento:') !!}
+    {{ Form::select('tipo_descuento ', [
+       '1' => 'Porcentaje',
+       '2' => 'Descuento'],null,['id' => 'tipo_descuento']
+    ) }}
 </div>
 
 <!-- Porcentaje Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6" id="por">
     {!! Form::label('porcentaje', 'Porcentaje:') !!}
     {!! Form::number('porcentaje', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Descuento Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6" id="des">
     {!! Form::label('descuento', 'Descuento:') !!}
     {!! Form::number('descuento', null, ['class' => 'form-control']) !!}
 </div>
@@ -35,7 +44,7 @@
 </div>
 
 <!-- Submit Field -->
-<div class="form-group col-sm-12">
-    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('cupons.index') !!}" class="btn btn-default">Cancel</a>
+<div class="form-group">
+    {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
+    <a href="{!! route('cupons.index') !!}" class="btn btn-default">Cancelar</a>
 </div>
