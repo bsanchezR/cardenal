@@ -61,9 +61,7 @@ Route::resource('almacens', 'almacenController');
 Route::resource('citas', 'citaController');
 // Route::post('asignar/{id}', ['as' => 'asignar.citas', 'uses' => 'citaController@asignar']);
 
-
-
 Route::get('asignar', ['uses' => 'citaController@asignar', 'as' => 'asignar']);
 
-
 Route::resource('cupons', 'cuponController');
+Route::get('usar', ['uses' => 'cuponController@usar', 'as' => 'usar']);

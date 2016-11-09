@@ -21,6 +21,8 @@ class CreatecuponsTable extends Migration
             $table->integer('descuento');
             $table->text('vigencia');
             $table->text('tipo');
+            $table->text('inicioVigencia');
+            $table->integer('id_pedido');
             $table->timestamps();
             $table->softDeletes();
         });

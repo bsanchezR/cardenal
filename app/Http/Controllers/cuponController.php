@@ -57,10 +57,14 @@ class cuponController extends InfyOmBaseController
     public function store(CreatecuponRequest $request)
     {
         $input = $request->all();
+        $input['estado'] =  "0";
+        //validar que el cupon no este generado -------------------------/
+        $input['numero'] =  rand(0, 1000);
+        $input['tipo']   =  "1";
 
         $cupon = $this->cuponRepository->create($input);
 
-        Flash::success('cupon saved successfully.');
+        Flash::success('Cupon Guardado.');
 
         return redirect(route('cupons.index'));
     }
@@ -125,7 +129,7 @@ class cuponController extends InfyOmBaseController
 
         $cupon = $this->cuponRepository->update($request->all(), $id);
 
-        Flash::success('cupon updated successfully.');
+        Flash::success('Cupon Actualizado.');
 
         return redirect(route('cupons.index'));
     }
@@ -149,8 +153,14 @@ class cuponController extends InfyOmBaseController
 
         $this->cuponRepository->delete($id);
 
-        Flash::success('cupon deleted successfully.');
+        Flash::success('Cupon Eliminado.');
 
         return redirect(route('cupons.index'));
     }
+
+    /*********************************   Funciopnes extras **********************/
+    public function usar($numero){
+        return "vista";
+    }
+
 }

@@ -6,6 +6,7 @@
         <th>Descuento</th>
         <th>Vigencia</th>
         <th>Tipo</th>
+
         <th colspan="3">Action</th>
     </thead>
     <tbody>
@@ -17,6 +18,7 @@
             <td>{!! $cupon->descuento !!}</td>
             <td>{!! $cupon->vigencia !!}</td>
             <td>{!! $cupon->tipo !!}</td>
+
             <td>
                 {!! Form::open(['route' => ['cupons.destroy', $cupon->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

@@ -235,8 +235,16 @@
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Cupones</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="{!! route('almacens.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
-                                    <li><a href="{!! route('almacens.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
+                                    <li><a href="{!! route('cupons.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
+                                    <li><a href="{!! route('cupons.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Citas</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('citas.index') !!}" title="Labels &amp; Badges"><span>Listado de Citas</span></a></li>
+                                    <li><a href="{!! route('citas.create') !!}" title="Buttons"><span>Nuevo Citas</span></a></li>
                                 </ul>
                             </div>
                         </li>
@@ -393,7 +401,7 @@
 
 
 
-  
+
 
 
 </body>

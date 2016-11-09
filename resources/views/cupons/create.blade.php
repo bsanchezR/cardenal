@@ -6,22 +6,24 @@
 <script type="text/javascript">
 
   $(document).ready(function(){
-    var bandera =  true;
+
+    var bandera =  false;
+
     $("#por").show();
     $("#des").hide();
 
     $("#tipo_descuento" ).change(function() {
 
-      if(this.value == 2 && bandera == true){
+      if(this.value == 2 && bandera == false){
         $("#por").hide();
         $("#des").show();
-        bandera = false;
+        bandera = true;
         console.log('entro');
       }
-      else if(this.value == 2 && bandera == false){
+      else if(this.value == 1 && bandera == true){
         $("#por").show();
         $("#des").hide();
-        bandera = true;
+        bandera = false;
         console.log('entro2');
       }
 

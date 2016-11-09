@@ -71,7 +71,7 @@
 
                             <div class="modal-footer">
                               <button type="button" class="btn btn-default clear" data-action="clear">cancelar  </button>
-                              <button type="button" class="btn btn-primary" data-dismiss="modal" href="{!! route('asignar') !!}">asignar sita</button>
+                              <button type="button" class="btn btn-primary" data-dismiss="modal" href="{!! route('asignar') !!}">asignar cita</button>
                             </div>
                           </div>
                         </div>
