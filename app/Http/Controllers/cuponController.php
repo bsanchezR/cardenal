@@ -159,8 +159,39 @@ class cuponController extends InfyOmBaseController
     }
 
     /*********************************   Funciopnes extras **********************/
-    public function usar($numero){
-        return "vista";
+    public function usar($numero )
+    {
+      //$cupon = $this->cuponRepository->findWithoutFail(1);
+      $cupon =  $this->buscaNumero($numero);
+
+      dd($cupon,$numero);
+
+
+      if (empty($cupon)) {
+          Flash::error('cupon not found');
+
+          // return redirect(route('cupons.index'));
+          return 'Cupon no encontrado.';
+      }
+
+      //$cupon = $this->cuponRepository->update($request->all(), $id);
+
+      Flash::success('Cupon encontrados.');
+
+      // return redirect(route('cupons.index'));
+      return 'Cupon encontrados.';
+    }
+
+
+    public function buscaNumero($numero){
+      $cupon = \App\Models\cupon::where('numero', '=', $numero)->get()->first();
+
+      $cupon->estado = '1';
+      $cupon->save();
+
+       dd($cupon);
+
+      return $cupon;
     }
 
 }

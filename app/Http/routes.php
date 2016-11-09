@@ -64,4 +64,11 @@ Route::resource('citas', 'citaController');
 Route::get('asignar', ['uses' => 'citaController@asignar', 'as' => 'asignar']);
 
 Route::resource('cupons', 'cuponController');
-Route::get('usar', ['uses' => 'cuponController@usar', 'as' => 'usar']);
+
+
+Route::get('usar/{id}', ['uses' => 'cuponController@usar', 'as' => 'usar']);
+
+
+
+
+///chale+

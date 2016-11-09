@@ -45,7 +45,7 @@
                     <h4 class="modal-title">Selecciona el usuario</h4>
                   </div>
                   <div id="signature-pad" class="m-signature-pad">
-                   {!! Form::open(['route' => 'usar']) !!}
+
                     <div class="modal-body">
                       <div class="m-signature-pad--body">
                         <div class="row">
@@ -61,7 +61,7 @@
                       <button type="button" class="btn btn-default clear" data-action="clear">cancelar  </button>
                       <button type="button" class="btn btn-primary" data-dismiss="modal" href="{!! route('asignar') !!}">Usar Cupón en este pedido</button>
                     </div>
-                      {!! Form::close() !!}
+                      
                   </div>
                 </div>
             </div>
