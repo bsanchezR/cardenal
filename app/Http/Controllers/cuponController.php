@@ -57,10 +57,18 @@ class cuponController extends InfyOmBaseController
     public function store(CreatecuponRequest $request)
     {
         $input = $request->all();
+
         $input['estado'] =  "0";
-        //validar que el cupon no este generado -------------------------/
-        $input['numero'] =  rand(0, 1000);
+        $input['numero'] =  rand(0, 100000);
         $input['tipo']   =  "1";
+
+
+        //validar que el cupon no este generado -------------------------/
+        // $cupon = \App\Models\cupon::where('numero', '=', $input['numero'])->get()->first();
+        // while(!empty($cupon)){
+        //     $input['numero'] =  rand(0, 100000);
+        //     $cupon = \App\Models\cupon::where('numero', '=', $input['numero'] )->get()->first();
+        // }
 
         $cupon = $this->cuponRepository->create($input);
 
@@ -159,39 +167,27 @@ class cuponController extends InfyOmBaseController
     }
 
     /*********************************   Funciopnes extras **********************/
-    public function usar($numero )
+    public function usar($numero)
     {
       //$cupon = $this->cuponRepository->findWithoutFail(1);
-      $cupon =  $this->buscaNumero($numero);
-
-      dd($cupon,$numero);
-
+      $cupon = \App\Models\cupon::where('numero', '=', $numero)->get()->first();
 
       if (empty($cupon)) {
           Flash::error('cupon not found');
-
-          // return redirect(route('cupons.index'));
-          return 'Cupon no encontrado.';
+          return NULL;
       }
 
-      //$cupon = $this->cuponRepository->update($request->all(), $id);
-
-      Flash::success('Cupon encontrados.');
-
-      // return redirect(route('cupons.index'));
-      return 'Cupon encontrados.';
-    }
-
-
-    public function buscaNumero($numero){
-      $cupon = \App\Models\cupon::where('numero', '=', $numero)->get()->first();
+      if($cupon->estado  == '1'){
+          return NULL;
+      }
 
       $cupon->estado = '1';
       $cupon->save();
 
-       dd($cupon);
+      //$cupon = $this->cuponRepository->update($request->all(), $id);
+      Flash::success('Cupon encontrados.');
 
+      // return redirect(route('cupons.index'));
       return $cupon;
     }
-
 }
