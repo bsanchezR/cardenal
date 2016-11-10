@@ -19,6 +19,7 @@ class almacenController extends InfyOmBaseController
 
     public function __construct(almacenRepository $almacenRepo)
     {
+        $this->middleware('auth');
         $this->almacenRepository = $almacenRepo;
     }
 
