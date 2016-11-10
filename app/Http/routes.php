@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::resource('user', 'userController');
 Route::resource('cliente', 'clienteController');
 Route::resource('marcas', 'marcaController');
+Route::resource('tienda', 'tiendaController');
 Route::resource('pedidos', 'pedidoController');
 Route::resource('compras', 'comprasController', ['except' => ['store', 'create']]);
 Route::resource('instalacion', 'instaController', ['except' => ['store', 'create']]);

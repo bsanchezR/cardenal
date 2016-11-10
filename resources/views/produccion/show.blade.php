@@ -12,7 +12,6 @@
                             <div class="example-box-wrapper" style="text-align:center;">
                                   @include('produccion.show_fields')
                               <div class="form-group col-sm-12" style="text-align:center;">
-                                     <a href="{!! route('produccion.index') !!}" class="btn btn-lg btn-primary">Terminar Pedido</a>
                                      <a href="{!! route('produccion.index') !!}" class="btn btn-lg btn-default">Volver</a>
                               </div>
                             </div>
