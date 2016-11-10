@@ -175,7 +175,7 @@
             var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
             frameDoc.document.open();
             //Create a new HTML document.
-            frameDoc.document.write('<html><head><title>DIV Contents</title>');
+            frameDoc.document.write('<html><head><title>Cotización</title>');
             frameDoc.document.write('</head><body>');
             //Append the external CSS file.
             frameDoc.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">');

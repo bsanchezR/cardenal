@@ -35,7 +35,7 @@ class instaController extends InfyOmBaseController
     {
         $this->pedidoRepository->pushCriteria(new RequestCriteria($request));
       //   $pedidos = $this->pedidoRepository->all();
-        $pedidos = \App\pedido::where('estado','=','pedido')->get();
+        $pedidos = \App\pedido::where('estado','=','instalacion')->get();
         foreach ($pedidos as $pedido )
         {
           if($pedido->fecha_entrega == NULL || $pedido->fecha_entrega == '' || $pedido->fecha_entrega == '-0001-11-30 00:00:00' || $pedido->fecha_entrega == '0000-00-00')

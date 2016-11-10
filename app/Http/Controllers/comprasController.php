@@ -35,7 +35,7 @@ class comprasController extends InfyOmBaseController
     {
         $this->pedidoRepository->pushCriteria(new RequestCriteria($request));
       //   $pedidos = $this->pedidoRepository->all();
-        $pedidos = \App\pedido::where('estado','=','pedido')->get();
+        $pedidos = \App\pedido::where('estado','=','compra')->get();
         foreach ($pedidos as $pedido )
         {
           if($pedido->fecha_entrega == NULL || $pedido->fecha_entrega == '' || $pedido->fecha_entrega == '-0001-11-30 00:00:00' || $pedido->fecha_entrega == '0000-00-00')
@@ -90,10 +90,10 @@ class comprasController extends InfyOmBaseController
 
             return redirect(route('compras.index'));
         }
-        $usuarios = \App\User::all();
-        $clientes = \App\Cliente::all();
-        $marcas = \App\marca::all();
-        return view('compras.edit',['pedido' => $pedido , 'usuarios' => $usuarios , 'clientes'=> $clientes, 'marcas'=> $marcas,]);
+
+        $pedido->estado='produccion';
+        $pedido->save();
+        return redirect(route('compras.index'));
     }
 
     /**
