@@ -81,20 +81,20 @@ class prodController extends InfyOmBaseController
      *
      * @return Response
      */
-    public function edit($id)
-    {
-        $pedido = $this->pedidoRepository->findWithoutFail($id);
+     public function edit($id)
+     {
+         $pedido = $this->pedidoRepository->findWithoutFail($id);
 
-        if (empty($pedido)) {
-            Flash::error('pedido not found');
+         if (empty($pedido)) {
+             Flash::error('pedido not found');
 
-            return redirect(route('produccion.index'));
-        }
-        $usuarios = \App\User::all();
-        $clientes = \App\Cliente::all();
-        $marcas = \App\marca::all();
-        return view('produccion.edit',['pedido' => $pedido , 'usuarios' => $usuarios , 'clientes'=> $clientes, 'marcas'=> $marcas,]);
-    }
+             return redirect(route('produccion.index'));
+         }
+
+         $pedido->estado='instalacion';
+         $pedido->save();
+         return redirect(route('produccion.index'));
+     }
 
     /**
      * Update the specified pedido in storage.

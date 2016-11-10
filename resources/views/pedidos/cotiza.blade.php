@@ -33,7 +33,7 @@
 <div class="row" style="margin-top:25px;">
   <div class="col-sm-12" style="text-align:center;">
     <h5 id="sub">SubTotal&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-    <h5 id="desc">Descuento&nbsp;&nbsp;&nbsp;&nbsp;10%</h5>
+    <h5 id="desc">Descuento&nbsp;&nbsp;&nbsp;&nbsp;</h5>
     <h5 id="total">Total&nbsp;&nbsp;&nbsp;&nbsp;</h5>
     <div id="firma_aca" style="margin-top:20px;">
 
@@ -45,7 +45,7 @@
 <div class="bg-default text-center pad20A mrg25T" style="margin-top:150px !important;">
 <div class="form-group col-sm-12">
     <a id="ver" class="btn btn-lg btn-default">Ver Medidas</a>
-    <a id="cupon" class="btn btn-lg btn-default">Generar Cupon</a>
+    <a id="cupon" class="btn btn-lg btn-default">Usar Cupon</a>
     <a id="cotizacion" class="btn btn-lg btn-default">Guardar Cotizacion</a>
     <a id="firmar" class="btn btn-lg btn-default" data-toggle="modal" data-target="#firmas">Firmar</a>
     <a id="imprimir" class="btn btn-lg btn-default">Imprimir</a>
@@ -96,13 +96,12 @@
 <script src="{{ asset('widgets/signature_pad/signature_pad.js') }}"></script>
 <script src="{{ asset('widgets/signature_pad/app.js') }}"></script>
 <script>
+  var pedido_s= {!! $pedido !!};
   var persianas = {!! $persianas !!};
   var imagenes = {!! $pedido->images !!};
   var precio=50;
   var id = {!! $pedido->id !!};
-  console.log(persianas);
-  console.log(persianas[0].modelo);
-  console.log(imagenes);
+  //console.log(pedido_s.cupons);
   var sub=0;
   var tabla='';
   for(var f=0;f<persianas.length;f++)
@@ -119,8 +118,29 @@
   }
   $('#tabla_persianas').append(tabla);
 
-  $('#sub').append('$'+sub);
-  $('#total').append('$'+(sub-((sub*10)/100)));
+  if(pedido_s.cupons.length != 0)
+  {
+    console.log(pedido_s.cupons);
+    $('#sub').append('$'+sub);
+    if(pedido_s.cupons[0].descuento != 0)
+    {
+        $('#desc').append('$ '+pedido_s.cupons[0].descuento+' pesos');
+        $('#total').append('$'+(sub-pedido_s.cupons[0].descuento));
+    }
+    else
+    {
+      $('#desc').append(''+pedido_s.cupons[0].porcentaje+'%');
+      $('#total').append('$'+(sub-((sub*pedido_s.cupons[0].porcentaje)/100)));
+    }
+  }
+  else
+  {
+    $('#sub').append('$'+sub);
+    $('#desc').append('0%');
+    $('#total').append('$'+sub);
+  }
+  // $('#sub').append('$'+sub);
+  // $('#total').append('$'+(sub-((sub*10)/100)));
 
   $('#ver').click(function()
   {

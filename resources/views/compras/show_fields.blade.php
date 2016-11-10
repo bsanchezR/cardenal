@@ -6,7 +6,7 @@
       {{$cada->tipo}}
     @endforeach</address></div>
 
-      <div class="col-md-6 float-right text-right"><h4 class="invoice-title">Folio</h4>No. <b>#{{$pedido->folio}}</b><div class="divider"></div><div class="invoice-date mrg20B">{{$pedido->fecha_pedido}}</div><button id="imprimir" class="btn btn-alt btn-hover btn-info"><span>Imprimir</span> <i class="glyph-icon icon-print"></i></button><a class="btn btn-alt btn-hover btn-primary" href="{!! route('compras.edit', [$pedido->id]) !!}"><span>Terminar Pedido</span><i class="glyph-icon icon-tag"></i></a>
+      <div class="col-md-6 float-right text-right"><h4 class="invoice-title">Folio</h4>No. <b>#{{$pedido->folio}}</b><div class="divider"></div><div class="invoice-date mrg20B">{{$pedido->fecha_pedido}}</div><button id="imprimir" class="btn btn-alt btn-hover btn-info"><span>Imprimir</span> <i class="glyph-icon icon-print"></i></button>&nbsp;<a class="btn btn-alt btn-hover btn-primary" href="{!! route('compras.edit', [$pedido->id]) !!}"><span>Terminar Pedido</span><i class="glyph-icon icon-tag"></i></a>
       </div>
   </div>
   <br>

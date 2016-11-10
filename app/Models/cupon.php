@@ -67,7 +67,7 @@ class cupon extends Model
     use SoftDeletes;
 
     public $table = 'cupons';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -78,6 +78,7 @@ class cupon extends Model
         'porcentaje',
         'descuento',
         'vigencia',
+        'pedido_id',
         'tipo'
     ];
 
@@ -101,6 +102,11 @@ class cupon extends Model
      * @var array
      */
     public static $rules = [
-        
+
     ];
+
+    public function pedido()
+    {
+      return $this->belongsTo('App\pedido');
+    }
 }
