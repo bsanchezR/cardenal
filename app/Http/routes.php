@@ -71,4 +71,6 @@ Route::get('usar/{id}', ['uses' => 'cuponController@usar', 'as' => 'usar']);
 
 
 
+
+
 ///chale+
