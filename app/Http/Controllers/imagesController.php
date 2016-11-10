@@ -23,6 +23,9 @@ class imagesController extends InfyOmBaseController
         $imagen->contenido=$ruta;
         $imagen->save();
         // dd($imagen,$ruta);
+        $pedido=\App\pedido::find($request->pedido_id);
+        $pedido->estado="pedido";
+        $pedido->save();
         return redirect()->route('pedidos.index');
     }
 
