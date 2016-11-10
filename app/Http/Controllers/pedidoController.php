@@ -114,6 +114,7 @@ class pedidoController extends InfyOmBaseController
      */
     public function store(CreatepedidoRequest $request)
     {
+      //dd($request,count(explode(',',$request->{'vinculado1'})));
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();
@@ -155,6 +156,27 @@ class pedidoController extends InfyOmBaseController
             $persiana->ancho=$request->{'ancho'.$i};
             $persiana->save();
             $persianas[$i]=$persiana;
+          }
+          for($i=0;$i<$request->numero;$i++)
+          {
+            if(!empty($request->{'vinculado'.$i}))
+            {
+                $numeros= explode(',', $request->{'vinculado'.$i});
+                $cadena_vinculacion='';
+                for($j=0;$j<count($numeros);$j++)
+                {
+                  if($j == count($numeros)-1)
+                  {
+                      $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                  }
+                  else
+                  {
+                      $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
+                  }
+                }
+                $persianas[$i]->vinculacion=$cadena_vinculacion;
+                $persianas[$i]->save();
+            }
           }
 
           $pedido = $this->pedidoRepository->findWithoutFail($pedido->id);
@@ -351,6 +373,27 @@ class pedidoController extends InfyOmBaseController
         $persiana->ancho=$request->{'ancho'.$i};
         $persiana->save();
         $persianas[$i]=$persiana;
+      }
+      for($i=0;$i<$request->numero;$i++)
+      {
+        if(!empty($request->{'vinculado'.$i}))
+        {
+            $numeros= explode(',', $request->{'vinculado'.$i});
+            $cadena_vinculacion='';
+            for($j=0;$j<count($numeros);$j++)
+            {
+              if($j == count($numeros)-1)
+              {
+                  $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+              }
+              else
+              {
+                  $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
+              }
+            }
+            $persianas[$i]->vinculacion=$cadena_vinculacion;
+            $persianas[$i]->save();
+        }
       }
 
       if($request->nuevas && $request->nuevas == '1')
