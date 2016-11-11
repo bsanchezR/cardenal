@@ -72,7 +72,7 @@ class cita extends Model
         'hora',
         'id_cliente',
         'notas',
-        'asignar'
+        'user_id'
     ];
 
     /**
@@ -85,7 +85,7 @@ class cita extends Model
         'fecha' => 'date',
         'id_cliente' => 'integer',
         'notas' => 'string',
-        'asignar' => 'string'
+        'user_id' => 'integer'
     ];
 
     /**
@@ -99,4 +99,9 @@ class cita extends Model
         'hora' => 'required',
         'id_cliente' => 'required'
     ];
+
+    public function user()
+  	{
+  		return $this->belongsTo('App\User');
+  	}
 }

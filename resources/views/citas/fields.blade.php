@@ -51,18 +51,6 @@
     {!! Form::textarea('notas', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Asignar Field -->
-<div class="form-group col-sm-6">
-      {!! Form::label('asignar', 'Asignar:') !!}
-      <select class="form-control" name="asignar" id="asignar">
-        <option value="-1">---</option>
-        <option value="enrrollable">Juan </option>
-        <option value="sheer">Josue</option>
-        <option value="romana">Pedro </option>
-        <option value="horizontal">Omar</option>
-      </select>
-</div>
-
 <!-- Submit Field -->
 <div class="form-group">
     {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
