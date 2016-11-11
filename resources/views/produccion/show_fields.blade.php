@@ -31,6 +31,7 @@
         <th>Soporte</th>
         <th>Fijar a</th>
         <th>Vinculada</th>
+        <th>Código de barras</th>
       </tr>
     </thead>
     <tbody>
@@ -72,6 +73,7 @@
           <td>--</td>
         @endif
       @endif
+      <td><button id="imprimir{{$cada->id}}" onclick="imprime({{$cada->codigo_barras}})" class="btn btn-alt btn-hover btn-info"><span>Imprimir Código</span> <i class="glyph-icon icon-print"></i></button></td>
     </tr>
     @endforeach
     </tbody>
@@ -86,7 +88,39 @@
 </div>
 <br>
 </div>
+<div id="codigo" class="">
+  <svg id="barras"></svg>
+</div>
+<script type="text/javascript" src="{{ asset('barcode.all.min.js') }}"></script>
 <script type="text/javascript">
+$('#codigo').hide();
+function imprime(numero)
+{
+  $('#codigo').show();
+  JsBarcode("#barras", numero);
+  var contents = $("#codigo").html();
+  $('#codigo').hide();
+  var frame1 = $('<iframe />');
+  frame1[0].name = "frame1";
+  frame1.css({ "position": "absolute", "top": "-1000000px" });
+  $("body").append(frame1);
+  var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+  frameDoc.document.open();
+  //Create a new HTML document.
+  frameDoc.document.write('<html><head><title>Cotización</title>');
+  frameDoc.document.write('</head><body>');
+  //Append the external CSS file.
+  frameDoc.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">');
+  //Append the DIV contents.
+  frameDoc.document.write(contents);
+  frameDoc.document.write('</body></html>');
+  frameDoc.document.close();
+  setTimeout(function () {
+      window.frames["frame1"].focus();
+      window.frames["frame1"].print();
+      frame1.remove();
+  }, 500);
+}
 $("#imprimir").click(function () {
     $('#comen').hide();
     $('#mas_comen').hide();
