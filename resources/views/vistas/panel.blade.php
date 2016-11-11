@@ -254,6 +254,27 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Compras</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('compras.index') !!}" title="Labels &amp; Badges"><span>Listado de Compras</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Produccion</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('produccion.index') !!}" title="Labels &amp; Badges"><span>Listado de Produccion</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Instalacion</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('instalacion.index') !!}" title="Labels &amp; Badges"><span>Listado de Instalacion</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
