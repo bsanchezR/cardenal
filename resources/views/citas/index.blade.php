@@ -22,8 +22,10 @@
 <script type="text/javascript">
   $(document).ready(function(){
     var resultado;
+    var id_seleccion;
     $('.asignar').click(function(){
-      var url = "http://localhost:8000/vendedoresSinCita/" + $(this).attr('data-id');
+      id_seleccion =  $(this).attr('data-id');
+      var url = "http://localhost:8000/vendedoresSinCita/" + id_seleccion;
       console.log(url);
       $.ajax({url: url , success: function(result){
           console.log(result);
@@ -48,6 +50,15 @@
 
     $('#btnAsignar').click(function(){
       console.log('vamos asignar');
+      var url =  'http://localhost:8000/vendedoresSinCita/' + $(".vendedores select").val()+'-'+id_seleccion;
+
+      $.ajax({url: url , success: function(result){
+          console.log(result);
+
+          // hacer un redirec
+      }});
+
+
     });
 
 
