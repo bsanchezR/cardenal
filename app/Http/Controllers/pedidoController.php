@@ -376,6 +376,7 @@ class pedidoController extends InfyOmBaseController
         $persiana->lado_motor=$request->{'lado_motor'.$i};
         $persiana->alto=$request->{'alto'.$i};
         $persiana->ancho=$request->{'ancho'.$i};
+        $persiana->codigo_barras=$pedido->folio.'i';
         $persiana->save();
         $persianas[$i]=$persiana;
       }

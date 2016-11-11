@@ -45,13 +45,15 @@
 <div class="bg-default text-center pad20A mrg25T" style="margin-top:150px !important;">
 <div class="form-group col-sm-12">
     <a id="ver" class="btn btn-lg btn-default">Ver Medidas</a>
-    <a id="cupon" class="btn btn-lg btn-default">Usar Cupon</a>
+    <a id="cupon" class="btn btn-lg btn-default" data-toggle="modal" data-target="#modal_cupon">Usar Cupon</a>
     <a id="cotizacion" class="btn btn-lg btn-default">Guardar Cotizacion</a>
     <a id="firmar" class="btn btn-lg btn-default" data-toggle="modal" data-target="#firmas">Firmar</a>
     <a id="imprimir" class="btn btn-lg btn-default">Imprimir</a>
     <a id="vigencia" class="btn btn-lg btn-default">Vigencia</a>
 </div>
 </div>
+
+
 
 {!! Form::model($pedido, ['route' => ['imagen.agregar'],'class' => 'form-horizontal bordered-row','id' => 'imagen_form']) !!}
 {!! Form::close() !!}
@@ -80,6 +82,59 @@
 
               <button type="button" class="btn btn-default save" data-action="save">Capturar</button>
               <button id="guarda_firma" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_cupon" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Ingresa tu codigo</h4>
+          </div>
+          <div id="signature-pad" class="m-signature-pad">
+
+            <div class="modal-body">
+              <div class="m-signature-pad--body">
+                <div class="row">
+                        <div class="form-group col-sm-12">
+                            {!! Form::label('codigo', 'Codigo:') !!}
+                            {!! Form::number('text', null, ['class' => 'form-control', 'id' => 'codigo']) !!}
+                        </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default clear" data-action="clear" data-dismiss="modal">cancelar  </button>
+              <a type="button" class="btn btn-primary" data-dismiss="modal" id="usar">Usar Cupón en este pedido</a>
+            </div>
+
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Mensaje</h4>
+          </div>
+          <div id="signature-pad" class="m-signature-pad">
+            <div class="modal-body">
+              <div class="m-signature-pad--body">
+                <div class="row">
+                        <div class="form-group col-sm-12">
+                            <h3 id="respuesta">Cupon no vàlido</h3>
+                            <p>Por favor verifica que el numero de cupon sea el correcto</p>
+                        </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -212,27 +267,42 @@
     });
 </script>
 
+<script type="text/javascript">
+  $(document).ready(function(){
+    var resultado;
+    console.log(id);
+    $("#usar").click(function(){
+      var url = "http://localhost:8000/usar/" + $('#codigo').val()+','+id;
+       $.ajax({url: url , success: function(result){
+           if(result != ''){
+              //setTimeout(respuesta, 1000);
+              console.log(result);
+              if(result.descuento != 0)
+              {
+                  $('#desc').html('Descuento&nbsp;&nbsp;&nbsp;&nbsp;$ '+result.descuento+' pesos');
+                  $('#total').html('Total&nbsp;&nbsp;&nbsp;&nbsp;$'+(sub-result.descuento));
+              }
+              else
+              {
+                $('#desc').html('Descuento&nbsp;&nbsp;&nbsp;&nbsp;'+result.porcentaje+'%');
+                $('#total').html('Total&nbsp;&nbsp;&nbsp;&nbsp;$'+(sub-((sub*result.porcentaje)/100)));
+              }
+              //$('#respuesta').html('El codigo es correcto');
+           }
+           else
+           {
+             console.log('error');
+             $('#myModal2').modal()
+              //$('#respuesta').html('El codigo no fue encontrado');
+           }
+       }});
 
-<!-- <div class="col-sm-12">
-  <div class="row">
-    <div class="col-sm-2">
-      <h5>Cantidad</h5>
-    </div>
-    <div class="col-sm-6">
-      <h5>Descripcion</h5>
-    </div>
-    <div class="col-sm-2">
-      <h5>Precio Unitario</h5>
-    </div>
-    <div class="col-sm-2">
-      <h5>SubTotal</h5>
-    </div>
-  </div>
-</div>
-$('#contenido').append('<div class="col-sm-2"><p>1</p></div>');
-$('#contenido').append('<div class="col-sm-6"><p>'+persianas[f].tipo+' '+persianas[f].color+'</p></div>');
-$('#contenido').append('<div class="col-sm-2"><p>$'+(precio*persianas[f].alto)+'</p></div>');
-$('#contenido').append('<div class="col-sm-2"><p id="subtotal'+f+'">$'+(precio*persianas[f].alto)+'</p></div>');
-$('#contenido').append('<div id="medidas'+f+'" class="col-sm-12 hidden" style="text-align:center;"><h5>Alto:&nbsp;'+persianas[f].alto+'&nbsp;&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;Ancho:&nbsp;'+persianas[f].ancho+'</h5></div>');
--->
+    });
+
+    function respuesta(){
+      $('#boton3').click();
+    }
+  })
+</script>
+
 @endsection

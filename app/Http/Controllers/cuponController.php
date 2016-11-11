@@ -169,7 +169,8 @@ class cuponController extends InfyOmBaseController
     public function usar($numero)
     {
       //$cupon = $this->cuponRepository->findWithoutFail(1);
-      $cupon = \App\Models\cupon::where('numero', '=', $numero)->get()->first();
+      $datos = explode(',', $numero);
+      $cupon = \App\Models\cupon::where('numero', '=', $datos[0])->get()->first();
 
       if (empty($cupon)) {
           Flash::error('cupon not found');
@@ -181,6 +182,7 @@ class cuponController extends InfyOmBaseController
       }
 
       $cupon->estado = '1';
+      $cupon->pedido_id=$datos[1];
       $cupon->save();
 
       //$cupon = $this->cuponRepository->update($request->all(), $id);
