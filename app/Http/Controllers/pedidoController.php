@@ -115,7 +115,7 @@ class pedidoController extends InfyOmBaseController
      */
     public function store(CreatepedidoRequest $request)
     {
-      //dd($request,count(explode(',',$request->{'vinculado1'})));
+      //dd($request,$request->{'soporte_p'.'0'});
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();
@@ -156,6 +156,7 @@ class pedidoController extends InfyOmBaseController
             $persiana->lado_motor=$request->{'lado_motor'.$i};
             $persiana->alto=$request->{'alto'.$i};
             $persiana->ancho=$request->{'ancho'.$i};
+            $persiana->codigo_barras=uniqid('',true);
             $persiana->save();
             $persianas[$i]=$persiana;
           }
@@ -376,7 +377,7 @@ class pedidoController extends InfyOmBaseController
         $persiana->lado_motor=$request->{'lado_motor'.$i};
         $persiana->alto=$request->{'alto'.$i};
         $persiana->ancho=$request->{'ancho'.$i};
-        $persiana->codigo_barras=$pedido->folio.'i';
+        $persiana->codigo_barras=uniqid('',true);
         $persiana->save();
         $persianas[$i]=$persiana;
       }

@@ -1,7 +1,7 @@
 <div id="contenido">
 
 <div class="row">
-    <div class="col-md-3"><div style="width:100px; height:100px; text-align:center; margin: 0 30%; background: url(../../image-resources/logo.png) left 50% no-repeat;"></div><address class="invoice-address"><b>Fecha de creación:</b> {{$pedido->created_at}}<br><b>Tipos de Persiana:</b>
+    <div class="col-md-3"><div style="width:100px; height:100px; text-align:center; margin: 0 30%; background: url(../../image-resources/logo.png) left 50% no-repeat;"><img src="../../image-resources/logo.png" alt="" /></div><address class="invoice-address"><b>Fecha de creación:</b> {{$pedido->created_at}}<br><b>Tipos de Persiana:</b>
     @foreach($persianas as $cada)
       {{$cada->tipo}}
     @endforeach</address></div>
@@ -61,19 +61,19 @@
         <td>--</td>
         <td>{{$cada->control_p}}</td>
         <td>{{$cada->altura_control}}</td>
-        <td>{{$cada->soporte_u}}</td>
         @if($cada->soporte_p != '' && $cada->soporte_p != ' ')
           <td>{{$cada->soporte_p}}</td>
         @else
           <td>Independiente</td>
         @endif
+        <td>{{$cada->soporte_u}}</td>
         @if($cada->vinculacion != null)
           <td>{{$cada->vinculacion}}</td>
         @else
           <td>--</td>
         @endif
       @endif
-      <td><button id="imprimir{{$cada->id}}" onclick="imprime({{$cada->codigo_barras}})" class="btn btn-alt btn-hover btn-info"><span>Imprimir Código</span> <i class="glyph-icon icon-print"></i></button></td>
+      <td><button id="imprimir{{$cada->id}}" onclick="imprime('{{$cada->codigo_barras}}')" class="btn btn-alt btn-hover btn-info"><span>Imprimir Código</span><i class="glyph-icon icon-print"></i></button></td>
     </tr>
     @endforeach
     </tbody>
