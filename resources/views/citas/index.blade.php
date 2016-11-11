@@ -50,14 +50,12 @@
 
     $('#btnAsignar').click(function(){
       console.log('vamos asignar');
-      var url =  'http://localhost:8000/vendedoresSinCita/' + $(".vendedores select").val()+'-'+id_seleccion;
+      var url =  'http://localhost:8000/asignarCita/' + $(".vendedores select").val()+'-'+id_seleccion;
 
       $.ajax({url: url , success: function(result){
           console.log(result);
-
           // hacer un redirec
       }});
-
 
     });
 

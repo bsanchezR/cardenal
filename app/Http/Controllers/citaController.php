@@ -154,8 +154,15 @@ class citaController extends InfyOmBaseController
     }
 
 
-    public function asignar(){
-      return "<h1> hola </h1>";
+    public function asignarCita($id){
+      $ides =  explode("-", $id);
+
+      $cita = \App\Models\cita::where('id', '=', $ides[1])->get()->first();
+      $usuario =  \App\User::where('id','=',$ides[0])->get()->first();
+      $cita->user_id =  $usuario->id;
+      $cita->save();
+
+      dd($cita);
     }
 
     public function vendedoresSinCita($id)
