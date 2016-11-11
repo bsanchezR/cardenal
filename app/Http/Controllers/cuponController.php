@@ -64,8 +64,6 @@ class cuponController extends InfyOmBaseController
         // validar que el cupon no este generado -------------------------/
         $cupon = \App\Models\cupon::where('numero', '=', $input['numero'])->get()->first();
 
-
-
         while(!empty($cupon)){
             $input['numero'] =  rand(0, 100000);
             $cupon = \App\Models\cupon::where('numero', '=', $input['numero'] )->get()->first();
