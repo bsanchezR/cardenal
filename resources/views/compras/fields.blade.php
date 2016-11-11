@@ -121,27 +121,6 @@
     </div>
 </div>
 
-@if(isset($nuevas))
-<div class="form-group col-sm-6 hidden">
-@elseif(isset($mismas))
-<div class="form-group col-sm-6 hidden">
-@else
-<div class="form-group col-sm-6">
-@endif
-    {!! Form::label('tienda_id', 'Tienda:', ['class' => 'control-label col-sm-3']) !!}
-    <div class="col-sm-6">
-    <select class="form-control" name="tienda_id">
-      @foreach($tiendas as $tienda)
-        @if(isset($pedido) && $pedido->tienda_id == $tienda->id)
-          <option value="{{$tienda->id}}" selected="selected">{{$tienda->nombre}}</option>
-        @else
-          <option value="{{$tienda->id}}">{{$tienda->nombre}}</option>
-        @endif
-      @endforeach
-    </select>
-    </div>
-</div>
-
 
 <!-- Fecha Pedido Field -->
 <div class="form-group col-sm-6">
