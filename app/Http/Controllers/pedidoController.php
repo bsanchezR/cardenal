@@ -115,7 +115,7 @@ class pedidoController extends InfyOmBaseController
      */
     public function store(CreatepedidoRequest $request)
     {
-      //dd($request,$request->{'soporte_p'.'0'});
+      //dd($request);
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();
@@ -333,6 +333,8 @@ class pedidoController extends InfyOmBaseController
 
     public function agregar($id, Request $request)
     {
+      // dd($request);
+
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();

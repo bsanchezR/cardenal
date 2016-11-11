@@ -49,7 +49,7 @@
     <a id="cotizacion" class="btn btn-lg btn-default">Guardar Cotizacion</a>
     <a id="firmar" class="btn btn-lg btn-default" data-toggle="modal" data-target="#firmas">Firmar</a>
     <a id="imprimir" class="btn btn-lg btn-default">Imprimir</a>
-    <a id="vigencia" class="btn btn-lg btn-default">Vigencia</a>
+    <!-- <a id="vigencia" class="btn btn-lg btn-default">Vigencia</a> -->
 </div>
 </div>
 
@@ -176,6 +176,7 @@
   if(pedido_s.cupons.length != 0)
   {
     console.log(pedido_s.cupons);
+    $('#cupon').hide();
     $('#sub').append('$'+sub);
     if(pedido_s.cupons[0].descuento != 0)
     {
