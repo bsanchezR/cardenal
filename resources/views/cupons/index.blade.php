@@ -41,7 +41,7 @@
     function respuesta(){
       $('#boton3').click();
     }
-  })
+  });
 </script>
 
         <h1 class="pull-left">Cupones</h1>
