@@ -152,4 +152,58 @@ class citaController extends InfyOmBaseController
 
         return redirect(route('citas.index'));
     }
+
+
+    public function asignarCita($id){
+      $ides =  explode("-", $id);
+
+      $cita = \App\Models\cita::where('id', '=', $ides[1])->get()->first();
+      $usuario =  \App\User::where('id','=',$ides[0])->get()->first();
+      $cita->user_id =  $usuario->id;
+      $cita->save();
+
+      dd($cita);
+    }
+
+    public function vendedoresSinCita($id)
+    {
+      $cita = \App\Models\cita::where('id', '=', $id)->get()->first();
+
+      $listaVendedores =  \App\User::where('tipo_usuario','=','vendedor')->get();
+      $vendedores = [];
+      $bandera = false;
+      $indice = 0;
+            foreach ($listaVendedores as $vendedor){
+                 if($vendedor->citas != null){
+                   foreach ($vendedor->citas as $cita2){
+                      if($cita2->hora == $cita->hora && $cita2->fecha == $cita->fecha){
+                          $bandera =  true;
+                      }
+                   }
+                   if(!$bandera){
+                     $vendedores[$indice] = $vendedor;
+                     $indice++;
+                   }
+                   $bandera = false;
+                 }
+            }
+
+      return $vendedores;
+
+      // hasta aqui ya tenemos la lista de vendedores que se va usar en el poup
+      // dd($vendedores);
+      // $listaVendedores->citas;
+      //
+      // // $listaVendedores
+      // dd($listaVendedores);
+      //
+      // foreach ($listaCitasVendedores as $vendedor){
+      //   $listaVendedores->where('id','<>',$vendedor->asignar);
+      // }
+      //
+      // $listaVendedores->get();
+      // dd($listaVendedores);
+      //
+      // return 1;
+    }
 }

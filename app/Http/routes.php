@@ -15,17 +15,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/usuario', function () {
-    return view('usuario.usuarioCrear');
-});
+// Route::get('/usuario', function () {
+//     return view('usuario.usuarioCrear');
+// });
 
 Route::resource('user', 'userController');
 Route::resource('cliente', 'clienteController');
 Route::resource('marcas', 'marcaController');
+Route::resource('tienda', 'tiendaController');
 Route::resource('pedidos', 'pedidoController');
+Route::resource('compras', 'comprasController', ['except' => ['store', 'create']]);
+Route::resource('instalacion', 'instaController', ['except' => ['store', 'create']]);
+Route::resource('produccion', 'prodController', ['except' => ['store', 'create']]);
 Route::resource('modelos', 'modeloController');
 Route::resource('colors', 'colorController');
 Route::resource('persianas', 'persianaController');
+
 Route::post('agregar/{id}', ['as' => 'agregar.pedidos', 'uses' => 'pedidoController@agregar']);
 
 Route::post('imagen', ['as' => 'imagen.agregar', 'uses' => 'imagesController@store']);
@@ -58,3 +63,21 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 Route::resource('almacens', 'almacenController');
 
 Route::resource('citas', 'citaController');
+// Route::post('asignar/{id}', ['as' => 'asignar.citas', 'uses' => 'citaController@asignar']);
+
+Route::get('asignar', ['uses' => 'citaController@asignar', 'as' => 'asignar']);
+
+Route::resource('cupons', 'cuponController');
+
+
+Route::get('usar/{id}', ['uses' => 'cuponController@usar', 'as' => 'usar']);
+
+Route::get('vendedoresSinCita/{id}', ['uses' => 'citaController@vendedoresSinCita', 'as' => 'vendedoresSinCita']);
+
+Route::get('asignarCita/{id}', ['uses' => 'citaController@asignarCita', 'as' => 'asignarCita']);
+
+
+
+
+
+///chale+

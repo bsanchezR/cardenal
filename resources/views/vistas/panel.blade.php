@@ -40,6 +40,12 @@
           margin: auto;
         }
     </style>
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+        }
+    </style>
     <meta charset="UTF-8">
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
     <title>Panel</title>
@@ -158,7 +164,7 @@
     </script>
 
 </head>
-
+@if (!Auth::guest())
 <body>
     <div id="sb-site">
         <div id="loading">
@@ -232,6 +238,14 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Cupones</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('cupons.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
+                                    <li><a href="{!! route('cupons.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Citas</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -248,12 +262,12 @@
                     <div id="page-header">
                         <div id="header-nav-left">
                             <div class="user-account-btn dropdown">
-                                <a  title="My Account" class="user-profile clearfix" data-toggle="dropdown"><img width="28" src="{{ asset('image-resources/no-usuario.png') }}" alt="Profile image"> <span>Juan Lopez</span> <i class="glyph-icon icon-angle-down"></i></a>
+                                <a  title="My Account" class="user-profile clearfix" data-toggle="dropdown"><img width="28" src="{{ asset('image-resources/no-usuario.png') }}" alt="Profile image"> <span>{{ Auth::user()->name }}</span> <i class="glyph-icon icon-angle-down"></i></a>
                                 <div class="dropdown-menu float-right">
                                     <div class="box-sm">
                                         <div class="login-box clearfix">
                                             <div class="user-img"><a  title="" class="change-img">Cambiar Imagen</a> <img src="{{ asset('image-resources/no-usuario.png') }}" alt=""></div>
-                                            <div class="user-info"><span>Juan Lopez<i>Vendedor</i></span> <a  title="Edit profile">Editar perfil</a>
+                                            <div class="user-info"><span>{{ Auth::user()->name }}<i>{{ Auth::user()->tipo_usuario }}</i></span> <a  title="Edit profile">Editar perfil</a>
                                               <!-- <a href="tile-boxes.html#" title="View notifications">View notifications</a> -->
                                             </div>
                                         </div>
@@ -370,20 +384,20 @@
         });
     </script>
     <script type="text/javascript">
-    $(function () {
-      if($('#demo-form').parsley() != undefined)
-      {
-
-              $('#demo-form').parsley().on('field:validated', function() {
-                var ok = $('.parsley-error').length === 0;
-                $('.bs-callout-info').toggleClass('hidden', !ok);
-                $('.bs-callout-warning').toggleClass('hidden', ok);
-              })
-              .on('form:submit', function() {
-                return false; // Don't submit form for this demo
-              });
-        }
-            });
+    // $(function () {
+    //   if($('#demo-form').parsley() != undefined)
+    //   {
+    //
+    //           $('#demo-form').parsley().on('field:validated', function() {
+    //             var ok = $('.parsley-error').length === 0;
+    //             $('.bs-callout-info').toggleClass('hidden', !ok);
+    //             $('.bs-callout-warning').toggleClass('hidden', ok);
+    //           })
+    //           .on('form:submit', function() {
+    //             return false; // Don't submit form for this demo
+    //           });
+    //     }
+    //         });
     </script>
     <script type="text/javascript" src="{{ asset('widgets/uniform/uniform.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/uniform/uniform-demo.js') }}"></script>
@@ -393,6 +407,8 @@
 
 
 
+<<<<<<< HEAD
+=======
 
 
 
@@ -400,10 +416,23 @@
 
 
 
+>>>>>>> master
 
 
 
 
 </body>
-
+@else
+<body>
+        <div id="loading">
+            <div class="svg-icon-loader"><img src="{{ asset('images/svg-loaders/bars.svg') }}" width="40" alt=""></div>
+        </div>
+        <div id="page-wrapper">
+            <div id="mobile-navigation">
+                <button id="nav-toggle" class="collapsed" data-toggle="collapse" data-target="#page-sidebar"><span></span></button>
+            </div>
+        </div>
+        @yield('content')
+</body>
+@endif
 </html>

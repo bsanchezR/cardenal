@@ -127,6 +127,7 @@ class pedido extends Model
     public $fillable = [
         'cliente_id',
         'user_id',
+        'tienda_id',
         'folio',
         'control',
         'fecha_pedido',
@@ -159,6 +160,7 @@ class pedido extends Model
     public static $rules = [
         'cliente_id' => 'required',
         'user_id' => 'required',
+        'tienda_id' => 'required',
         'folio' => 'required',
         'fecha_pedido' => 'required'
     ];
@@ -166,6 +168,11 @@ class pedido extends Model
     public function cliente()
   	{
   		return $this->belongsTo('App\Cliente');
+  	}
+
+    public function tienda()
+  	{
+  		return $this->belongsTo('App\tienda');
   	}
 
     public function persianas()
@@ -176,6 +183,11 @@ class pedido extends Model
     public function images()
     {
 	    return $this->hasMany('App\images');
+    }
+
+    public function cupons()
+    {
+	    return $this->hasMany('App\Models\cupon');
     }
 
     public function user()

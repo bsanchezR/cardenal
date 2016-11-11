@@ -22,6 +22,7 @@ class pedidoController extends InfyOmBaseController
 
     public function __construct(pedidoRepository $pedidoRepo)
     {
+        $this->middleware('auth');
         $this->pedidoRepository = $pedidoRepo;
     }
 
@@ -72,9 +73,10 @@ class pedidoController extends InfyOmBaseController
         $usuarios = \App\User::all();
         $clientes = \App\Cliente::all();
         $marcas = \App\marca::all();
+        $tiendas = \App\tienda::all();
         // $modelos = DB::table('modelos')->select('nombre')->distinct()->get();
         // $colores= DB::table('modelos')->select('color')->distinct()->get();
-        return view('pedidos.create',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas]);
+        return view('pedidos.create',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'tiendas'=> $tiendas]);
     }
 
     public function get_marcas($tipo)
@@ -113,9 +115,11 @@ class pedidoController extends InfyOmBaseController
      */
     public function store(CreatepedidoRequest $request)
     {
+      //dd($request,$request->{'soporte_p'.'0'});
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();
+      $tiendas = \App\tienda::all();
 
         if($request->fecha_entrega == NULL || $request->fecha_entrega == '' || $request->fecha_entrega == '-0001-11-30 00:00:00' || $request->fecha_entrega == '0000-00-00')
         {
@@ -152,19 +156,43 @@ class pedidoController extends InfyOmBaseController
             $persiana->lado_motor=$request->{'lado_motor'.$i};
             $persiana->alto=$request->{'alto'.$i};
             $persiana->ancho=$request->{'ancho'.$i};
+            $persiana->codigo_barras=uniqid('',true);
             $persiana->save();
             $persianas[$i]=$persiana;
+          }
+          for($i=0;$i<$request->numero;$i++)
+          {
+            if(!empty($request->{'vinculado'.$i}))
+            {
+                $numeros= explode(',', $request->{'vinculado'.$i});
+                $cadena_vinculacion='';
+                for($j=0;$j<count($numeros);$j++)
+                {
+                  if($j == count($numeros)-1)
+                  {
+                      $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                  }
+                  else
+                  {
+                      $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
+                  }
+                }
+                $persianas[$i]->vinculacion=$cadena_vinculacion;
+                $persianas[$i]->save();
+            }
           }
 
           $pedido = $this->pedidoRepository->findWithoutFail($pedido->id);
 
         if($request->nuevas && $request->nuevas == '1')
         {
-          return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'nuevas' => '1','pedido'=>$pedido]);
+          return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'tiendas'=> $tiendas, 'nuevas' => '1','pedido'=>$pedido]);
         }
         else if($request->mismas && $request->mismas == '1')
         {
-          return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'mismas' => '1','pedido'=>$pedido]);
+          $num_pers=$request->mismas_total;
+          $pers_medidas=$request->mismas_medidas;
+          return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'tiendas'=> $tiendas, 'mismas' => '1', 'pedido'=>$pedido, 'num_persianas' => $num_pers, 'persianas_medidas' => $pers_medidas]);
         }
         else
         {
@@ -224,7 +252,8 @@ class pedidoController extends InfyOmBaseController
         $usuarios = \App\User::all();
         $clientes = \App\Cliente::all();
         $marcas = \App\marca::all();
-        return view('pedidos.edit',['pedido' => $pedido , 'usuarios' => $usuarios , 'clientes'=> $clientes, 'marcas'=> $marcas,]);
+        $tiendas = \App\tienda::all();
+        return view('pedidos.edit',['pedido' => $pedido , 'usuarios' => $usuarios , 'clientes'=> $clientes, 'marcas'=> $marcas, 'tiendas'=> $tiendas]);
     }
 
     /**
@@ -293,6 +322,7 @@ class pedidoController extends InfyOmBaseController
       }
       $persianas =$pedido->persianas;
       $pedido->images;
+      $pedido->cupons;
       foreach ($persianas as $key )
       {
         $key->modelo;
@@ -306,6 +336,7 @@ class pedidoController extends InfyOmBaseController
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();
+      $tiendas = \App\tienda::all();
 
       $pedido = $this->pedidoRepository->findWithoutFail($id);
 
@@ -346,17 +377,41 @@ class pedidoController extends InfyOmBaseController
         $persiana->lado_motor=$request->{'lado_motor'.$i};
         $persiana->alto=$request->{'alto'.$i};
         $persiana->ancho=$request->{'ancho'.$i};
+        $persiana->codigo_barras=uniqid('',true);
         $persiana->save();
         $persianas[$i]=$persiana;
+      }
+      for($i=0;$i<$request->numero;$i++)
+      {
+        if(!empty($request->{'vinculado'.$i}))
+        {
+            $numeros= explode(',', $request->{'vinculado'.$i});
+            $cadena_vinculacion='';
+            for($j=0;$j<count($numeros);$j++)
+            {
+              if($j == count($numeros)-1)
+              {
+                  $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+              }
+              else
+              {
+                  $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
+              }
+            }
+            $persianas[$i]->vinculacion=$cadena_vinculacion;
+            $persianas[$i]->save();
+        }
       }
 
       if($request->nuevas && $request->nuevas == '1')
       {
-        return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'nuevas' => '1','pedido'=>$pedido]);
+        return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'tiendas'=> $tiendas, 'nuevas' => '1','pedido'=>$pedido]);
       }
       else if($request->mismas && $request->mismas == '1')
       {
-        return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'mismas' => '1','pedido'=>$pedido]);
+        $num_pers=$request->mismas_total;
+        $pers_medidas=$request->mismas_medidas;
+        return view('pedidos.agregar',['usuarios' => $usuarios , 'clientes'=> $clientes , 'marcas'=> $marcas, 'tiendas'=> $tiendas, 'mismas' => '1', 'pedido'=>$pedido, 'num_persianas' => $num_pers, 'persianas_medidas' => $pers_medidas]);
       }
       else
       {

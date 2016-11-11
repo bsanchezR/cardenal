@@ -14,6 +14,7 @@ class persianaRepository extends BaseRepository
         'modelo_id',
         'pedido_id',
         'color_id',
+        'vinculacion',
         'tipo',
         'subtipo',
         'control_p',

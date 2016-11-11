@@ -19,6 +19,7 @@ class modeloController extends InfyOmBaseController
 
     public function __construct(modeloRepository $modeloRepo)
     {
+        $this->middleware('auth');
         $this->modeloRepository = $modeloRepo;
     }
 

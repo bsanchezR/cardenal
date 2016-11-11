@@ -21,6 +21,8 @@ class persiana extends Model
         'modelo_id',
         'pedido_id',
         'color_id',
+        'vinculacion',
+        'codigo_barras',
         'tipo',
         'subtipo',
         'control_p',
