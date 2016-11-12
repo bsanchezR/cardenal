@@ -29,7 +29,11 @@
             <td>{!! $cita->hora !!}</td>
             <td>{!! $cita->cliente->nombre !!}</td>
             <td>{!! $cita->notas !!}</td>
-            <td>{!! $cita->user->name !!}</td>
+            @if(empty($cita->user->name))
+              <td>--</td>
+            @else
+              <td>{!! $cita->user->name !!}</td>
+            @endif
             <td>
                 {!! Form::open(['route' => ['citas.destroy', $cita->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
