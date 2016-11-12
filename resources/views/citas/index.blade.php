@@ -1,4 +1,4 @@
-@extends('vistas.panel')
+  @extends('vistas.panel')
 
 @section('content')
 
@@ -58,6 +58,12 @@
       }});
 
     });
+
+
+
+
+
+
     var  citas = [
       {
         title: 'Event1',
@@ -71,41 +77,36 @@
       }
     ];
 
-     $("#calendar-example-1").fullCalendar( {
-           // put your options and callbacks here
-           events: citas,
-           eventClick: function(calEvent, jsEvent, view) {
-             alert('Event: ' + calEvent.title);
-             alert('Event: ' + calEvent.id);
-            }
-       });
+    $("#calendar-example-1").fullCalendar( {
+          // put your options and callbacks here
+          events: citas,
+          header: {
+              left: "prev,next today", center: "title", right: "month,agendaWeek,agendaDay"
+          },
+          eventClick: function(calEvent, jsEvent, view) {
+            alert('Event: ' + calEvent.title);
+            alert('Event: ' + calEvent.id);
+           }
+      });
 
        $( "#listaVendedores" ).change(function () {
-            var url = "http://localhost:8000/vendedoresSinCita/";
-
+            var url = "http://localhost:8000/vendedorCita/"+$(this).val();
+            console.log(url);
             $.ajax({url: url , success: function(result){
-              var  citas2 = [
-                {
-                  title: 'Event4',
-                  start: '2016-11-07',
-                  id: 1
-                },
-                {
-                  title: 'Event2',
-                  start: '2016-11-08',
-                  id: 2
-                }
-              ];
+
+              console.log(result[0].fecha);
+              console.log(result[0]);
+
+              citas = [];
+
+              for (var i = 0; i < result.length; i++) {
+                var cita = {id:result[i].id,  title : result[i].titulo, start: result[i].fecha,  }
+                citas.push(cita);
+              }
 
             $("#calendar-example-1").fullCalendar('removeEvents');
-            $("#calendar-example-1").fullCalendar('addEventSource', citas2);
-
+            $("#calendar-example-1").fullCalendar('addEventSource', citas);
           }});
-
-
-
-
-
 
          });
 
