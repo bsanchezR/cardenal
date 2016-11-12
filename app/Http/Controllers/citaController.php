@@ -32,9 +32,13 @@ class citaController extends InfyOmBaseController
     {
         $this->citaRepository->pushCriteria(new RequestCriteria($request));
         $citas = $this->citaRepository->all();
+        $vendedores =  \App\User::where('tipo_usuario','=','vendedor')->get();
 
         return view('citas.index')
-            ->with('citas', $citas);
+            ->with('citas', $citas)
+            ->with('vendedores', $vendedores);
+
+        //return view('citas.index',['citas' => $citas , '$vendedores'=> $vendedores , 'marcas'=> $marcas, 'tiendas'=> $tiendas]);
     }
 
     /**
@@ -44,7 +48,9 @@ class citaController extends InfyOmBaseController
      */
     public function create()
     {
-        return view('citas.create');
+        $clientes =  \App\Cliente::all();
+
+        return view('citas.create')->with('clientes', $clientes);
     }
 
     /**

@@ -8,7 +8,7 @@
 <script type="text/javascript" src="{{ asset('widgets/interactions-ui/selectable.js') }}"></script>
 <script type="text/javascript" src="{{ asset('widgets/daterangepicker/moment.js') }}"></script>
 <script type="text/javascript" src="{{ asset('widgets/calendar/calendar.js') }}"></script>
-<script type="text/javascript" src="{{ asset('widgets/calendar/calendar-demo.js') }}"></script>
+
 
 <script type="text/javascript" src="{{ asset('widgets/modal/modal.js') }}"></script>
 <script type="text/javascript" src="{{ asset('widgets/interactions-ui/resizable.js') }}"></script>
@@ -58,6 +58,59 @@
       }});
 
     });
+    var  citas = [
+      {
+        title: 'Event1',
+        start: '2016-11-04',
+        id: 1
+      },
+      {
+        title: 'Event2',
+        start: '2016-11-05',
+        id: 2
+      }
+    ];
+
+     $("#calendar-example-1").fullCalendar( {
+           // put your options and callbacks here
+           events: citas,
+           eventClick: function(calEvent, jsEvent, view) {
+             alert('Event: ' + calEvent.title);
+             alert('Event: ' + calEvent.id);
+            }
+       });
+
+       $( "#listaVendedores" ).change(function () {
+            var url = "http://localhost:8000/vendedoresSinCita/";
+
+            $.ajax({url: url , success: function(result){
+              var  citas2 = [
+                {
+                  title: 'Event4',
+                  start: '2016-11-07',
+                  id: 1
+                },
+                {
+                  title: 'Event2',
+                  start: '2016-11-08',
+                  id: 2
+                }
+              ];
+
+            $("#calendar-example-1").fullCalendar('removeEvents');
+            $("#calendar-example-1").fullCalendar('addEventSource', citas2);
+
+          }});
+
+
+
+
+
+
+         });
+
+
+
 
 
   });
@@ -83,7 +136,22 @@
             </div>
         </div>
 
-
+        <div class="panel">
+            <div class="panel-body">
+              <div class="form-group col-sm-6">
+                <select class="form-control" name="cliente_id" id="listaVendedores">
+                  @foreach($vendedores as $vendedor)
+                    <option value="{!! $vendedor->id !!}"> {!! $vendedor->name !!}</option>
+                  @endforeach
+                </select>
+              </div>
+              <br>
+              <br>
+                <div class="example-box-wrapper">
+                    <div id="calendar-example-1" class="col-md-10 center-margin"></div>
+                </div>
+            </div>
+        </div>
 
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">

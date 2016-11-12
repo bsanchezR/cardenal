@@ -51,4 +51,3 @@
     {!! Form::label('updated_at', 'Updated At:') !!}
     <p>{!! $cita->updated_at !!}</p>
 </div>
-
