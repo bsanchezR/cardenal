@@ -1,31 +1,35 @@
 
     <thead>
+        <th>Id</th>
         <th>Titulo</th>
         <th>Fecha</th>
         <th>Hora</th>
-        <th>Id Cliente</th>
+        <th>Cliente</th>
         <th>Notas</th>
         <th>Asignar</th>
         <th colspan="3">Action</th>
     </thead>
     <tfoot>
+        <th>Id</th>
         <th>Titulo</th>
         <th>Fecha</th>
         <th>Hora</th>
-        <th>Id Cliente</th>
+        <th>Cliente</th>
         <th>Notas</th>
         <th>Asignar</th>
         <th colspan="3">Action</th>
     </tfoot>
     <tbody>
     @foreach($citas as $cita)
+
         <tr>
+            <td>{!! $cita->id !!}</td>
             <td>{!! $cita->titulo !!}</td>
             <td>{!! $cita->fecha !!}</td>
             <td>{!! $cita->hora !!}</td>
-            <td>{!! $cita->id_cliente !!}</td>
+            <td>{!! $cita->cliente->nombre !!}</td>
             <td>{!! $cita->notas !!}</td>
-            <td>{!! $cita->asignar !!}</td>
+            <td>{!! $cita->user->name !!}</td>
             <td>
                 {!! Form::open(['route' => ['citas.destroy', $cita->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
