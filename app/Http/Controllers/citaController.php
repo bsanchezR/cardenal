@@ -195,21 +195,11 @@ class citaController extends InfyOmBaseController
             }
 
       return $vendedores;
+    }
 
-      // hasta aqui ya tenemos la lista de vendedores que se va usar en el poup
-      // dd($vendedores);
-      // $listaVendedores->citas;
-      //
-      // // $listaVendedores
-      // dd($listaVendedores);
-      //
-      // foreach ($listaCitasVendedores as $vendedor){
-      //   $listaVendedores->where('id','<>',$vendedor->asignar);
-      // }
-      //
-      // $listaVendedores->get();
-      // dd($listaVendedores);
-      //
-      // return 1;
+    public function  vendedorCita($id){
+      $citas = \App\Models\cita::where('user_id', '=', $id)->get();
+      //dd($cita);
+      return $citas;
     }
 }
