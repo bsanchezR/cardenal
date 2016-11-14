@@ -165,6 +165,8 @@
 
 </head>
 @if (!Auth::guest())
+
+
 <body>
     <div id="sb-site">
         <div id="loading">
@@ -180,7 +182,8 @@
                   <a href="index.html" class="logo-content-big" title="DelightUI">Ramave <i>Persianas</i> <span>Dando sombra a tu vida.</span></a> <a href="index.html" class="logo-content-small" title="Ramave">Ramave <i>Persianas</i> <span>Dando sombra a tu vida</span></a> <a id="close-sidebar"  title="Close sidebar"><i class="glyph-icon icon-outdent"></i></a></div>
                 <div class="scroll-sidebar">
                     <ul id="sidebar-menu">
-                        <li class="header"><span>Administrador</span></li>
+                      <li class="header"><span>{{ strtoupper(Auth::user()->tipo_usuario) }}</span></li>
+                      @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'vendedor')
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Pedidos</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -190,11 +193,29 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Cupones</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('cupons.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
+                                    <li><a href="{!! route('cupons.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        @endif
+                        @if(Auth::user()->tipo_usuario === 'administrador')
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Usuarios</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="{!! route('user.index') !!}" title="Labels &amp; Badges"><span>Listado de Usuarios</span></a></li>
                                     <li><a href="{!! route('user.create') !!}" title="Buttons"><span>Nuevo Usuario</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Citas</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('citas.index') !!}" title="Labels &amp; Badges"><span>Calendario</span></a></li>
+                                    <li><a href="{!! route('citas.create') !!}" title="Buttons"><span>Nueva cita</span></a></li>
                                 </ul>
                             </div>
                         </li>
@@ -206,6 +227,8 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
+                        @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'comprador')
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Colores</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -238,22 +261,6 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Cupones</span></a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="{!! route('cupons.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
-                                    <li><a href="{!! route('cupons.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Citas</span></a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="{!! route('citas.index') !!}" title="Labels &amp; Badges"><span>Calendario</span></a></li>
-                                    <li><a href="{!! route('citas.create') !!}" title="Buttons"><span>Nueva cita</span></a></li>
-                                </ul>
-                            </div>
-                        </li>
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Compras</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -261,6 +268,8 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
+                        @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'productor')
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Produccion</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -268,6 +277,8 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
+                        @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'instalador')
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Instalacion</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -275,6 +286,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -425,22 +437,6 @@
     <script type="text/javascript" src="{{ asset('widgets/chosen/chosen.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/chosen/chosen-demo.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/parsley/parsley.js') }}"></script>
-
-
-
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
->>>>>>> master
-
-
-
 
 </body>
 @else

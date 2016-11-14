@@ -115,7 +115,7 @@ class pedidoController extends InfyOmBaseController
      */
     public function store(CreatepedidoRequest $request)
     {
-      //dd($request);
+      dd($request,explode(',', $request->{'vinculado2'}));
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();
@@ -162,7 +162,8 @@ class pedidoController extends InfyOmBaseController
           }
           for($i=0;$i<$request->numero;$i++)
           {
-            if(!empty($request->{'vinculado'.$i}))
+            if($request->{'vinculado'.$i} == 0 || ($request->{'vinculado'.$i} != '' && $request->{'vinculado'.$i} != ' ' && $request->{'vinculado'.$i}))
+            //if(!empty($request->{'vinculado'.$i}))
             {
                 $numeros= explode(',', $request->{'vinculado'.$i});
                 $cadena_vinculacion='';
@@ -385,7 +386,8 @@ class pedidoController extends InfyOmBaseController
       }
       for($i=0;$i<$request->numero;$i++)
       {
-        if(!empty($request->{'vinculado'.$i}))
+        if($request->{'vinculado'.$i} == 0 || ($request->{'vinculado'.$i} != '' && $request->{'vinculado'.$i} != ' ' && $request->{'vinculado'.$i}))
+      //  if(!empty($request->{'vinculado'.$i}))
         {
             $numeros= explode(',', $request->{'vinculado'.$i});
             $cadena_vinculacion='';
