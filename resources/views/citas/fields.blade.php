@@ -33,17 +33,21 @@
     {!! Form::text('fecha', null, ['class' => 'form-control bootstrap-datepicker']) !!}
 </div>
 
+
 <!-- Hora Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('hora', 'Hora:') !!}
     {!! Form::text('hora', null, ['class' => 'form-control timepicker-example']) !!}
 </div>
 
-<!-- Id Cliente Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('id_cliente', 'Id Cliente:') !!}
-    {!! Form::number('id_cliente', null, ['class' => 'form-control']) !!}
+    <select class="form-control" name="cliente_id">
+      @foreach($clientes as $cliente)
+        <option value="{!! $cliente->id !!}"> {!! $cliente->nombre !!}</option>
+      @endforeach
+    </select>
 </div>
+
 
 <!-- Notas Field -->
 <div class="form-group col-sm-6">

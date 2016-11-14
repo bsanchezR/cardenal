@@ -32,9 +32,13 @@ class citaController extends InfyOmBaseController
     {
         $this->citaRepository->pushCriteria(new RequestCriteria($request));
         $citas = $this->citaRepository->all();
+        $vendedores =  \App\User::where('tipo_usuario','=','vendedor')->get();
 
         return view('citas.index')
-            ->with('citas', $citas);
+            ->with('citas', $citas)
+            ->with('vendedores', $vendedores);
+
+        //return view('citas.index',['citas' => $citas , '$vendedores'=> $vendedores , 'marcas'=> $marcas, 'tiendas'=> $tiendas]);
     }
 
     /**
@@ -44,7 +48,9 @@ class citaController extends InfyOmBaseController
      */
     public function create()
     {
-        return view('citas.create');
+        $clientes =  \App\Cliente::all();
+
+        return view('citas.create')->with('clientes', $clientes);
     }
 
     /**
@@ -154,8 +160,15 @@ class citaController extends InfyOmBaseController
     }
 
 
-    public function asignar(){
-      return "<h1> hola </h1>";
+    public function asignarCita($id){
+      $ides =  explode("-", $id);
+
+      $cita = \App\Models\cita::where('id', '=', $ides[1])->get()->first();
+      $usuario =  \App\User::where('id','=',$ides[0])->get()->first();
+      $cita->user_id =  $usuario->id;
+      $cita->save();
+
+      dd($cita);
     }
 
     public function vendedoresSinCita($id)
@@ -182,21 +195,11 @@ class citaController extends InfyOmBaseController
             }
 
       return $vendedores;
+    }
 
-      // hasta aqui ya tenemos la lista de vendedores que se va usar en el poup
-      // dd($vendedores);
-      // $listaVendedores->citas;
-      //
-      // // $listaVendedores
-      // dd($listaVendedores);
-      //
-      // foreach ($listaCitasVendedores as $vendedor){
-      //   $listaVendedores->where('id','<>',$vendedor->asignar);
-      // }
-      //
-      // $listaVendedores->get();
-      // dd($listaVendedores);
-      //
-      // return 1;
+    public function  vendedorCita($id){
+      $citas = \App\Models\cita::where('user_id', '=', $id)->get();
+      //dd($cita);
+      return $citas;
     }
 }

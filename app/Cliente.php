@@ -42,4 +42,9 @@ class Cliente extends Model
     {
       return $this->hasMany('App\Models\pedido');
     }
+
+    public function citas()
+    {
+      return $this->hasMany('App\Models\cita');
+    }
 }

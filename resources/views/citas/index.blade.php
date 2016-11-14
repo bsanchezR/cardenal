@@ -1,4 +1,4 @@
-@extends('vistas.panel')
+  @extends('vistas.panel')
 
 @section('content')
 
@@ -8,7 +8,7 @@
 <script type="text/javascript" src="{{ asset('widgets/interactions-ui/selectable.js') }}"></script>
 <script type="text/javascript" src="{{ asset('widgets/daterangepicker/moment.js') }}"></script>
 <script type="text/javascript" src="{{ asset('widgets/calendar/calendar.js') }}"></script>
-<script type="text/javascript" src="{{ asset('widgets/calendar/calendar-demo.js') }}"></script>
+
 
 <script type="text/javascript" src="{{ asset('widgets/modal/modal.js') }}"></script>
 <script type="text/javascript" src="{{ asset('widgets/interactions-ui/resizable.js') }}"></script>
@@ -22,8 +22,10 @@
 <script type="text/javascript">
   $(document).ready(function(){
     var resultado;
+    var id_seleccion;
     $('.asignar').click(function(){
-      var url = "http://localhost:8000/vendedoresSinCita/" + $(this).attr('data-id');
+      id_seleccion =  $(this).attr('data-id');
+      var url = "http://localhost:8000/vendedoresSinCita/" + id_seleccion;
       console.log(url);
       $.ajax({url: url , success: function(result){
           console.log(result);
@@ -48,7 +50,68 @@
 
     $('#btnAsignar').click(function(){
       console.log('vamos asignar');
+      var url =  'http://localhost:8000/asignarCita/' + $(".vendedores select").val()+'-'+id_seleccion;
+
+      $.ajax({url: url , success: function(result){
+          console.log(result);
+          // hacer un redirec
+      }});
+
     });
+
+
+
+
+
+
+    var  citas = [
+      {
+        title: 'Event1',
+        start: '2016-11-04',
+        id: 1
+      },
+      {
+        title: 'Event2',
+        start: '2016-11-05',
+        id: 2
+      }
+    ];
+
+    $("#calendar-example-1").fullCalendar( {
+          // put your options and callbacks here
+          events: citas,
+          header: {
+              left: "prev,next today", center: "title", right: "month,agendaWeek,agendaDay"
+          },
+          eventClick: function(calEvent, jsEvent, view) {
+            alert('Event: ' + calEvent.title);
+            alert('Event: ' + calEvent.id);
+           }
+      });
+
+       $( "#listaVendedores" ).change(function () {
+            var url = "http://localhost:8000/vendedorCita/"+$(this).val();
+            console.log(url);
+            $.ajax({url: url , success: function(result){
+
+              console.log(result[0].fecha);
+              console.log(result[0]);
+
+              citas = [];
+
+              for (var i = 0; i < result.length; i++) {
+                var cita = {id:result[i].id,  title : result[i].titulo, start: result[i].fecha,  }
+                citas.push(cita);
+              }
+
+            $("#calendar-example-1").fullCalendar('removeEvents');
+            $("#calendar-example-1").fullCalendar('addEventSource', citas);
+          }});
+
+         });
+
+
+
 
 
   });
@@ -74,7 +137,22 @@
             </div>
         </div>
 
-
+        <div class="panel">
+            <div class="panel-body">
+              <div class="form-group col-sm-6">
+                <select class="form-control" name="cliente_id" id="listaVendedores">
+                  @foreach($vendedores as $vendedor)
+                    <option value="{!! $vendedor->id !!}"> {!! $vendedor->name !!}</option>
+                  @endforeach
+                </select>
+              </div>
+              <br>
+              <br>
+                <div class="example-box-wrapper">
+                    <div id="calendar-example-1" class="col-md-10 center-margin"></div>
+                </div>
+            </div>
+        </div>
 
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">

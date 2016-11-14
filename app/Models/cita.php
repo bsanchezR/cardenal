@@ -70,7 +70,7 @@ class cita extends Model
         'titulo',
         'fecha',
         'hora',
-        'id_cliente',
+        'cliente_id',
         'notas',
         'user_id'
     ];
@@ -83,7 +83,7 @@ class cita extends Model
     protected $casts = [
         'titulo' => 'string',
         'fecha' => 'date',
-        'id_cliente' => 'integer',
+        'cliente_id' => 'integer',
         'notas' => 'string',
         'user_id' => 'integer'
     ];
@@ -97,11 +97,15 @@ class cita extends Model
         'titulo' => 'required|max: 50',
         'fecha' => 'required',
         'hora' => 'required',
-        'id_cliente' => 'required'
     ];
 
     public function user()
   	{
   		return $this->belongsTo('App\User');
+  	}
+
+    public function cliente()
+  	{
+  		return $this->belongsTo('App\Cliente');
   	}
 }
