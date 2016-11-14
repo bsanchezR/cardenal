@@ -18,7 +18,7 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
       // $pos=strpos($request->route()->getName(),'pedidos');
-      // dd($pos !== false);
+       //dd($request->user(),$request->route()->getName(),strpos($request->route()->getName(),'citas') !== false);
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
@@ -28,7 +28,7 @@ class Authenticate
         }
         else
         {
-          if(strpos($request->route()->getName(),'pedidos') !== false || strpos($request->route()->getName(),'cupons') !== false || strpos($request->route()->getName(),'citas') !== false)
+          if(strpos($request->route()->getName(),'pedidos') !== false || strpos($request->route()->getName(),'cupons') !== false || strpos($request->route()->getName(),'citas') !== false || strpos($request->route()->getName(),'imagen') !== false)
           {
             if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'vendedor' )
             {
@@ -82,6 +82,10 @@ class Authenticate
             {
               return redirect('/');
             }
+          }
+          if(strpos($request->route()->getName(),'Citas') !== false || strpos($request->route()->getName(),'Cita') !== false || strpos($request->route()->getName(),'usar') !== false)
+          {
+              return $next($request);
           }
         }
         //return $next($request);

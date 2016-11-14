@@ -76,7 +76,7 @@ Route::get('vendedoresSinCita/{id}', ['uses' => 'citaController@vendedoresSinCit
 
 Route::get('asignarCita/{id}', ['uses' => 'citaController@asignarCita', 'as' => 'asignarCita']);
 
-Route::get('vendedorCita/{id}', ['uses' => 'citaController@vendedorCita', 'as' => 'vendedorCita']);
+Route::get('vendedorCitas/{id}', ['uses' => 'citaController@vendedorCitas', 'as' => 'vendedorCitas']);
 
 
 

@@ -198,9 +198,10 @@ class citaController extends InfyOmBaseController
       return $vendedores;
     }
 
-    public function  vendedorCita($id){
+    public function  vendedorCitas($id){
       $citas = \App\Models\cita::where('user_id', '=', $id)->get();
       //dd($cita);
+      // return response()->json(['status'=>'ok','data'=>$citas], 200);
       return $citas;
     }
 }
