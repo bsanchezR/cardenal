@@ -81,20 +81,21 @@ class instaController extends InfyOmBaseController
      *
      * @return Response
      */
-    public function edit($id)
-    {
-        $pedido = $this->pedidoRepository->findWithoutFail($id);
+     public function edit($id)
+     {
+         $pedido = $this->pedidoRepository->findWithoutFail($id);
 
-        if (empty($pedido)) {
-            Flash::error('pedido not found');
+         if (empty($pedido)) {
+             Flash::error('pedido not found');
 
-            return redirect(route('instalacion.index'));
-        }
-        $usuarios = \App\User::all();
-        $clientes = \App\Cliente::all();
-        $marcas = \App\marca::all();
-        return view('instalacion.edit',['pedido' => $pedido , 'usuarios' => $usuarios , 'clientes'=> $clientes, 'marcas'=> $marcas,]);
-    }
+             return redirect(route('instalacion.index'));
+         }
+
+         $pedido->estado='pedido';
+         $pedido->save();
+         return redirect(route('instalacion.index'));
+     }
+
 
     /**
      * Update the specified pedido in storage.

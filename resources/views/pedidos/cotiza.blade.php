@@ -289,6 +289,7 @@
                 $('#total').html('Total&nbsp;&nbsp;&nbsp;&nbsp;$'+(sub-((sub*result.porcentaje)/100)));
               }
               //$('#respuesta').html('El codigo es correcto');
+              $('#cupon').hide();
            }
            else
            {
