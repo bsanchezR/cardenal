@@ -90,12 +90,13 @@
       });
 
        $( "#listaVendedores" ).change(function () {
-            var url = "http://localhost:8000/vendedorCita/"+$(this).val();
+            console.log($(this).val());
+            var url = "http://localhost:8000/vendedorCitas/"+$(this).val();
             console.log(url);
             $.ajax({url: url , success: function(result){
 
-              console.log(result[0].fecha);
-              console.log(result[0]);
+              //console.log(result[0].fecha);
+              console.log(result);
 
               citas = [];
 
@@ -111,6 +112,25 @@
          });
 
 
+
+         console.log($("#listaVendedores").val());
+         var url = "http://localhost:8000/vendedorCitas/"+$("#listaVendedores").val();
+         console.log(url);
+         $.ajax({url: url , success: function(result){
+
+           //console.log(result[0].fecha);
+           console.log(result);
+
+           citas = [];
+
+           for (var i = 0; i < result.length; i++) {
+             var cita = {id:result[i].id,  title : result[i].titulo, start: result[i].fecha,  }
+             citas.push(cita);
+           }
+
+         $("#calendar-example-1").fullCalendar('removeEvents');
+         $("#calendar-example-1").fullCalendar('addEventSource', citas);
+       }});
 
 
 
@@ -140,11 +160,17 @@
         <div class="panel">
             <div class="panel-body">
               <div class="form-group col-sm-6">
-                <select class="form-control" name="cliente_id" id="listaVendedores">
-                  @foreach($vendedores as $vendedor)
-                    <option value="{!! $vendedor->id !!}"> {!! $vendedor->name !!}</option>
-                  @endforeach
-                </select>
+                @if(Auth::user()->tipo_usuario === 'administrador')
+                  <select class="form-control" name="cliente_id" id="listaVendedores">
+                    @foreach($vendedores as $vendedor)
+                      <option value="{!! $vendedor->id !!}"> {!! $vendedor->name !!}</option>
+                    @endforeach
+                  </select>
+                @else
+                  <select class="form-control" name="cliente_id" id="listaVendedores">
+                      <option value="{!! Auth::user()->id !!}"> {!! Auth::user()->name !!}</option>
+                  </select>
+                @endif
               </div>
               <br>
               <br>
