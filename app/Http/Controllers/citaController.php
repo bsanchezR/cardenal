@@ -19,6 +19,7 @@ class citaController extends InfyOmBaseController
 
     public function __construct(citaRepository $citaRepo)
     {
+        $this->middleware('auth');
         $this->citaRepository = $citaRepo;
     }
 
