@@ -137,18 +137,20 @@
   });
 </script>
 
-        <h1 class="pull-left">citas</h1>
+        <h1 class="pull-left">Citas</h1>
+        @if(Auth::user()->tipo_usuario === 'administrador')
         <a class="btn btn-primary pull-right" style="margin-top: 25px" href="{!! route('citas.create') !!}">Crear cita</a>
+        @endif
 
         <div class="clearfix"></div>
 
         @include('flash::message')
 
         <div class="clearfix"></div>
-
+        @if(Auth::user()->tipo_usuario === 'administrador')
         <div class="panel">
             <div class="panel-body">
-                <h3 class="title-hero">Listado de Pedidos</h3>
+                <h3 class="title-hero">Listado de Citas</h3>
                 <div class="example-box-wrapper">
                   <table id="datatable-responsive" class="table table-striped table-bordered responsive no-wrap" cellspacing="0" width="100%" >
                     @include('citas.table')
@@ -156,6 +158,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <div class="panel">
             <div class="panel-body">
