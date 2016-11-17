@@ -193,14 +193,6 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Cupones</span></a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="{!! route('cupons.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
-                                    <li><a href="{!! route('cupons.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
-                                </ul>
-                            </div>
-                        </li>
                         @endif
                         @if(Auth::user()->tipo_usuario === 'administrador')
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Usuarios</span></a>
@@ -224,6 +216,14 @@
                                 <ul>
                                     <li><a href="{!! route('cliente.index') !!}" title="Labels &amp; Badges"><span>Listado de Clientes</span></a></li>
                                     <li><a href="{!! route('cliente.create') !!}" title="Buttons"><span>Nuevo Cliente</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Cupones</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('cupons.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
+                                    <li><a href="{!! route('cupons.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
                                 </ul>
                             </div>
                         </li>
