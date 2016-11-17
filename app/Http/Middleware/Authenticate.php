@@ -28,7 +28,7 @@ class Authenticate
         }
         else
         {
-          if(strpos($request->route()->getName(),'pedidos') !== false || strpos($request->route()->getName(),'cupons') !== false || strpos($request->route()->getName(),'citas') !== false || strpos($request->route()->getName(),'imagen') !== false)
+          if(strpos($request->route()->getName(),'pedidos') !== false  || strpos($request->route()->getName(),'citas') !== false || strpos($request->route()->getName(),'imagen') !== false)
           {
             if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'vendedor' )
             {
@@ -39,7 +39,7 @@ class Authenticate
               return redirect('/');
             }
           }
-          if(strpos($request->route()->getName(),'user') !== false || strpos($request->route()->getName(),'cliente') !== false )
+          if(strpos($request->route()->getName(),'user') !== false || strpos($request->route()->getName(),'cliente') !== false || strpos($request->route()->getName(),'cupons') !== false )
           {
             if($request->user()->tipo_usuario == 'administrador')
             {

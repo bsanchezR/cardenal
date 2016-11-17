@@ -250,6 +250,7 @@ $('#subir').click(function()
     console.log('ya termino');
     var form = document.getElementById('forms_p');
     form.submit();
+    $('#loader').show();
 });
 
 $('#mismas_ya').click(function()

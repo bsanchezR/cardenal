@@ -115,7 +115,7 @@ class pedidoController extends InfyOmBaseController
      */
     public function store(CreatepedidoRequest $request)
     {
-      dd($request,explode(',', $request->{'vinculado2'}));
+      //dd($request,isset($request->{'vinculado1'}));
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();
@@ -162,24 +162,27 @@ class pedidoController extends InfyOmBaseController
           }
           for($i=0;$i<$request->numero;$i++)
           {
-            if($request->{'vinculado'.$i} == 0 || ($request->{'vinculado'.$i} != '' && $request->{'vinculado'.$i} != ' ' && $request->{'vinculado'.$i}))
-            //if(!empty($request->{'vinculado'.$i}))
+            if(isset($request->{'vinculado'.$i}))
             {
-                $numeros= explode(',', $request->{'vinculado'.$i});
-                $cadena_vinculacion='';
-                for($j=0;$j<count($numeros);$j++)
-                {
-                  if($j == count($numeros)-1)
+              if($request->{'vinculado'.$i} !== false && $request->{'vinculado'.$i} != '' && $request->{ 'vinculado'.$i } != ' ')
+              //if(!empty($request->{'vinculado'.$i}))
+              {
+                  $numeros= explode(',', $request->{'vinculado'.$i});
+                  $cadena_vinculacion='';
+                  for($j=0;$j<count($numeros);$j++)
                   {
-                      $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                    if($j == count($numeros)-1)
+                    {
+                        $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                    }
+                    else
+                    {
+                        $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
+                    }
                   }
-                  else
-                  {
-                      $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
-                  }
-                }
-                $persianas[$i]->vinculacion=$cadena_vinculacion;
-                $persianas[$i]->save();
+                  $persianas[$i]->vinculacion=$cadena_vinculacion;
+                  $persianas[$i]->save();
+              }
             }
           }
 
@@ -321,15 +324,34 @@ class pedidoController extends InfyOmBaseController
 
           return redirect(route('pedidos.index'));
       }
+      $precios=[];
       $persianas =$pedido->persianas;
       $pedido->images;
       $pedido->cupons;
+      $i=0;
       foreach ($persianas as $key )
       {
         $key->modelo;
         $key->color;
+        if($key->motor == null)
+        {
+            $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,null);
+        }
+        if($key->motor == '1 lienzo')
+        {
+            $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,1);
+        }
+        if($key->motor == '2 lienzos')
+        {
+            $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,2);
+        }
+        if($key->motor == '3 lienzos')
+        {
+            $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,3);
+        }
+        $i++;
       }
-      return view('pedidos.cotiza',['pedido'=>$pedido,'persianas'=>$persianas]);
+      return view('pedidos.cotiza',['pedido'=>$pedido,'persianas'=>$persianas,'precios'=> implode(',',$precios)]);
     }
 
     public function agregar($id, Request $request)
@@ -386,24 +408,26 @@ class pedidoController extends InfyOmBaseController
       }
       for($i=0;$i<$request->numero;$i++)
       {
-        if($request->{'vinculado'.$i} == 0 || ($request->{'vinculado'.$i} != '' && $request->{'vinculado'.$i} != ' ' && $request->{'vinculado'.$i}))
-      //  if(!empty($request->{'vinculado'.$i}))
+        if(isset($request->{'vinculado'.$i}))
         {
-            $numeros= explode(',', $request->{'vinculado'.$i});
-            $cadena_vinculacion='';
-            for($j=0;$j<count($numeros);$j++)
-            {
-              if($j == count($numeros)-1)
+          if($request->{'vinculado'.$i} !== false && $request->{'vinculado'.$i} != '' && $request->{ 'vinculado'.$i } != ' ')
+          {
+              $numeros= explode(',', $request->{'vinculado'.$i});
+              $cadena_vinculacion='';
+              for($j=0;$j<count($numeros);$j++)
               {
-                  $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                if($j == count($numeros)-1)
+                {
+                    $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                }
+                else
+                {
+                    $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
+                }
               }
-              else
-              {
-                  $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
-              }
-            }
-            $persianas[$i]->vinculacion=$cadena_vinculacion;
-            $persianas[$i]->save();
+              $persianas[$i]->vinculacion=$cadena_vinculacion;
+              $persianas[$i]->save();
+          }
         }
       }
 

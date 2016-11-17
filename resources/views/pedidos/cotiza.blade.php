@@ -141,6 +141,8 @@
     </div>
 </div>
 
+<span id="loader"><p><img src="{{asset('images/svg-loaders/ball-triangle.svg')}}" alt="Cargando ..." /></p></span>
+
 <script type="text/javascript" src="{{ asset('widgets/modal/modal.js') }}"></script>
 <script type="text/javascript" src="{{ asset('widgets/interactions-ui/resizable.js') }}"></script>
 <script type="text/javascript" src="{{ asset('widgets/interactions-ui/draggable.js') }}"></script>
@@ -155,18 +157,20 @@
   var persianas = {!! $persianas !!};
   var imagenes = {!! $pedido->images !!};
   var precio=50;
+  var pre="{!! $precios !!}";
+  var precios_reales= pre.split(",");
   var id = {!! $pedido->id !!};
-  //console.log(pedido_s.cupons);
+  console.log(precios_reales);
   var sub=0;
   var tabla='';
   for(var f=0;f<persianas.length;f++)
   {
-    sub+=precio*persianas[f].alto;
+    sub= sub + parseInt(precios_reales[f]);
     tabla+='<tr>';
     tabla+='<td>1</td>';
     tabla+='<td>'+persianas[f].tipo+' '+persianas[f].color+'</td>';
-    tabla+='<td>$'+(precio*persianas[f].alto)+'</td>';
-    tabla+='<td>$'+(precio*persianas[f].alto)+'</td>';
+    tabla+='<td>$'+(precios_reales[f])+'</td>';
+    tabla+='<td>$'+(precios_reales[f])+'</td>';
     tabla+='<td class="hidden" id="alto'+f+'">'+persianas[f].alto+'</td>';
     tabla+='<td class="hidden" id="ancho'+f+'">'+persianas[f].ancho+'</td>';
     tabla+='</tr>';
@@ -231,6 +235,7 @@
   });
   $(document).ready(function()
   {
+    $('#loader').hide();
     if(imagenes[0] != undefined)
     {
       $('#firma_aca').html('<img src="http://localhost:8000/'+imagenes[0].contenido.slice(51)+'" alt="Firma...">');
@@ -274,7 +279,9 @@
     console.log(id);
     $("#usar").click(function(){
       var url = "http://localhost:8000/usar/" + $('#codigo').val()+','+id;
+      $('#loader').show();
        $.ajax({url: url , success: function(result){
+           $('#loader').delay(500).fadeOut("slow");
            if(result != ''){
               //setTimeout(respuesta, 1000);
               console.log(result);
@@ -294,6 +301,7 @@
            else
            {
              console.log('error');
+             $('#loader').delay(500).fadeOut("slow");
              $('#myModal2').modal()
               //$('#respuesta').html('El codigo no fue encontrado');
            }
