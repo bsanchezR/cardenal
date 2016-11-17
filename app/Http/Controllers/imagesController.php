@@ -24,7 +24,29 @@ class imagesController extends InfyOmBaseController
         $imagen->save();
         // dd($imagen,$ruta);
         $pedido=\App\pedido::find($request->pedido_id);
-        $pedido->estado="compra";
+        $pedido->persianas;
+        $bandera=true;
+        foreach ($pedido->persianas as $key )
+        {
+          if($key->motor == null)
+          {
+              $bandera = app ('App\Http\Controllers\almacenController')->stock( $key->tipo, null);
+          }
+          else
+          {
+              $bandera = app ('App\Http\Controllers\almacenController')->stock( $key->tipo, 1);
+          }
+          if($bandera == null)
+              break;
+        }
+        if($bandera != null)
+        {
+            $pedido->estado="produccion";
+        }
+        else
+        {
+            $pedido->estado="compra";
+        }
         $pedido->save();
         return redirect()->route('pedidos.index');
     }
