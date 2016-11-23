@@ -183,18 +183,14 @@
                 <div class="scroll-sidebar">
                     <ul id="sidebar-menu">
                       <li class="header"><span>{{ strtoupper(Auth::user()->tipo_usuario) }}</span></li>
-                      @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'vendedor')
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Pedidos</span></a>
+                        @if(Auth::user()->tipo_usuario === 'administrador')
+                        <li><a href="javascript:void(0);" title="Ventas"><i class="glyph-icon icon-linecons-diamond"></i> <span>Ventas</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="{!! route('pedidos.index') !!}" title="Buttons"><span>Listado de Pedidos</span></a></li>
-                                    <li><a href="{!! route('pedidos.create') !!}" title="Labels &amp; Badges"><span>Nuevo Pedido</span></a></li>
-
+                                    <li><a href="{!! route('general.index') !!}" title="Labels &amp; Badges"><span>Listado de Ventas</span></a></li>
                                 </ul>
                             </div>
                         </li>
-                        @endif
-                        @if(Auth::user()->tipo_usuario === 'administrador')
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Usuarios</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -228,6 +224,17 @@
                             </div>
                         </li>
                         @endif
+                        @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'vendedor')
+                          <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Pedidos</span></a>
+                              <div class="sidebar-submenu">
+                                  <ul>
+                                      <li><a href="{!! route('pedidos.index') !!}" title="Buttons"><span>Listado de Pedidos</span></a></li>
+                                      <li><a href="{!! route('pedidos.create') !!}" title="Labels &amp; Badges"><span>Nuevo Pedido</span></a></li>
+
+                                  </ul>
+                              </div>
+                          </li>
+                          @endif
                         @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'comprador')
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Colores</span></a>
                             <div class="sidebar-submenu">

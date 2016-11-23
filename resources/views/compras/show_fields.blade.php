@@ -1,3 +1,17 @@
+<?php
+  $precios=0;
+  if($lista != null)
+  {
+    for($i=0;$i<$cuantos;$i++)
+    {
+      $precios=$precios+($lista[$i]->precio * $piezas[$i]);
+    }
+  }
+  else
+  {
+    $precios = -1;
+  }
+?>
 <div id="contenido">
 
 <div class="row">
@@ -6,7 +20,11 @@
       {{$cada->tipo}}
     @endforeach</address></div>
 
-      <div class="col-md-6 float-right text-right"><h4 class="invoice-title">Folio</h4>No. <b>#{{$pedido->folio}}</b><div class="divider"></div><div class="invoice-date mrg20B">{{$pedido->fecha_pedido}}</div><button id="imprimir" class="btn btn-alt btn-hover btn-info"><span>Imprimir</span> <i class="glyph-icon icon-print"></i></button>&nbsp;<a class="btn btn-alt btn-hover btn-primary" href="{!! route('compras.edit', [$pedido->id]) !!}"><span>Terminar Pedido</span><i class="glyph-icon icon-tag"></i></a>
+      <div class="col-md-6 float-right text-right"><h4 class="invoice-title">Folio</h4>No. <b>#{{$pedido->folio}}</b><div class="divider"></div><div class="invoice-date mrg20B">{{$pedido->fecha_pedido}}</div><button id="imprimir" class="btn btn-alt btn-hover btn-info"><span>Imprimir</span> <i class="glyph-icon icon-print"></i></button>&nbsp;
+        <a id="terminacion" class="btn btn-alt btn-hover btn-primary" href="{!! route('compras.edit', [$pedido->id]) !!}">
+            <span>Terminar Pedido</span>
+            <i class="glyph-icon icon-tag"></i>
+        </a>
       </div>
   </div>
   <br>
@@ -19,19 +37,32 @@
   </div>
 
   <div class="col-md-4">
-    <h2 class="invoice-client mrg10T">Materiales existentes en almacen:</h2><h5></h5><address class="invoice-address">- Motor fuzy 3 lienzos<br>- Facias<br>- Tubos<br></address>
+    <h2 class="invoice-client mrg10T">Material por comprar:</h2><h5></h5>
+    <address class="invoice-address" id="lista_a">
+      @if($precios != -1)
+        @for ($i = 0; $i < $cuantos; $i++)
+          - {{ $lista[$i]->nombre }} (x{{ $piezas[$i] }})<br>
+        @endfor
+      @else
+        Material listo para la producción<br>
+      @endif
+    </address>
   </div>
 
   <div class="col-md-4">
-    <h2 class="invoice-client mrg10T">Material por comprar:</h2><h5></h5>
-    <address class="invoice-address">- Control mono canal negro<br>- Sheer cromo gy-01-002<br></address>
+    <h2 class="invoice-client mrg10T">Calculo de gastos:</h2><h5></h5>
+    <address class="invoice-address" id="lista_gastos">
+      @if($precios != -1)
+        $ {{$precios}} pesos<br>
+      @else
+        $ 0 pesos<br>
+      @endif
+    </address>
   </div>
 
 </div>
 <div class="row">
   <div class="col-md-offset-4 col-md-4">
-    <h2 class="invoice-client mrg10T">Calculo de gastos:</h2><h5></h5>
-    <address class="invoice-address">$ 25,000.00 pesos</address>
     <h2 id="comen" class="invoice-client mrg10T">Comentarios</h2>
     {!! Form::textarea('comentarios', null, ['class' => 'form-control', 'id' => 'mas_comen']) !!}
   </div>
@@ -39,6 +70,12 @@
 <br>
 </div>
 <script type="text/javascript">
+var precios = {{$precios}};
+$('#terminacion').hide();
+if(precios == -1)
+{
+  $('#terminacion').show();
+}
 $("#imprimir").click(function () {
     $('#comen').hide();
     $('#mas_comen').hide();
@@ -66,4 +103,6 @@ $("#imprimir").click(function () {
         frame1.remove();
     }, 500);
 });
+
+
 </script>

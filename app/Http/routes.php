@@ -27,6 +27,7 @@ Route::resource('pedidos', 'pedidoController');
 Route::resource('compras', 'comprasController', ['except' => ['store', 'create']]);
 Route::resource('instalacion', 'instaController', ['except' => ['store', 'create']]);
 Route::resource('produccion', 'prodController', ['except' => ['store', 'create']]);
+Route::resource('general', 'generalController', ['except' => ['store', 'create']]);
 Route::resource('modelos', 'modeloController');
 Route::resource('colors', 'colorController');
 Route::resource('persianas', 'persianaController');
