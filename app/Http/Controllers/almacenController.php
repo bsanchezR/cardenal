@@ -164,455 +164,708 @@ class almacenController extends InfyOmBaseController
     public function almacen_sheer()
     {
       $precio;
+      $lista=[];
+      $i=1;
+      $falta=false;
       $precio =  $this->existe('Tejido');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tejido');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tubo 38 mm');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tubo 38 mm');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('R8');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('R8');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Facia 100');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Facia 100');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas laterales');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas laterales');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Soporte');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Soporte');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Contrapeso redondo');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Contrapeso redondo');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Contrapeso cerrado');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Contrapeso cerrado');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas laterales para contrapeso');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas laterales para contrapeso');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Cadena bola continua');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Cadena bola continua');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tope plastico');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tope plastico');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Conector de cadena chocolate');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Conector de cadena chocolate');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Contrapeso para cadena');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Contrapeso para cadena');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Brackets');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Brackets');
+        $i++;
+        $falta=true;
       }
-      return true;
+      if($falta)
+      {
+        $lista[0]=null;
+        return $lista;
+      }
+      else
+      {
+        $lista[0]=1;
+        return $lista;
+      }
     }
 
     public function almacen_sheer_motor()
     {
       $precio;
+      $lista=[];
+      $i=1;
+      $falta=false;
       $precio =  $this->existe('Tejido');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tejido');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tubo 44 mm');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tubo 44 mm');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Motor enrrollable');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Motor enrrollable');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Facia 120');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Facia 120');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas laterales');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas laterales');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Soporte');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Soporte');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Base tubular');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Base tubular');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas para base tubular');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas para base tubular');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Contrapeso redondo');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Contrapeso redondo');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Contrapeso cerrado');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Contrapeso cerrado');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas laterales para contrapeso');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas laterales para contrapeso');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Brackets');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Brackets');
+        $i++;
+        $falta=true;
       }
-      return true;
+      if($falta)
+      {
+        $lista[0]=null;
+        return $lista;
+      }
+      else
+      {
+        $lista[0]=1;
+        return $lista;
+      }
     }
 
     public function almacen_enrrollable()
     {
       $precio;
+      $lista=[];
+      $i=1;
+      $falta=false;
       $precio =  $this->existe('Tejido');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tejido');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tubo 38 mm');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tubo 38 mm');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('R8');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('R8');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tensor para cadena');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tensor para cadena');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Base ovalada');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Base ovalada');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Inserto plastico');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Inserto plastico');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas para base ovalada');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas para base ovalada');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Soporte');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Soporte');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Cadena bola continua');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Cadena bola continua');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tope plastico');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tope plastico');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Conector de cadena chocolate');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Conector de cadena chocolate');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Contrapeso para cadena');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Contrapeso para cadena');
+        $i++;
+        $falta=true;
       }
-      return true;
+      if($falta)
+      {
+        $lista[0]=null;
+        return $lista;
+      }
+      else
+      {
+        $lista[0]=1;
+        return $lista;
+      }
     }
 
     public function almacen_enrrollable_motor()
     {
       $precio;
+      $lista=[];
+      $i=1;
+      $falta=false;
       $precio =  $this->existe('Tejido');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tejido');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tubo 44 mm');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tubo 44 mm');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Motor enrrollable');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Motor enrrollable');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Facia 120');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Facia 120');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Base tubular');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Base tubular');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas para base tubular');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas para base tubular');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Inserto plastico');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Inserto plastico');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Soporte');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Soporte');
+        $i++;
+        $falta=true;
       }
-      return true;
+      if($falta)
+      {
+        $lista[0]=null;
+        return $lista;
+      }
+      else
+      {
+        $lista[0]=1;
+        return $lista;
+      }
     }
 
     public function almacen_vertical()
     {
       $precio;
+      $lista=[];
+      $i=1;
+      $falta=false;
       $precio =  $this->existe('Tejido');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tejido');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Riel con piñon');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Riel con piñon');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Carro de arrastre');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Carro de arrastre');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Percha plastica');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Percha plastica');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Cadena bola continua');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Cadena bola continua');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Contrapeso para cadena');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Contrapeso para cadena');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Control manual');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Control manual');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Seguro estrella');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Seguro estrella');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Seguro C');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Seguro C');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Eje dummy');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Eje dummy');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tensor para cadena');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tensor para cadena');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Cordon');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Cordon');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Carro maestro');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Carro maestro');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Clip para soporte');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Clip para soporte');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Control para sistema vertical');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Control para sistema vertical');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Peso para sistema vertical');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Peso para sistema vertical');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Conector de cadena chocolate');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Conector de cadena chocolate');
+        $i++;
+        $falta=true;
       }
-      return true;
+      if($falta)
+      {
+        $lista[0]=null;
+        return $lista;
+      }
+      else
+      {
+        $lista[0]=1;
+        return $lista;
+      }
     }
 
     public function almacen_shangrila()
     {
       $precio;
+      $lista=[];
+      $i=1;
+      $falta=false;
       $precio =  $this->existe('Tejido');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tejido');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tubo 38 mm');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tubo 38 mm');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Facia 100');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Facia 100');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Perfileria (shangri-la)');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Perfileria (shangri-la)');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas laterales para facia');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas laterales para facia');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Cadena bola continua');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Cadena bola continua');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Conector de cadena chocolate');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Conector de cadena chocolate');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Contrapeso para cadena');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Contrapeso para cadena');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tope plastico');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tope plastico');
+        $i++;
+        $falta=true;
       }
-      return true;
+      if($falta)
+      {
+        $lista[0]=null;
+        return $lista;
+      }
+      else
+      {
+        $lista[0]=1;
+        return $lista;
+      }
     }
 
     public function almacen_shangrila_motor()
     {
       $precio;
+      $lista=[];
+      $i=1;
+      $falta=false;
       $precio =  $this->existe('Tejido');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tejido');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tubo 44 mm');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tubo 44 mm');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Motor enrrollable');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Motor enrrollable');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Facia 120');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Facia 120');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Base tubular');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Base tubular');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas para base tubular');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas para base tubular');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Perfileria (shangri-la)');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Perfileria (shangri-la)');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Tapas laterales para facia');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Tapas laterales para facia');
+        $i++;
+        $falta=true;
       }
       $precio =  $this->existe('Soporte');
       if($precio == null)
       {
-        return null;
+        $lista[$i]=$this->datos('Soporte');
+        $i++;
+        $falta=true;
       }
-      return true;
+      if($falta)
+      {
+        $lista[0]=null;
+        return $lista;
+      }
+      else
+      {
+        $lista[0]=1;
+        return $lista;
+      }
     }
 
     public function cuanto ($nombre)
     {
-      $material = $material = \App\Models\almacen::where('nombre','=', $nombre)->get()->first();
+      $material = \App\Models\almacen::where('nombre','=', $nombre)->get()->first();
       return $material->precio;
     }
+
+    public function datos ($nombre)
+    {
+      $material = \App\Models\almacen::where('nombre','=', $nombre)->get()->first();
+      return $material;
+    }
+
     public function sheer($alto)
     {
       $precio=0;
@@ -811,5 +1064,38 @@ class almacenController extends InfyOmBaseController
                       break;
       }
       return $precio;
+    }
+
+    public function faltan($nombre,$numero)
+    {
+      $material = \App\Models\almacen::where('nombre','=', $nombre)->get()->first();
+      if($material->stock < $numero)
+      {
+        $resultado= $numero - $material->stock;
+        return $material;
+      }
+      return null;
+    }
+
+    public function restar($nombre,$numero)
+    {
+      $material = \App\Models\almacen::where('nombre','=', $nombre)->get()->first();
+      $material->stock= $material->stock - $numero;
+      $material->save();
+    }
+
+    public function faltante($lista, $cantidad)
+    {
+      $detalle=[];
+      $piezas=[];
+      for($i=0;$i<count($lista);$i++)
+      {
+        $num=$this->faltan($lista[$i],$cantidad[$i]);
+        if($num != null)
+        {
+          $detalle[]= $lista[$i];
+          $piezas[]= $num;
+        }
+      }
     }
 }

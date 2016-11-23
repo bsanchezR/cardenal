@@ -39,7 +39,7 @@ class Authenticate
               return redirect('/');
             }
           }
-          if(strpos($request->route()->getName(),'user') !== false || strpos($request->route()->getName(),'cliente') !== false || strpos($request->route()->getName(),'cupons') !== false )
+          if(strpos($request->route()->getName(),'user') !== false || strpos($request->route()->getName(),'cliente') !== false || strpos($request->route()->getName(),'cupons') !== false || strpos($request->route()->getName(),'general') !== false)
           {
             if($request->user()->tipo_usuario == 'administrador')
             {

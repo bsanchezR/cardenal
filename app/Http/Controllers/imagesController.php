@@ -25,21 +25,44 @@ class imagesController extends InfyOmBaseController
         // dd($imagen,$ruta);
         $pedido=\App\pedido::find($request->pedido_id);
         $pedido->persianas;
-        $bandera=true;
+        $pedido->total=$request->total;
+        $total=[];
+        $cantidad=[];
+        $flag=false;
         foreach ($pedido->persianas as $key )
         {
           if($key->motor == null)
           {
-              $bandera = app ('App\Http\Controllers\almacenController')->stock( $key->tipo, null);
+              $bandera = app ('App\Http\Controllers\comprasController')->stock( $key->tipo, null);
           }
           else
           {
-              $bandera = app ('App\Http\Controllers\almacenController')->stock( $key->tipo, 1);
+              $bandera = app ('App\Http\Controllers\comprasController')->stock( $key->tipo, 1);
           }
-          if($bandera == null)
-              break;
+          for($j=0;$j<count($bandera);$j++)
+          {
+            $clave = array_search($bandera[$j] , $total);
+            if($clave !== false )
+            {
+              $cantidad[$clave]++;
+            }
+            else
+            {
+              $total[]=$bandera[$j];
+              $cantidad[]=1;
+            }
+          }
         }
-        if($bandera != null)
+        for($i=0;$i<count($total);$i++)
+        {
+          $ban = app ('App\Http\Controllers\almacenController')->faltan($total[$i],$cantidad[$i]);
+          if($ban != null)
+          {
+            $flag=true;
+            break;
+          }
+        }
+        if(!$flag)
         {
             $pedido->estado="produccion";
         }

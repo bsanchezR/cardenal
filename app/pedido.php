@@ -129,6 +129,7 @@ class pedido extends Model
         'user_id',
         'tienda_id',
         'folio',
+        'total',
         'control',
         'fecha_pedido',
         'fecha_entrega',
