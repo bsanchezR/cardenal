@@ -6,7 +6,7 @@
         <th>Telefono</th>
         <th>Tipo usuario</th>
         <th>E-mail</th>
-        <th colspan="3">Acciones</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tfoot>
@@ -15,7 +15,7 @@
         <th>Telefono</th>
         <th>Tipo usuario</th>
         <th>E-mail</th>
-        <th colspan="3">Acciones</th>
+        <th>Acciones</th>
       </tr>
     </tfoot>
     <tbody>
@@ -29,8 +29,10 @@
                 {!! Form::open(['route' => ['user.destroy', $user->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('user.show', [$user->id]) !!}" class='btn btn-default btn-xs'><i class="glyph-icon icon-eye"></i></a>
+                    @if(Auth::user()->tipo_usuario === 'administrador')
                     <a href="{!! route('user.edit', [$user->id]) !!}" class='btn btn-default btn-xs'><i class="glyph-icon icon-pencil"></i></a>
                     {!! Form::button('<i class="glyph-icon icon-trash" aria-hidden="true"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Estas seguro?')"]) !!}
+                    @endif
                 </div>
                 {!! Form::close() !!}
             </td>

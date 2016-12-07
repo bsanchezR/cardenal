@@ -41,8 +41,16 @@ class generalController extends InfyOmBaseController
             $pedido->cliente;
           }
         }
+
+        $currentMonth = date('m');
+        $pedidos = \App\pedido::whereRaw('MONTH(fecha_pedido) = ?',[$currentMonth])->get();
+
+
+        $ped = \App\pedido::whereRaw('fecha_pedido > DATE_SUB(now(), INTERVAL 3 MONTH)')->get();
+
+
         return view('general.index')
-            ->with('tienda', $tienda);
+            ->with('tienda', $tienda)->with('mes',$pedidos)->with('meses',$ped);
     }
 
 

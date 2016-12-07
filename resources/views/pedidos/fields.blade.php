@@ -1,4 +1,33 @@
-<div class="form-group col-sm-6">
+<style>
+  .custom-combobox {
+    position: relative;
+    display: inline-block;
+  }
+  .custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+
+    width: 10%;
+  background-image: url(http://localhost:8000/images/icons/down.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(191, 191, 191);
+  background-size: 50%;
+  }
+  .custom-combobox-input {
+    margin: 0;
+    padding: 5px 10px;
+  }
+  </style>
+
+
+
+  <div class="form-group col-sm-6">
     {!! Form::label('tipo_p', 'Tipo Persiana:', ['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">
       <select class="form-control" name="tipo" id="tipo" onchange="tipos()" onfocusout='cambia_tipo()'>
@@ -54,16 +83,23 @@
     </div>
 </div>
 
+<div class="form-group col-sm-6">
+    {!! Form::label('numero', 'No de Persianas a cotizar:', ['class' => 'control-label col-sm-5']) !!}
+    <div class="col-sm-4">
+    {!! Form::number('numero', null, ['class' => 'form-control', 'id' => 'noper' , 'onchange' => 'cuantas()']) !!}
+    </div>
+</div>
+
 @if(isset($nuevas))
 <div class="form-group col-sm-6 hidden">
 @elseif(isset($mismas))
 <div class="form-group col-sm-6 hidden">
 @else
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6 ui-widget">
 @endif
     {!! Form::label('cliente_id', 'Cliente:', ['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">
-    <select class="form-control" name="cliente_id">
+    <select class="form-control" name="cliente_id" id="combobox">
       @foreach($clientes as $cliente)
         @if(isset($pedido) && $pedido->cliente_id == $cliente->id)
           <option value="{{$cliente->id}}" selected="selected">{{$cliente->nombre}}</option>
@@ -72,37 +108,22 @@
         @endif
       @endforeach
     </select>
-    <a class="right btn btn-primary pull-right" style="margin-top: 25px" href="{!! route('cliente.create') !!}">Nuevo Cliente</a>
     </div>
 </div>
 
-@if(isset($nuevas))
-<div class="form-group col-sm-6 hidden">
-@elseif(isset($mismas))
-<div class="form-group col-sm-6 hidden">
-@else
-<div class="form-group col-sm-6">
-@endif
-    {!! Form::label('user_id', 'Vendedor:', ['class' => 'control-label col-sm-3']) !!}
-    <div class="col-sm-6">
-    <select class="form-control" name="user_id">
-      @foreach($usuarios as $usuario)
-        @if(isset($pedido) && $pedido->user_id == $usuario->id)
-          <option value="{{$usuario->id}}" selected='slected'>{{$usuario->name}}</option>
-        @else
-          <option value="{{$usuario->id}}">{{$usuario->name}}</option>
-        @endif
-      @endforeach
-    </select>
-    </div>
+
+
+
+  @if(isset($nuevas))
+  <div class="form-group col-sm-6 hidden">
+  @elseif(isset($mismas))
+  <div class="form-group col-sm-6 hidden">
+  @else
+  <div class="form-group col-sm-6" style="text-align:center;">
+  @endif
+  <a class="right btn btn-primary" href="{!! route('cliente.create') !!}">Nuevo Cliente</a>
 </div>
 
-<div class="form-group col-sm-6">
-    {!! Form::label('numero', 'No de Persianas a cotizar:', ['class' => 'control-label col-sm-5']) !!}
-    <div class="col-sm-4">
-    {!! Form::number('numero', null, ['class' => 'form-control', 'id' => 'noper' , 'onchange' => 'cuantas()']) !!}
-    </div>
-</div>
 
 <div id="divider1" class="col-sm-12 divider" style ="margin-top:10px; margin-bottom:10px; background:red;"></div>
 <div id="divider2" class="col-sm-12 divider" style ="margin-top:10px; margin-bottom:10px; background:red;"></div>
@@ -126,7 +147,7 @@
 @elseif(isset($mismas))
 <div class="form-group col-sm-6 hidden">
 @else
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
 @endif
     {!! Form::label('tienda_id', 'Tienda:', ['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">
@@ -143,56 +164,8 @@
 </div>
 
 
-<!-- Fecha Pedido Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('fecha_pedido', 'Fecha Pedido:', ['class' => 'control-label col-sm-3']) !!}
-    <div class="col-sm-6">
-    @if(isset($pedido))
-        {!! Form::date('fecha_pedido', $pedido->fecha_pedido, ['class' => 'form-control', 'onchange' => 'listo()','data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'La fecha de pedido es obligatoria.']) !!}
-    @else
-        {!! Form::date('fecha_pedido', null, ['class' => 'form-control', 'onchange' => 'listo()','data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'La fecha de pedido es obligatoria.']) !!}
-    @endif
-    </div>
-</div>
-
-<!-- Fecha Entrega Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('fecha_entrega', 'Fecha Entrega:', ['class' => 'control-label col-sm-3']) !!}
-    <div class="col-sm-6">
-    @if(!isset($pedido) || $pedido->fecha_entrega == '' || $pedido->fecha_entrega == NULL)
-      {!! Form::date('fecha_entrega', null, ['class' => 'form-control']) !!}
-    @else
-    {!! Form::date('fecha_entrega', $pedido->fecha_entrega, ['class' => 'form-control']) !!}
-    @endif
-    </div>
-</div>
-
-<!-- Fechaa Produccion Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('fecha_produccion', 'Fecha Produccion:', ['class' => 'control-label col-sm-3']) !!}
-    <div class="col-sm-6">
-    @if(!isset($pedido) || $pedido->fecha_produccion == '' || $pedido->fecha_produccion == NULL)
-      {!! Form::date('fecha_produccion', null, ['class' => 'form-control']) !!}
-    @else
-      {!! Form::date('fecha_produccion', $pedido->fecha_produccion, ['class' => 'form-control']) !!}
-    @endif
-    </div>
-</div>
-
-<!-- Fecha Instalacion Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('fecha_instalacion', 'Fecha Instalacion:', ['class' => 'control-label col-sm-3']) !!}
-    <div class="col-sm-6">
-    @if(!isset($pedido) || $pedido->fecha_instalacion == '' || $pedido->fecha_instalacion == NULL)
-      {!! Form::date('fecha_instalacion', null, ['class' => 'form-control']) !!}
-    @else
-      {!! Form::date('fecha_instalacion', $pedido->fecha_instalacion, ['class' => 'form-control']) !!}
-    @endif
-    </div>
-</div>
-
 <!-- Submit Field -->
-<div class="bg-default text-center pad20A mrg25T" style="margin-top:150px !important;">
+<div class="bg-default text-center pad20A mrg25T" style="margin-top:50px !important;">
 <div class="form-group col-sm-12">
 
     <a id="subir" class="btn btn-lg btn-primary">Avanzar</a>
@@ -226,14 +199,25 @@
 <span id="loader"><p><img src="{{asset('images/svg-loaders/ball-triangle.svg')}}" alt="Cargando ..." /></p></span>
 
 <script type="text/javascript" src="{{ asset('widgets/modal/modal.js') }}"></script>
+
+
 <script type="text/javascript">
 var ancho_max=0;
 var tipos_s;
+var id_user={!! Auth::user()->id !!};
+console.log(id_user);
 @if(isset($mismas))
   var mismas = {!! $mismas !!};
   var num_persianas = {!! $num_persianas !!};
   var persianas_medidas =' {!! $persianas_medidas !!} ';
 @endif
+
+var form = document.getElementById('forms_p');
+var hiddenField = document.createElement("input");
+hiddenField.setAttribute("type", "hidden");
+hiddenField.setAttribute("name", "user_id");
+hiddenField.setAttribute("value", id_user);
+form.appendChild(hiddenField);
 
 $('#subir').click(function()
 {
@@ -296,6 +280,7 @@ $('#mismas_ya').click(function()
     hiddenField.setAttribute("value", persi);
     form.appendChild(hiddenField);
     form.submit();
+    $('#loader').show();
 });
 
 $('#mismas').click(function()
@@ -330,6 +315,7 @@ $('#nuevas').click(function()
     hiddenField.setAttribute("value", '1');
     form.appendChild(hiddenField);
     form.submit();
+    $('#loader').show();
 });
 
 $(document).ready(function()
@@ -368,6 +354,182 @@ $(document).ready(function()
         calcular(i);
       }
     }
+
+    // var availableTags = [
+    //   "ActionScript",
+    //   "AppleScript",
+    //   "Asp",
+    //   "BASIC",
+    //   "C",
+    //   "C++",
+    //   "Clojure",
+    //   "COBOL",
+    //   "ColdFusion",
+    //   "Erlang",
+    //   "Fortran",
+    //   "Groovy",
+    //   "Haskell",
+    //   "Java",
+    //   "JavaScript",
+    //   "Lisp",
+    //   "Perl",
+    //   "PHP",
+    //   "Python",
+    //   "Ruby",
+    //   "Scala",
+    //   "Scheme"
+    // ];
+    // $( "#tag_cliente" ).autocomplete({
+    //   source: availableTags
+    // });
+
+
+
+
+
+
+    $( function() {
+    $.widget( "custom.combobox", {
+      _create: function() {
+        this.wrapper = $( "<span>" )
+          .addClass( "custom-combobox" )
+          .attr( "style", "width:100%" )
+          .insertAfter( this.element );
+
+        this.element.hide();
+        this._createAutocomplete();
+        this._createShowAllButton();
+      },
+
+      _createAutocomplete: function() {
+        var selected = this.element.children( ":selected" ),
+          value = selected.val() ? selected.text() : "";
+
+        this.input = $( "<input>" )
+          .appendTo( this.wrapper )
+          .val( value )
+          .attr( "title", "" )
+          .attr( "style", "width:90%" )
+          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
+          .autocomplete({
+            delay: 0,
+            minLength: 0,
+            source: $.proxy( this, "_source" )
+          });
+          // // .tooltip({
+          //   classes: {
+          //     "ui-tooltip": "ui-state-highlight"
+          //   }
+          // });
+
+        this._on( this.input, {
+          autocompleteselect: function( event, ui ) {
+            ui.item.option.selected = true;
+            this._trigger( "select", event, {
+              item: ui.item.option
+            });
+          },
+
+          autocompletechange: "_removeIfInvalid"
+        });
+      },
+
+      _createShowAllButton: function() {
+        var input = this.input,
+          wasOpen = false;
+
+        $( "<a>" )
+          .attr( "tabIndex", -1 )
+          .attr( "title", "Clientes" )
+          .attr( "style", "width:10%;" )
+          // .tooltip()
+          .appendTo( this.wrapper )
+          .button({
+            icons: {
+              primary: "ui-icon-triangle-1-s"
+            },
+            text: false
+          })
+          .removeClass( "ui-corner-all" )
+          .addClass( "custom-combobox-toggle ui-corner-right" )
+          .on( "mousedown", function() {
+            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+          })
+          .on( "click", function() {
+            input.trigger( "focus" );
+
+            // Close if already visible
+            if ( wasOpen ) {
+              return;
+            }
+
+            // Pass empty string as value to search for, displaying all results
+            input.autocomplete( "search", "" );
+          });
+      },
+
+      _source: function( request, response ) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        response( this.element.children( "option" ).map(function() {
+          var text = $( this ).text();
+          if ( this.value && ( !request.term || matcher.test(text) ) )
+            return {
+              label: text,
+              value: text,
+              option: this
+            };
+        }) );
+      },
+
+      _removeIfInvalid: function( event, ui ) {
+
+        // Selected an item, nothing to do
+        if ( ui.item ) {
+          return;
+        }
+
+        // Search for a match (case-insensitive)
+        var value = this.input.val(),
+          valueLowerCase = value.toLowerCase(),
+          valid = false;
+        this.element.children( "option" ).each(function() {
+          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+            this.selected = valid = true;
+            return false;
+          }
+        });
+
+        // Found a match, nothing to do
+        if ( valid ) {
+          return;
+        }
+
+        // Remove invalid value
+        this.input
+          .val( "" )
+          .attr( "title", value + " didn't match any item" )
+          // .tooltip( "open" );
+        this.element.val( "" );
+        this._delay(function() {
+          // this.input.tooltip( "close" ).attr( "title", "" );
+        }, 2500 );
+        this.input.autocomplete( "instance" ).term = "";
+      },
+
+      _destroy: function() {
+        this.wrapper.remove();
+        this.element.show();
+      }
+    });
+
+    $( "#combobox" ).combobox();
+    // $( "#combobox" ).toggle();
+    // $( "#toggle" ).on( "click", function() {
+    //   $( "#combobox" ).toggle();
+    // });
+  });
+
+
 });
 
 function ancho_maximo(modelos)
@@ -933,7 +1095,7 @@ function calcular(i)
   if(x == 'manual')
   {
     var d=$('#alto'+i).val();
-    d=((70*d)/100);
+    d=((80*d)/100);
     $('#acont'+i).val(d);
   }
 }
@@ -1306,10 +1468,10 @@ function listo()
       flag=false;
     }
   }
-  if($('#fecha_pedido').val() == '' || $('#fecha_pedido').val() == ' ' || $('#fecha_pedido').val() == null)
-  {
-    flag=false;
-  }
+  // if($('#fecha_pedido').val() == '' || $('#fecha_pedido').val() == ' ' || $('#fecha_pedido').val() == null)
+  // {
+  //   flag=false;
+  // }
   if(flag == true)
   {
     $('#subir').show();
@@ -1495,12 +1657,12 @@ function cambia_tipo()
 
 function apen(i)
 {
-  $('#persianas').append('<div id="pers'+i+'" class="row"><div class="col-sm-12"><div class="form-group col-sm-1"><label class="control-label">'+(i+1)+'</label></div><div class="form-group col-sm-1"><label for="ancho'+i+'" class="control-label">Ancho:</label><div><input class="form-control" name="ancho'+i+'" type="text" id="ancho'+i+'" onfocusout="cambiar_color('+i+')" data-toggle="tooltip" data-placement="bottom" title="Ancho maximo: "></div></div><div class="form-group col-sm-1"><label for="alto'+i+'" class="control-label">Alto:</label><div><input class="form-control" name="alto'+i+'" type="text" id="alto'+i+'" onkeypress="calcular('+i+')" onchange="calcular('+i+')" onfocusout="cambiar_color('+i+')"></div></div><div class="form-group col-sm-1"><label for="sistema'+i+'" class="control-label">Sistema:</label><div class=""><select class="form-control" name="sistema'+i+'" id="sistema'+i+'" onchange="sistema('+i+')" onfocusout="cambiar_color('+i+')"><option value="manual">Manual</option></select></div></div><div class="form-group col-sm-1" id="dtipom'+i+'"><label for="tipom'+i+'" class="control-label">Tipo Motor:</label><div class=""><select class="form-control" name="tipo_motor'+i+'" id="tipom'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="fuci">Fuci</option><option value="zomfy">Zomfy</option></select></div></div><div class="form-group col-sm-1" id="dmmotor'+i+'"><label for="mmotor'+i+'" class="control-label">Modelo Motor:</label><div class=""><select class="form-control" name="motor'+i+'" id="mmotor'+i+'" onfocusout="cambiar_color('+i+')" onchange="cambiar_motor('+i+')"><option value=" ">---</option><option value="1 lienzo">1 lienzo</option><option value="2 lienzos">2 lienzos</option><option value="3 lienzos">3 lienzos</option></select></div></div><div class="form-group col-sm-1" id="dlmotor'+i+'"><label for="lmotor'+i+'" class="control-label">Lado Motor:</label><div class=""><select class="form-control" name="lado_motor'+i+'" id="lmotor'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="izquierdo">Izquierdo</option><option value="derecho">Derecho</option></select></div></div><div class="form-group col-sm-1" id="dlado'+i+'"><label for="lado'+i+'" class="control-label">Lado control:</label><select class="form-control" name="control_p'+i+'" id="lado'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="izquierdo">Izquierdo</option><option value="derecho">Derecho</option></select></div><div class="form-group col-sm-1" id="dacont'+i+'"><label for="acont'+i+'" class="control-label">Altura control:</label><div><input class="form-control" name="altura_control'+i+'" type="text" id="acont'+i+'" onfocusout="cambiar_color('+i+')"></div></div><div class="form-group col-sm-1"><label for="fijar'+i+'" class="control-label">Fijar a:</label><div><select class="form-control" name="soporte_u'+i+'" id="fijar'+i+'" onfocusout="cambiar_color('+i+')"><option value="techo">Techo</option><option value="muro">Muro</option></select></div></div><div class="form-group col-sm-1"><label for="marco'+i+'" class="control-label">Marco:</label><div><select class="form-control" name="soporte_m'+i+'" id="marco'+i+'" onfocusout="cambiar_color('+i+')"><option value="dentro">DM</option><option value="fuera">FM</option></select></div></div><div id="sopor'+i+'" class="form-group col-sm-1"><label for="soporte'+i+'" class="control-label">Soporte:</label><div><select class="form-control" name="soporte'+i+'" id="soporte'+i+'" onchange="manuales('+i+')" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="1">Independiente</option><option value="2">Con Soporte</option></select></div></div><div id="poscic'+i+'" class="form-group col-sm-1"><label for="pos'+i+'" class="control-label">Posicion:</label><div><select class="form-control" name="soporte_p'+i+'" id="pos'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="intermedio">Intermedio</option><option value="normal">Normal</option></select></div></div><div id="vincu'+i+'" class="form-group col-sm-1"><label for="vinculado'+i+'" class="control-label">Vinculado:</label><div><select class="form-control" name="vinculado'+i+'" id="vinculado'+i+'" onchange="checa_vin('+i+')" onfocusout="cambiar_color('+i+')"></select></div></div><div id="chequear'+i+'" class="col-sm-1 center-block" style="font-size:50px; color:black;"><i id="boton_er'+i+'" class="glyph-icon icon-check-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" ></i></div><div class="hidden"><p id="usado'+i+'"></p></div></div></div>');
+  $('#persianas').append('<div id="pers'+i+'" class="row"><div class="col-sm-12"><div class="form-group col-sm-2"><label class="control-label">'+(i+1)+'</label></div><div class="form-group col-sm-2"><label for="ancho'+i+'" class="control-label">Ancho:</label><div><input class="form-control" name="ancho'+i+'" type="text" id="ancho'+i+'" onfocusout="cambiar_color('+i+')" data-toggle="tooltip" data-placement="bottom" title="Ancho maximo: "></div></div><div class="form-group col-sm-2"><label for="alto'+i+'" class="control-label">Alto:</label><div><input class="form-control" name="alto'+i+'" type="text" id="alto'+i+'" onkeypress="calcular('+i+')" onchange="calcular('+i+')" onfocusout="cambiar_color('+i+')"></div></div><div class="form-group col-sm-2"><label for="sistema'+i+'" class="control-label">Sistema:</label><div class=""><select class="form-control" name="sistema'+i+'" id="sistema'+i+'" onchange="sistema('+i+')" onfocusout="cambiar_color('+i+')"><option value="manual">Manual</option></select></div></div><div class="form-group col-sm-2" id="dtipom'+i+'"><label for="tipom'+i+'" class="control-label">Tipo Motor:</label><div class=""><select class="form-control" name="tipo_motor'+i+'" id="tipom'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="fuci">Fuci</option><option value="somfy">Somfy</option></select></div></div><div class="form-group col-sm-2" id="dmmotor'+i+'"><label for="mmotor'+i+'" class="control-label">Modelo Motor:</label><div class=""><select class="form-control" name="motor'+i+'" id="mmotor'+i+'" onfocusout="cambiar_color('+i+')" onchange="cambiar_motor('+i+')"><option value=" ">---</option><option value="1 lienzo">1 lienzo</option><option value="2 lienzos">2 lienzos</option><option value="3 lienzos">3 lienzos</option></select></div></div><div class="form-group col-sm-2" id="dlmotor'+i+'"><label for="lmotor'+i+'" class="control-label">Lado Motor:</label><div class=""><select class="form-control" name="lado_motor'+i+'" id="lmotor'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="izquierdo">Izquierdo</option><option value="derecho">Derecho</option></select></div></div><div class="form-group col-sm-2" id="dlado'+i+'"><label for="lado'+i+'" class="control-label">Lado control:</label><select class="form-control" name="control_p'+i+'" id="lado'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="izquierdo">Izquierdo</option><option value="derecho">Derecho</option></select></div><div class="form-group col-sm-2" id="dacont'+i+'"><label for="acont'+i+'" class="control-label">Altura control:</label><div><input class="form-control" name="altura_control'+i+'" type="text" id="acont'+i+'" onfocusout="cambiar_color('+i+')"></div></div><div class="form-group col-sm-2"><label for="fijar'+i+'" class="control-label">Fijar a:</label><div><select class="form-control" name="soporte_u'+i+'" id="fijar'+i+'" onfocusout="cambiar_color('+i+')"><option value="techo">Techo</option><option value="muro">Muro</option></select></div></div><div class="form-group col-sm-2"><label for="marco'+i+'" class="control-label">Marco:</label><div><select class="form-control" name="soporte_m'+i+'" id="marco'+i+'" onfocusout="cambiar_color('+i+')"><option value="dentro">DM</option><option value="fuera">FM</option></select></div></div><div id="sopor'+i+'" class="form-group col-sm-2"><label for="soporte'+i+'" class="control-label">Soporte:</label><div><select class="form-control" name="soporte'+i+'" id="soporte'+i+'" onchange="manuales('+i+')" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="1">Independiente</option><option value="2">Con Soporte</option></select></div></div><div id="poscic'+i+'" class="form-group col-sm-2"><label for="pos'+i+'" class="control-label">Posicion:</label><div><select class="form-control" name="soporte_p'+i+'" id="pos'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="intermedio">Intermedio</option><option value="normal">Normal</option></select></div></div><div id="vincu'+i+'" class="form-group col-sm-2"><label for="vinculado'+i+'" class="control-label">Vinculado:</label><div><select class="form-control" name="vinculado'+i+'" id="vinculado'+i+'" onchange="checa_vin('+i+')" onfocusout="cambiar_color('+i+')"></select></div></div><div id="chequear'+i+'" class="col-sm-2 center-block" style="font-size:50px; color:black;"><i id="boton_er'+i+'" class="glyph-icon icon-check-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" ></i></div><div class="hidden"><p id="usado'+i+'"></p></div></div></div>');
 }
 
 function apen_m(i)
 {
-  $('#persianas').append('<div id="pers'+i+'" class="row"><div class="col-sm-12"><div class="form-group col-sm-1"><label class="control-label">'+(i+1)+'</label></div><div class="form-group col-sm-1"><label for="ancho'+i+'" class="control-label">Ancho:</label><div><input class="form-control" name="ancho'+i+'" type="text" id="ancho'+i+'" onfocusout="cambiar_color('+i+')" data-toggle="tooltip" data-placement="bottom" title="Ancho maximo: "></div></div><div class="form-group col-sm-1"><label for="alto'+i+'" class="control-label">Alto:</label><div><input class="form-control" name="alto'+i+'" type="text" id="alto'+i+'" onkeypress="calcular('+i+')" onchange="calcular('+i+')" onfocusout="cambiar_color('+i+')"></div></div><div class="form-group col-sm-1"><label for="sistema'+i+'" class="control-label">Sistema:</label><div class=""><select class="form-control" name="sistema'+i+'" id="sistema'+i+'" onchange="sistema('+i+')" onfocusout="cambiar_color('+i+')"><option value="manual">Manual</option><option value="motorizada">Motorizada</option></select></div></div><div class="form-group col-sm-1" id="dtipom'+i+'"><label for="tipom'+i+'" class="control-label">Tipo Motor:</label><div class=""><select class="form-control" name="tipo_motor'+i+'" id="tipom'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="fuci">Fuci</option><option value="zomfy">Zomfy</option></select></div></div><div class="form-group col-sm-1" id="dmmotor'+i+'"><label for="mmotor'+i+'" class="control-label">Modelo Motor:</label><div class=""><select class="form-control" name="motor'+i+'" id="mmotor'+i+'" onfocusout="cambiar_color('+i+')" onchange="cambiar_motor('+i+')"><option value=" ">---</option><option value="1 lienzo">1 lienzo</option><option value="2 lienzos">2 lienzos</option><option value="3 lienzos">3 lienzos</option></select></div></div><div class="form-group col-sm-1" id="dlmotor'+i+'"><label for="lmotor'+i+'" class="control-label">Lado Motor:</label><div class=""><select class="form-control" name="lado_motor'+i+'" id="lmotor'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="izquierdo">Izquierdo</option><option value="derecho">Derecho</option></select></div></div><div class="form-group col-sm-1" id="dlado'+i+'"><label for="lado'+i+'" class="control-label">Lado control:</label><select class="form-control" name="control_p'+i+'" id="lado'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="izquierdo">Izquierdo</option><option value="derecho">Derecho</option></select></div><div class="form-group col-sm-1" id="dacont'+i+'"><label for="acont'+i+'" class="control-label">Altura control:</label><div><input class="form-control" name="altura_control'+i+'" type="text" id="acont'+i+'" onfocusout="cambiar_color('+i+')"></div></div><div class="form-group col-sm-1"><label for="fijar'+i+'" class="control-label">Fijar a:</label><div><select class="form-control" name="soporte_u'+i+'" id="fijar'+i+'" onfocusout="cambiar_color('+i+')"><option value="techo">Techo</option><option value="muro">Muro</option></select></div></div><div class="form-group col-sm-1"><label for="marco'+i+'" class="control-label">Marco:</label><div><select class="form-control" name="soporte_m'+i+'" id="marco'+i+'" onfocusout="cambiar_color('+i+')"><option value="dentro">DM</option><option value="fuera">FM</option></select></div></div><div id="sopor'+i+'" class="form-group col-sm-1"><label for="soporte'+i+'" class="control-label">Soporte:</label><div><select class="form-control" name="soporte'+i+'" id="soporte'+i+'" onchange="manuales('+i+')" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="1">Independiente</option><option value="2">Con Soporte</option></select></div></div><div id="poscic'+i+'" class="form-group col-sm-1"><label for="pos'+i+'" class="control-label">Posicion:</label><div><select class="form-control" name="soporte_p'+i+'" id="pos'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="intermedio">Intermedio</option><option value="normal">Normal</option></select></div></div><div id="vincu'+i+'" class="form-group col-sm-1"><label for="vinculado'+i+'" class="control-label">Vinculado:</label><div><select class="form-control" name="vinculado'+i+'" id="vinculado'+i+'" onchange="checa_vin('+i+')" onfocusout="cambiar_color('+i+')"></select></div></div><div id="chequear'+i+'" class="col-sm-1 center-block" style="font-size:50px; color:black;"><i id="boton_er'+i+'" class="glyph-icon icon-check-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" ></i></div><div class="hidden"><p id="usado'+i+'"></p></div></div></div>');
+  $('#persianas').append('<div id="pers'+i+'" class="row"><div class="col-sm-12"><div class="form-group col-sm-2"><label class="control-label">'+(i+1)+'</label></div><div class="form-group col-sm-2"><label for="ancho'+i+'" class="control-label">Ancho:</label><div><input class="form-control" name="ancho'+i+'" type="text" id="ancho'+i+'" onfocusout="cambiar_color('+i+')" data-toggle="tooltip" data-placement="bottom" title="Ancho maximo: "></div></div><div class="form-group col-sm-2"><label for="alto'+i+'" class="control-label">Alto:</label><div><input class="form-control" name="alto'+i+'" type="text" id="alto'+i+'" onkeypress="calcular('+i+')" onchange="calcular('+i+')" onfocusout="cambiar_color('+i+')"></div></div><div class="form-group col-sm-2"><label for="sistema'+i+'" class="control-label">Sistema:</label><div class=""><select class="form-control" name="sistema'+i+'" id="sistema'+i+'" onchange="sistema('+i+')" onfocusout="cambiar_color('+i+')"><option value="manual">Manual</option><option value="motorizada">Motorizada</option></select></div></div><div class="form-group col-sm-2" id="dtipom'+i+'"><label for="tipom'+i+'" class="control-label">Tipo Motor:</label><div class=""><select class="form-control" name="tipo_motor'+i+'" id="tipom'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="fuci">Fuci</option><option value="somfy">Somfy</option></select></div></div><div class="form-group col-sm-2" id="dmmotor'+i+'"><label for="mmotor'+i+'" class="control-label">Modelo Motor:</label><div class=""><select class="form-control" name="motor'+i+'" id="mmotor'+i+'" onfocusout="cambiar_color('+i+')" onchange="cambiar_motor('+i+')"><option value=" ">---</option><option value="1 lienzo">1 lienzo</option><option value="2 lienzos">2 lienzos</option><option value="3 lienzos">3 lienzos</option></select></div></div><div class="form-group col-sm-2" id="dlmotor'+i+'"><label for="lmotor'+i+'" class="control-label">Lado Motor:</label><div class=""><select class="form-control" name="lado_motor'+i+'" id="lmotor'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="izquierdo">Izquierdo</option><option value="derecho">Derecho</option></select></div></div><div class="form-group col-sm-2" id="dlado'+i+'"><label for="lado'+i+'" class="control-label">Lado control:</label><select class="form-control" name="control_p'+i+'" id="lado'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="izquierdo">Izquierdo</option><option value="derecho">Derecho</option></select></div><div class="form-group col-sm-2" id="dacont'+i+'"><label for="acont'+i+'" class="control-label">Altura control:</label><div><input class="form-control" name="altura_control'+i+'" type="text" id="acont'+i+'" onfocusout="cambiar_color('+i+')"></div></div><div class="form-group col-sm-2"><label for="fijar'+i+'" class="control-label">Fijar a:</label><div><select class="form-control" name="soporte_u'+i+'" id="fijar'+i+'" onfocusout="cambiar_color('+i+')"><option value="techo">Techo</option><option value="muro">Muro</option></select></div></div><div class="form-group col-sm-2"><label for="marco'+i+'" class="control-label">Marco:</label><div><select class="form-control" name="soporte_m'+i+'" id="marco'+i+'" onfocusout="cambiar_color('+i+')"><option value="dentro">DM</option><option value="fuera">FM</option></select></div></div><div id="sopor'+i+'" class="form-group col-sm-2"><label for="soporte'+i+'" class="control-label">Soporte:</label><div><select class="form-control" name="soporte'+i+'" id="soporte'+i+'" onchange="manuales('+i+')" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="1">Independiente</option><option value="2">Con Soporte</option></select></div></div><div id="poscic'+i+'" class="form-group col-sm-2"><label for="pos'+i+'" class="control-label">Posicion:</label><div><select class="form-control" name="soporte_p'+i+'" id="pos'+i+'" onfocusout="cambiar_color('+i+')"><option value=" ">---</option><option value="intermedio">Intermedio</option><option value="normal">Normal</option></select></div></div><div id="vincu'+i+'" class="form-group col-sm-2"><label for="vinculado'+i+'" class="control-label">Vinculado:</label><div><select class="form-control" name="vinculado'+i+'" id="vinculado'+i+'" onchange="checa_vin('+i+')" onfocusout="cambiar_color('+i+')"></select></div></div><div id="chequear'+i+'" class="col-sm-2 center-block" style="font-size:50px; color:black;"><i id="boton_er'+i+'" class="glyph-icon icon-check-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" ></i></div><div class="hidden"><p id="usado'+i+'"></p></div></div></div>');
 }
 
 function cuantas()

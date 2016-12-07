@@ -125,6 +125,10 @@ class pedidoController extends InfyOmBaseController
         {
             $request->fecha_entrega = NULL;
         }
+        if($request->fecha_pedido == NULL || $request->fecha_pedido == '' || $request->fecha_pedido == '-0001-11-30 00:00:00' || $request->fecha_pedido == '0000-00-00')
+        {
+            $request->fecha_pedido = NULL;
+        }
         if($request->fecha_produccion == NULL || $request->fecha_produccion == '' || $request->fecha_produccion == '-0001-11-30 00:00:00' || $request->fecha_produccion == '0000-00-00')
         {
           $request->fecha_produccion = NULL;
@@ -223,6 +227,10 @@ class pedidoController extends InfyOmBaseController
 
             return redirect(route('pedidos.index'));
         }
+        if($pedido->fecha_pedido == NULL || $pedido->fecha_pedido == '' || $pedido->fecha_pedido == '-0001-11-30 00:00:00' || $pedido->fecha_pedido == '0000-00-00')
+        {
+            $pedido->fecha_pedido = NULL;
+        }
         if($pedido->fecha_produccion == '0000-00-00')
           $pedido->fecha_produccion=null;
         $pedido->cliente;
@@ -314,6 +322,23 @@ class pedidoController extends InfyOmBaseController
         return redirect(route('pedidos.index'));
     }
 
+    public function monto($id)
+    {
+      $porciones = explode(",", $id);
+      $pedido = $this->pedidoRepository->findWithoutFail($porciones[0]);
+
+      if (empty($pedido))
+      {
+          Flash::error('pedido not found');
+
+          return null;
+      }
+      $pedido->monto=$pedido->monto+$porciones[1];
+      $pedido->checado=$porciones[2];;
+      $pedido->save();
+      return $pedido->monto;
+    }
+
     public function cotiza($id)
     {
       $pedido = $this->pedidoRepository->findWithoutFail($id);
@@ -351,7 +376,8 @@ class pedidoController extends InfyOmBaseController
         }
         $i++;
       }
-      return view('pedidos.cotiza',['pedido'=>$pedido,'persianas'=>$persianas,'precios'=> implode(',',$precios)]);
+      $usuario = \App\User::find($pedido->checado);
+      return view('pedidos.cotiza',['pedido'=>$pedido,'responsable'=>$usuario,'persianas'=>$persianas,'precios'=> implode(',',$precios)]);
     }
 
     public function agregar($id, Request $request)
@@ -371,7 +397,10 @@ class pedidoController extends InfyOmBaseController
           return redirect(route('pedidos.index'));
       }
 
-
+      if($pedido->fecha_pedido == NULL || $pedido->fecha_pedido == '' || $pedido->fecha_pedido == '-0001-11-30 00:00:00' || $pedido->fecha_pedido == '0000-00-00')
+      {
+          $pedido->fecha_pedido = NULL;
+      }
       if($pedido->fecha_produccion == '0000-00-00')
         $pedido->fecha_produccion=null;
       $pedido->cliente;

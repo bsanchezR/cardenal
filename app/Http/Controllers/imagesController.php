@@ -26,52 +26,76 @@ class imagesController extends InfyOmBaseController
         $pedido=\App\pedido::find($request->pedido_id);
         $pedido->persianas;
         $pedido->total=$request->total;
-        $total=[];
-        $cantidad=[];
-        $flag=false;
-        foreach ($pedido->persianas as $key )
+        $pedido->checado=$request->user_id;
+        $pedido->tipo_pago=$request->tipo_pago;
+        if($request->instalacion != null)
         {
-          if($key->motor == null)
-          {
-              $bandera = app ('App\Http\Controllers\comprasController')->stock( $key->tipo, null);
-          }
-          else
-          {
-              $bandera = app ('App\Http\Controllers\comprasController')->stock( $key->tipo, 1);
-          }
-          for($j=0;$j<count($bandera);$j++)
-          {
-            $clave = array_search($bandera[$j] , $total);
-            if($clave !== false )
-            {
-              $cantidad[$clave]++;
-            }
-            else
-            {
-              $total[]=$bandera[$j];
-              $cantidad[]=1;
-            }
-          }
+          $pedido->instalacion=1;
         }
-        for($i=0;$i<count($total);$i++)
+        if($request->monto != null)
         {
-          $ban = app ('App\Http\Controllers\almacenController')->faltan($total[$i],$cantidad[$i]);
-          if($ban != null)
-          {
-            $flag=true;
-            break;
-          }
+          $pedido->monto=$request->monto;
         }
-        if(!$flag)
+        if($request->fecha_instalacion != null)
         {
-            $pedido->estado="produccion";
+          $pedido->fecha_instalacion=$request->fecha_instalacion;
         }
-        else
-        {
-            $pedido->estado="compra";
-        }
+        $pedido->fecha_entrega=$request->fecha_entrega;
+        $pedido->fecha_pedido=$request->fecha_pedido;
+        // $total=[];
+        // $cantidad=[];
+        // $flag=false;
+        // foreach ($pedido->persianas as $key )
+        // {
+        //   if($key->motor == null)
+        //   {
+        //       $bandera = app ('App\Http\Controllers\comprasController')->stock( $key->tipo, null);
+        //   }
+        //   else
+        //   {
+        //       $bandera = app ('App\Http\Controllers\comprasController')->stock( $key->tipo, 1);
+        //   }
+        //   for($j=0;$j<count($bandera);$j++)
+        //   {
+        //     $clave = array_search($bandera[$j] , $total);
+        //     if($clave !== false )
+        //     {
+        //       $cantidad[$clave]++;
+        //     }
+        //     else
+        //     {
+        //       $total[]=$bandera[$j];
+        //       $cantidad[]=1;
+        //     }
+        //   }
+        // }
+        // for($i=0;$i<count($total);$i++)
+        // {
+        //   $ban = app ('App\Http\Controllers\almacenController')->faltan($total[$i],$cantidad[$i]);
+        //   if($ban != null)
+        //   {
+        //     $flag=true;
+        //     break;
+        //   }
+        // }
+        // if(!$flag)
+        // {
+        //     $pedido->estado="produccion";
+        // }
+        // else
+        // {
+        //     $pedido->estado="compra";
+        // }
+        $pedido->estado="produccion";
         $pedido->save();
-        return redirect()->route('pedidos.index');
+
+        // $nuevo = new Request;
+        // $nuevo['email']=$pedido->cliente->email;
+        // $nuevo['name']=$pedido->cliente->nombre;
+        // $nuevo['subject']='Cotizacion';
+        // $nuevo['id']=$pedido->id;
+        return redirect()->route('send',[$pedido->id]);
+        // return redirect()->route('pedidos.index');
     }
 
     public function show($id)

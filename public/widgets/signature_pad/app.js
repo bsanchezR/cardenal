@@ -13,7 +13,7 @@ $(document).ready(function(){
       // When zoomed out to less than 100%, for some very strange reason,
       // some browsers report devicePixelRatio as less than 1
       // and only part of the canvas is cleared then.
-      var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+      var ratio =  Math.max(1, 1);
       // canvas.width = canvas.offsetWidth * ratio;
       // canvas.height = canvas.offsetHeight * ratio;
       canvas.width = 550;

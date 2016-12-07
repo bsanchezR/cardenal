@@ -26,7 +26,9 @@
 }
 
 .logo-content-small {
-    width: 35px
+    /*width: 35px*/
+    width: 94px;
+    margin-left: -47px !important;
 }
 
 #header-logo .logo-content-small {

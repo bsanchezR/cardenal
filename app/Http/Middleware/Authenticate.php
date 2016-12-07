@@ -30,7 +30,7 @@ class Authenticate
         {
           if(strpos($request->route()->getName(),'pedidos') !== false  || strpos($request->route()->getName(),'citas') !== false || strpos($request->route()->getName(),'imagen') !== false)
           {
-            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'vendedor' )
+            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'admin' || $request->user()->tipo_usuario == 'vendedor' )
             {
               return $next($request);
             }
@@ -39,9 +39,9 @@ class Authenticate
               return redirect('/');
             }
           }
-          if(strpos($request->route()->getName(),'user') !== false || strpos($request->route()->getName(),'cliente') !== false || strpos($request->route()->getName(),'cupons') !== false || strpos($request->route()->getName(),'general') !== false)
+          if(strpos($request->route()->getName(),'user') !== false || strpos($request->route()->getName(),'cliente') !== false || strpos($request->route()->getName(),'cupons') !== false || strpos($request->route()->getName(),'general') !== false || strpos($request->route()->getName(),'tienda') !== false )
           {
-            if($request->user()->tipo_usuario == 'administrador')
+            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'admin')
             {
               return $next($request);
             }
@@ -52,7 +52,7 @@ class Authenticate
           }
           if(strpos($request->route()->getName(),'colors') !== false || strpos($request->route()->getName(),'marcas') !== false || strpos($request->route()->getName(),'modelos') !== false || strpos($request->route()->getName(),'almacens') !== false || strpos($request->route()->getName(),'compras') !== false)
           {
-            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'comprador' )
+            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'comprador' || $request->user()->tipo_usuario == 'admin')
             {
               return $next($request);
             }
@@ -63,7 +63,7 @@ class Authenticate
           }
           if(strpos($request->route()->getName(),'produccion') !== false)
           {
-            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'productor' )
+            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'productor' || $request->user()->tipo_usuario == 'admin')
             {
               return $next($request);
             }
@@ -74,7 +74,7 @@ class Authenticate
           }
           if(strpos($request->route()->getName(),'instalacion') !== false)
           {
-            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'instalador' )
+            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'instalador' || $request->user()->tipo_usuario == 'admin')
             {
               return $next($request);
             }

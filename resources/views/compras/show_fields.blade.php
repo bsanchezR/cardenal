@@ -41,7 +41,11 @@
     <address class="invoice-address" id="lista_a">
       @if($precios != -1)
         @for ($i = 0; $i < $cuantos; $i++)
-          - {{ $lista[$i]->nombre }} (x{{ $piezas[$i] }})<br>
+          @if($lista[$i]->categoria == 'Tela')
+            - {{ $lista[$i]->nombre }} {{ $lista[$i]->ancho }} mts (x{{ $piezas[$i] }})<br>
+          @else
+            - {{ $lista[$i]->nombre }} (x{{ $piezas[$i] }})<br>
+          @endif
         @endfor
       @else
         Material listo para la producción<br>

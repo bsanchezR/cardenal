@@ -75,6 +75,8 @@ class comprasController extends InfyOmBaseController
         $cantidad=[];
         $final=[];
         $piezas=[];
+        $telas=[];
+        $metros=[];
         foreach ($pedido->persianas as $key )
         {
           if($key->motor == null)
@@ -84,6 +86,26 @@ class comprasController extends InfyOmBaseController
           else
           {
               $bandera = $this->stock($key->tipo, 1);
+          }
+          $nombre_s=$key->modelo->nombre.','.$key->modelo->color.','.$key->modelo->marca->nombre;
+          $anchos=app ('App\Http\Controllers\almacenController')->anchos($nombre_s);
+          for($i=0;$i<count($anchos);$i++)
+          {
+            if($key->ancho <= $anchos[$i])
+            {
+              $nombre_s = $nombre_s.','.$anchos[$i];
+              break;
+            }
+          }
+          $clav = array_search($nombre_s , $telas);
+          if($clav !== false )
+          {
+            $metros[$clav]= $metros[$clav]+$key->alto;
+          }
+          else
+          {
+            $telas[]=$nombre_s;
+            $metros[]=$key->alto;
           }
           for($j=0;$j<count($bandera);$j++)
           {
@@ -108,7 +130,16 @@ class comprasController extends InfyOmBaseController
             $piezas[]=$cantidad[$i] - $ban->stock;
           }
         }
-        //dd($total,$cantidad,$final,$piezas,$final == null);
+        for($i=0;$i<count($telas);$i++)
+        {
+          $ban = app ('App\Http\Controllers\almacenController')->faltan_telas($telas[$i] , $metros[$i]);
+          if($ban != null)
+          {
+              $final[]=$ban;
+              $piezas[]=$metros[$i];
+          }
+        }
+        dd($total,$cantidad,$final,$piezas,$final == null,$telas,$metros);
 
         return view('compras.show',['pedido' => $pedido, 'persianas' => $pedido->persianas, 'lista' => $final, 'piezas' => $piezas, 'cuantos' => count($final)]);
     }
