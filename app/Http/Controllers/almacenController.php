@@ -1069,12 +1069,64 @@ class almacenController extends InfyOmBaseController
     public function faltan($nombre,$numero)
     {
       $material = \App\Models\almacen::where('nombre','=', $nombre)->get()->first();
-      if($material->stock < $numero)
+      if($material != null)
+        if($material->stock < $numero)
+        {
+          $resultado= $numero - $material->stock;
+          return $material;
+        }
+      return null;
+    }
+
+    public function anchos($tela)
+    {
+      $datos=[];
+      $piezas = explode(",",$tela);
+      $material = \App\Models\almacen::where([['nombre','=', $piezas[0]],['color','=',$piezas[1]],['marca','=',$piezas[2]]])->orderBy('ancho','asc')->get();
+      if($material != null)
       {
-        $resultado= $numero - $material->stock;
-        return $material;
+        foreach ($material as $key)
+        {
+          $datos[]=$key->ancho;
+        }
+      }
+      return $datos;
+    }
+
+    public function faltan_telas($nombre,$numero)
+    {
+      $piezas = explode(",",$nombre);
+      $material = \App\Models\almacen::where([['nombre','=', $piezas[0]],['color','=',$piezas[1]],['marca','=',$piezas[2]],['ancho','=',$piezas[3]]])->orderBy('ancho','asc')->get()->first();
+      if($material != null)
+      {
+        if($material->stock > 0)
+        {
+          if($material->largo < $numero)
+          {
+              return $material;
+          }
+        }
+        else
+        {
+          return $material;
+        }
+        // if($material->stock < $numero)
+        // {
+        //   return $material;
+        // }
       }
       return null;
+
+      // $material = \App\Models\almacen::where([['nombre','=', $piezas[0]],['color','=',$piezas[1]],['marca','=',$piezas[2]]])->get()->first();
+      // if($material != null)
+      // {
+      //   if($material->stock < $numero)
+      //   {
+      //     $resultado= $numero - $material->stock;
+      //     return $material;
+      //   }
+      // }
+      // return null;
     }
 
     public function restar($nombre,$numero)

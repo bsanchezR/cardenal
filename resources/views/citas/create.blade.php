@@ -11,7 +11,7 @@
     @include('core-templates::common.errors')
 
     <div class="row">
-        {!! Form::open(['route' => 'citas.store']) !!}
+        {!! Form::open(['route' => 'citas.store','id' => 'forms_p']) !!}
 
             @include('citas.fields')
 

@@ -82,4 +82,8 @@ class tienda extends Model
 	    return $this->hasMany('App\pedido');
     }
 
+    public function citas()
+    {
+	    return $this->hasMany('App\Models\cita');
+    }
 }

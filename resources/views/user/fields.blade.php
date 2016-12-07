@@ -8,7 +8,7 @@
 <div class="form-group">
   {!! Form::label('tipo_usuario', 'Tipo de Usuario:', ['class' => 'control-label col-sm-3']) !!}
   <div class="col-sm-6">
-  {{ Form::select('tipo_usuario', ['vendedor' => 'Vendedor','comprador' => 'Comprador','administrador' => 'Administrador','productor' => 'Productor','instalador' => 'Instalador'], null, ['class' => 'form-control']) }}
+  {{ Form::select('tipo_usuario', ['vendedor' => 'Vendedor','comprador' => 'Comprador','administrador' => 'Administrador','admin' => 'Administrador (Sin privilegios)','productor' => 'Productor','instalador' => 'Instalador'], null, ['class' => 'form-control']) }}
   </div>
 </div>
 

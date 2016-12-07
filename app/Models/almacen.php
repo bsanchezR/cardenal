@@ -105,7 +105,7 @@ class almacen extends Model
         'color',
         'diametro',
         'largo',
-        'alto',
+        'ancho',
         'stock'
     ];
 
@@ -124,7 +124,7 @@ class almacen extends Model
         'color' => 'string',
         'diametro' => 'string',
         'largo' => 'string',
-        'alto' => 'string',
+        'ancho' => 'string',
         'stock' => 'integer'
     ];
 
@@ -143,7 +143,7 @@ class almacen extends Model
         'color' => 'required|max:30',
         'diametro' => 'max:30',
         'largo' => 'max:30',
-        'alto' => 'max:30',
+        'ancho' => 'max:30',
         'stock' => 'required'
     ];
 }

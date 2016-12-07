@@ -1,11 +1,24 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('widgets/c3.css') }}">
   <script type="text/javascript" src="{{ asset('widgets/accordion-ui/accordion.js') }}"></script>
   <div id="chart" class="c3" style="max-height: 280px; position: relative;"></div>
+  <div class="row">
+    <div class="col-xs-6">
+        <div id="chart1" class="c3" style="max-height: 280px; position: relative;"></div>
+    </div>
+    <div class="col-xs-6">
+      <div id="chart2" class="c3" style="max-height: 280px; position: relative;"></div>
+    </div>
+  </div>
 <?php
   $fila=[];
   $columna=[];
   $i=0;
   $j=0;
+  $tie=0;
+  $total_mes=[];
+  $total_tres=[];
+  $mes_actual=[];
+  $tres_meses=[];
 ?>
 
 @foreach($tienda as $actual)
@@ -18,7 +31,32 @@
     $fila=[];
     $fila[$j]=$actual->nombre;
     $j++;
+    $mes_actual[0]=$actual->nombre;
+    $tres_meses[0]=$actual->nombre;
+    $mes_actual[1]=0;
+    $tres_meses[1]=0;
   ?>
+
+  @foreach($meses as $uno)
+      @if($uno->tienda_id == $actual->id)
+        <?php $tres_meses[1]=$tres_meses[1]+$uno->total ?>
+      @endif
+  @endforeach
+
+  <?php
+    $total_tres[]= $tres_meses[0].'@'.$tres_meses[1];
+  ?>
+
+  @foreach($mes as $uno)
+      @if($uno->tienda_id == $actual->id)
+        <?php $mes_actual[1]=$mes_actual[1]+$uno->total ?>
+      @endif
+  @endforeach
+
+  <?php
+    $total_mes[]= $mes_actual[0].'@'.$mes_actual[1];
+  ?>
+
 
   <div class="panel-group" id="accordion">
     <div class="panel">
@@ -80,10 +118,15 @@
   //console.log(<?php echo json_encode($columna); ?>);
 
   var datos= <?php echo json_encode($columna); ?>;
-  console.log(datos.length,datos[0].length);
+  var mes= <?php echo json_encode($total_mes); ?>;
+  var tres= <?php echo json_encode($total_tres); ?>;
+  console.log(mes,tres);
+  //console.log(datos.length,datos[0].length);
   var titulos=[];
   var numeros=[];
   var final=[];
+  var actual=[];
+  var meses=[];
   for(var i=0;i<datos.length;i++)
   {
     var fila=[];
@@ -93,7 +136,7 @@
       if(j == 0)
       {
         titulos.push(datos[i][j]);
-        fila.push(datos[i][j]); 14345
+        fila.push(datos[i][j]);
       }
       else
       {
@@ -103,7 +146,13 @@
     fila.push(numeros[i]);
     final.push(fila);
   }
-  console.log(titulos,numeros,final);
+  for(var i=0;i<mes.length;i++)
+  {
+    actual.push(mes[i].split("@"));
+    meses.push(tres[i].split("@"));
+  }
+  console.log(actual,meses);
+  // console.log(titulos,numeros,final);
 
   $(document).ready(function()
   {
@@ -134,6 +183,48 @@
   setTimeout(function () {
       chart.load({
           columns: final
+      });
+  }, 1500);
+
+
+  var chart1 = c3.generate({
+      bindto: '#chart1',
+      data: {
+          columns: actual,
+          type : 'donut',
+          onclick: function (d, i) { /*console.log("onclick", d, i);*/ },
+          onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
+          onmouseout: function (d, i) { /*console.log("onmouseout", d, i);*/ }
+      },
+      donut: {
+          title: "Ultimo mes"
+      }
+  });
+
+  setTimeout(function () {
+      chart1.load({
+          columns: actual
+      });
+  }, 1500);
+
+
+  var chart2 = c3.generate({
+      bindto: '#chart2',
+      data: {
+          columns: meses,
+          type : 'donut',
+          onclick: function (d, i) { /*console.log("onclick", d, i);*/ },
+          onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
+          onmouseout: function (d, i) { /*console.log("onmouseout", d, i);*/ }
+      },
+      donut: {
+          title: "Ultimos tres meses"
+      }
+  });
+
+  setTimeout(function () {
+      chart2.load({
+          columns: meses
       });
   }, 1500);
 
