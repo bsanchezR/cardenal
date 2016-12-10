@@ -165,6 +165,8 @@
 
 </head>
 @if (!Auth::guest())
+
+
 <body>
     <div id="sb-site">
         <div id="loading">
@@ -180,17 +182,24 @@
                   <a href="index.html" class="logo-content-big" title="DelightUI">Ramave <i>Persianas</i> <span>Dando sombra a tu vida.</span></a> <a href="index.html" class="logo-content-small" title="Ramave">Ramave <i>Persianas</i> <span>Dando sombra a tu vida</span></a> <a id="close-sidebar"  title="Close sidebar"><i class="glyph-icon icon-outdent"></i></a></div>
                 <div class="scroll-sidebar">
                     <ul id="sidebar-menu">
-                        <li class="header"><span>Administrador</span></li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Pedidos</span></a>
+                      <li class="header"><span>{{ strtoupper(Auth::user()->tipo_usuario) }}</span></li>
+                        @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'admin')
+                        <li><a href="javascript:void(0);" title="Ventas"><i class="glyph-icon icon-linecons-pencil"></i> <span>Ventas</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="{!! route('pedidos.index') !!}" title="Buttons"><span>Listado de Pedidos</span></a></li>
-                                    <li><a href="{!! route('pedidos.create') !!}" title="Labels &amp; Badges"><span>Nuevo Pedido</span></a></li>
-
+                                    <li><a href="{!! route('general.index') !!}" title="Labels &amp; Badges"><span>Listado de Ventas</span></a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Usuarios</span></a>
+                        <li><a href="javascript:void(0);" title="Tiendas"><i class="glyph-icon icon-linecons-location"></i> <span>Tiendas</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('tienda.index') !!}" title="Labels &amp; Badges"><span>Listado de Tiendas</span></a></li>
+                                    <li><a href="{!! route('tienda.create') !!}" title="Buttons"><span>Nueva Tienda</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-user"></i> <span>Usuarios</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="{!! route('user.index') !!}" title="Labels &amp; Badges"><span>Listado de Usuarios</span></a></li>
@@ -198,7 +207,15 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Clientes</span></a>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-calendar"></i> <span>Citas</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('citas.index') !!}" title="Labels &amp; Badges"><span>Calendario</span></a></li>
+                                    <li><a href="{!! route('citas.create') !!}" title="Buttons"><span>Nueva cita</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-wallet"></i> <span>Clientes</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="{!! route('cliente.index') !!}" title="Labels &amp; Badges"><span>Listado de Clientes</span></a></li>
@@ -206,6 +223,27 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-money"></i> <span>Cupones</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('cupons.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
+                                    <li><a href="{!! route('cupons.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        @endif
+                        @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'admin' || Auth::user()->tipo_usuario === 'vendedor')
+                          <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-params"></i> <span>Pedidos</span></a>
+                              <div class="sidebar-submenu">
+                                  <ul>
+                                      <li><a href="{!! route('pedidos.index') !!}" title="Buttons"><span>Listado de Pedidos</span></a></li>
+                                      <li><a href="{!! route('pedidos.create') !!}" title="Labels &amp; Badges"><span>Nuevo Pedido</span></a></li>
+
+                                  </ul>
+                              </div>
+                          </li>
+                          @endif
+                        @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'admin' || Auth::user()->tipo_usuario === 'comprador')
                         <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Colores</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -230,7 +268,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Almacén</span></a>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-database"></i> <span>Almacén</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="{!! route('almacens.index') !!}" title="Labels &amp; Badges"><span>Listado de Almacén</span></a></li>
@@ -238,22 +276,32 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Cupones</span></a>
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-attach"></i> <span>Compras</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="{!! route('cupons.index') !!}" title="Labels &amp; Badges"><span>Listado de Cupones</span></a></li>
-                                    <li><a href="{!! route('cupons.create') !!}" title="Buttons"><span>Nuevo Cupón</span></a></li>
+                                    <li><a href="{!! route('compras.index') !!}" title="Labels &amp; Badges"><span>Listado de Compras</span></a></li>
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-diamond"></i> <span>Citas</span></a>
+                        @endif
+                        @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'admin' || Auth::user()->tipo_usuario === 'productor')
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-lightbulb"></i> <span>Produccion</span></a>
                             <div class="sidebar-submenu">
                                 <ul>
-                                    <li><a href="{!! route('citas.index') !!}" title="Labels &amp; Badges"><span>Calendario</span></a></li>
-                                    <li><a href="{!! route('citas.create') !!}" title="Buttons"><span>Nueva cita</span></a></li>
+                                    <li><a href="{!! route('produccion.index') !!}" title="Labels &amp; Badges"><span>Listado de Produccion</span></a></li>
                                 </ul>
                             </div>
                         </li>
+                        @endif
+                        @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'admin' || Auth::user()->tipo_usuario === 'instalador')
+                        <li><a href="javascript:void(0);" title="Administración"><i class="glyph-icon icon-linecons-lock"></i> <span>Instalacion</span></a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li><a href="{!! route('instalacion.index') !!}" title="Labels &amp; Badges"><span>Listado de Instalacion</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -277,7 +325,7 @@
                             </div>
                         </div>
                         <div id="header-nav-right">
-                          <a  class="hdr-btn popover-button" title="Buscar" data-placement="bottom" data-id="#popover-search"><i class="glyph-icon icon-search"></i></a>
+                          <!-- <a  class="hdr-btn popover-button" title="Buscar" data-placement="bottom" data-id="#popover-search"><i class="glyph-icon icon-search"></i></a> -->
                             <div class="hide" id="popover-search">
                                 <div class="pad5A box-md">
                                     <div class="input-group">
@@ -404,22 +452,6 @@
     <script type="text/javascript" src="{{ asset('widgets/chosen/chosen.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/chosen/chosen-demo.js') }}"></script>
     <script type="text/javascript" src="{{ asset('widgets/parsley/parsley.js') }}"></script>
-
-
-
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
->>>>>>> master
-
-
-
 
 </body>
 @else

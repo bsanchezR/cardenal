@@ -27,6 +27,7 @@ Route::resource('pedidos', 'pedidoController');
 Route::resource('compras', 'comprasController', ['except' => ['store', 'create']]);
 Route::resource('instalacion', 'instaController', ['except' => ['store', 'create']]);
 Route::resource('produccion', 'prodController', ['except' => ['store', 'create']]);
+Route::resource('general', 'generalController', ['except' => ['store', 'create']]);
 Route::resource('modelos', 'modeloController');
 Route::resource('colors', 'colorController');
 Route::resource('persianas', 'persianaController');
@@ -45,7 +46,7 @@ Route::get('marc/{id}', ['as' => 'marcas.pedidos', 'uses' => 'pedidoController@g
 
 Route::get('get_id/{id}', ['as' => 'get.pedidos', 'uses' => 'pedidoController@get_id']);
 
-Route::get('login', 'Auth\AuthController@getLogin');
+Route::get('login',  ['as' => 'login','uses' =>'Auth\AuthController@getLogin']);
 Route::post('login', 'Auth\AuthController@postLogin');
 Route::get('logout', 'Auth\AuthController@logout');
 
@@ -69,17 +70,22 @@ Route::get('asignar', ['uses' => 'citaController@asignar', 'as' => 'asignar']);
 
 Route::resource('cupons', 'cuponController');
 
-
 Route::get('usar/{id}', ['uses' => 'cuponController@usar', 'as' => 'usar']);
 
 Route::get('vendedoresSinCita/{id}', ['uses' => 'citaController@vendedoresSinCita', 'as' => 'vendedoresSinCita']);
 
+Route::get('monto_pedidos/{id}', ['uses' => 'pedidoController@monto', 'as' => 'monto.pedidos']);
+
 Route::get('asignarCita/{id}', ['uses' => 'citaController@asignarCita', 'as' => 'asignarCita']);
 
-Route::get('vendedorCita/{id}', ['uses' => 'citaController@vendedorCita', 'as' => 'vendedorCita']);
+Route::get('hechoCita/{id}', ['uses' => 'citaController@hecho', 'as' => 'hechoCita']);
+
+Route::get('errorCita/{id}', ['uses' => 'citaController@error', 'as' => 'errorCita']);
+
+Route::get('vendedorCitas/{id}', ['uses' => 'citaController@vendedorCitas', 'as' => 'vendedorCitas']);
 
 
+Route::get('send/{id}', ['as' => 'send', 'uses' => 'MailController@send'] );
+Route::get('contact', ['as' => 'contact', 'uses' => 'MailController@index'] );
 
-
-
-///chale+
+Route::resource('mermas', 'mermaController');

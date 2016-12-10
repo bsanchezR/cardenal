@@ -115,7 +115,7 @@ class pedidoController extends InfyOmBaseController
      */
     public function store(CreatepedidoRequest $request)
     {
-      //dd($request,$request->{'soporte_p'.'0'});
+      //dd($request,isset($request->{'vinculado1'}));
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();
@@ -124,6 +124,10 @@ class pedidoController extends InfyOmBaseController
         if($request->fecha_entrega == NULL || $request->fecha_entrega == '' || $request->fecha_entrega == '-0001-11-30 00:00:00' || $request->fecha_entrega == '0000-00-00')
         {
             $request->fecha_entrega = NULL;
+        }
+        if($request->fecha_pedido == NULL || $request->fecha_pedido == '' || $request->fecha_pedido == '-0001-11-30 00:00:00' || $request->fecha_pedido == '0000-00-00')
+        {
+            $request->fecha_pedido = NULL;
         }
         if($request->fecha_produccion == NULL || $request->fecha_produccion == '' || $request->fecha_produccion == '-0001-11-30 00:00:00' || $request->fecha_produccion == '0000-00-00')
         {
@@ -162,23 +166,27 @@ class pedidoController extends InfyOmBaseController
           }
           for($i=0;$i<$request->numero;$i++)
           {
-            if(!empty($request->{'vinculado'.$i}))
+            if(isset($request->{'vinculado'.$i}))
             {
-                $numeros= explode(',', $request->{'vinculado'.$i});
-                $cadena_vinculacion='';
-                for($j=0;$j<count($numeros);$j++)
-                {
-                  if($j == count($numeros)-1)
+              if($request->{'vinculado'.$i} !== false && $request->{'vinculado'.$i} != '' && $request->{ 'vinculado'.$i } != ' ')
+              //if(!empty($request->{'vinculado'.$i}))
+              {
+                  $numeros= explode(',', $request->{'vinculado'.$i});
+                  $cadena_vinculacion='';
+                  for($j=0;$j<count($numeros);$j++)
                   {
-                      $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                    if($j == count($numeros)-1)
+                    {
+                        $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                    }
+                    else
+                    {
+                        $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
+                    }
                   }
-                  else
-                  {
-                      $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
-                  }
-                }
-                $persianas[$i]->vinculacion=$cadena_vinculacion;
-                $persianas[$i]->save();
+                  $persianas[$i]->vinculacion=$cadena_vinculacion;
+                  $persianas[$i]->save();
+              }
             }
           }
 
@@ -218,6 +226,10 @@ class pedidoController extends InfyOmBaseController
             Flash::error('pedido not found');
 
             return redirect(route('pedidos.index'));
+        }
+        if($pedido->fecha_pedido == NULL || $pedido->fecha_pedido == '' || $pedido->fecha_pedido == '-0001-11-30 00:00:00' || $pedido->fecha_pedido == '0000-00-00')
+        {
+            $pedido->fecha_pedido = NULL;
         }
         if($pedido->fecha_produccion == '0000-00-00')
           $pedido->fecha_produccion=null;
@@ -310,6 +322,23 @@ class pedidoController extends InfyOmBaseController
         return redirect(route('pedidos.index'));
     }
 
+    public function monto($id)
+    {
+      $porciones = explode(",", $id);
+      $pedido = $this->pedidoRepository->findWithoutFail($porciones[0]);
+
+      if (empty($pedido))
+      {
+          Flash::error('pedido not found');
+
+          return null;
+      }
+      $pedido->monto=$pedido->monto+$porciones[1];
+      $pedido->checado=$porciones[2];;
+      $pedido->save();
+      return $pedido->monto;
+    }
+
     public function cotiza($id)
     {
       $pedido = $this->pedidoRepository->findWithoutFail($id);
@@ -320,19 +349,41 @@ class pedidoController extends InfyOmBaseController
 
           return redirect(route('pedidos.index'));
       }
+      $precios=[];
       $persianas =$pedido->persianas;
       $pedido->images;
       $pedido->cupons;
+      $i=0;
       foreach ($persianas as $key )
       {
         $key->modelo;
         $key->color;
+        if($key->motor == null)
+        {
+            $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,null);
+        }
+        if($key->motor == '1 lienzo')
+        {
+            $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,1);
+        }
+        if($key->motor == '2 lienzos')
+        {
+            $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,2);
+        }
+        if($key->motor == '3 lienzos')
+        {
+            $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,3);
+        }
+        $i++;
       }
-      return view('pedidos.cotiza',['pedido'=>$pedido,'persianas'=>$persianas]);
+      $usuario = \App\User::find($pedido->checado);
+      return view('pedidos.cotiza',['pedido'=>$pedido,'responsable'=>$usuario,'persianas'=>$persianas,'precios'=> implode(',',$precios)]);
     }
 
     public function agregar($id, Request $request)
     {
+      // dd($request);
+
       $usuarios = \App\User::all();
       $clientes = \App\Cliente::all();
       $marcas = \App\marca::all();
@@ -346,7 +397,10 @@ class pedidoController extends InfyOmBaseController
           return redirect(route('pedidos.index'));
       }
 
-
+      if($pedido->fecha_pedido == NULL || $pedido->fecha_pedido == '' || $pedido->fecha_pedido == '-0001-11-30 00:00:00' || $pedido->fecha_pedido == '0000-00-00')
+      {
+          $pedido->fecha_pedido = NULL;
+      }
       if($pedido->fecha_produccion == '0000-00-00')
         $pedido->fecha_produccion=null;
       $pedido->cliente;
@@ -383,23 +437,26 @@ class pedidoController extends InfyOmBaseController
       }
       for($i=0;$i<$request->numero;$i++)
       {
-        if(!empty($request->{'vinculado'.$i}))
+        if(isset($request->{'vinculado'.$i}))
         {
-            $numeros= explode(',', $request->{'vinculado'.$i});
-            $cadena_vinculacion='';
-            for($j=0;$j<count($numeros);$j++)
-            {
-              if($j == count($numeros)-1)
+          if($request->{'vinculado'.$i} !== false && $request->{'vinculado'.$i} != '' && $request->{ 'vinculado'.$i } != ' ')
+          {
+              $numeros= explode(',', $request->{'vinculado'.$i});
+              $cadena_vinculacion='';
+              for($j=0;$j<count($numeros);$j++)
               {
-                  $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                if($j == count($numeros)-1)
+                {
+                    $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id;
+                }
+                else
+                {
+                    $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
+                }
               }
-              else
-              {
-                  $cadena_vinculacion=$cadena_vinculacion.$persianas[$numeros[$j]]->id.',';
-              }
-            }
-            $persianas[$i]->vinculacion=$cadena_vinculacion;
-            $persianas[$i]->save();
+              $persianas[$i]->vinculacion=$cadena_vinculacion;
+              $persianas[$i]->save();
+          }
         }
       }
 

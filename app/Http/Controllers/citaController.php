@@ -19,6 +19,7 @@ class citaController extends InfyOmBaseController
 
     public function __construct(citaRepository $citaRepo)
     {
+        $this->middleware('auth');
         $this->citaRepository = $citaRepo;
     }
 
@@ -32,8 +33,12 @@ class citaController extends InfyOmBaseController
     {
         $this->citaRepository->pushCriteria(new RequestCriteria($request));
         $citas = $this->citaRepository->all();
+        foreach ($citas as $key )
+        {
+          $key->user;
+          $key->cliente;
+        }
         $vendedores =  \App\User::where('tipo_usuario','=','vendedor')->get();
-
         return view('citas.index')
             ->with('citas', $citas)
             ->with('vendedores', $vendedores);
@@ -49,8 +54,9 @@ class citaController extends InfyOmBaseController
     public function create()
     {
         $clientes =  \App\Cliente::all();
+        $tiendas = \App\tienda::all();
 
-        return view('citas.create')->with('clientes', $clientes);
+        return view('citas.create')->with('clientes', $clientes)->with('tiendas', $tiendas);
     }
 
     /**
@@ -63,6 +69,16 @@ class citaController extends InfyOmBaseController
     public function store(CreatecitaRequest $request)
     {
         $input = $request->all();
+        $cliente= new \App\Cliente;
+        $cliente->nombre=$request->nombre;
+        $cliente->apellido_paterno=$request->apellido_paterno;
+        $cliente->apellido_materno=$request->apellido_materno;
+        $cliente->telefono=$request->telefono;
+        $cliente->direccion=$request->direccion;
+        $cliente->email=$request->email;
+        $cliente->tipo='posible';
+        $cliente->save();
+        $input['cliente_id']= $cliente->id;
         $cita = $this->citaRepository->create($input);
 
         Flash::success('cita saved successfully.');
@@ -106,8 +122,8 @@ class citaController extends InfyOmBaseController
 
             return redirect(route('citas.index'));
         }
-
-        return view('citas.edit')->with('cita', $cita);
+        $tiendas = \App\tienda::all();
+        return view('citas.edit')->with('cita', $cita)->with('tiendas', $tiendas);
     }
 
     /**
@@ -166,6 +182,7 @@ class citaController extends InfyOmBaseController
       $cita = \App\Models\cita::where('id', '=', $ides[1])->get()->first();
       $usuario =  \App\User::where('id','=',$ides[0])->get()->first();
       $cita->user_id =  $usuario->id;
+      $cita->completado='falta';
       $cita->save();
 
       dd($cita);
@@ -197,9 +214,47 @@ class citaController extends InfyOmBaseController
       return $vendedores;
     }
 
-    public function  vendedorCita($id){
+    public function  vendedorCitas($id){
       $citas = \App\Models\cita::where('user_id', '=', $id)->get();
+      foreach ($citas as $key)
+      {
+        $key->user;
+        $key->cliente;
+      }
       //dd($cita);
+      // return response()->json(['status'=>'ok','data'=>$citas], 200);
       return $citas;
+    }
+
+    public function hecho($id)
+    {
+      $cita = $this->citaRepository->findWithoutFail($id);
+
+      if (empty($cita))
+      {
+          Flash::error('cita not found');
+
+          return redirect(route('citas.index'));
+      }
+      $cita->completado='hecho';
+      $cita->save();
+      return redirect(route('citas.index'));
+    }
+
+    public function error($id)
+    {
+      $porciones = explode("@", $id);
+      $cita = $this->citaRepository->findWithoutFail($porciones[0]);
+
+      if (empty($cita))
+      {
+          Flash::error('cita not found');
+
+          return redirect(route('citas.index'));
+      }
+      $cita->completado='error';
+      $cita->notas= $cita->notas.' -'.$porciones[1];
+      $cita->save();
+      return redirect(route('citas.index'));
     }
 }

@@ -67,11 +67,14 @@ class cita extends Model
 
 
     public $fillable = [
-        'titulo',
+        //'titulo',
         'fecha',
         'hora',
         'cliente_id',
         'notas',
+        'tienda_id',
+        'completado',
+        'medio',
         'user_id'
     ];
 
@@ -81,7 +84,7 @@ class cita extends Model
      * @var array
      */
     protected $casts = [
-        'titulo' => 'string',
+        // 'titulo' => 'string',
         'fecha' => 'date',
         'cliente_id' => 'integer',
         'notas' => 'string',
@@ -94,7 +97,7 @@ class cita extends Model
      * @var array
      */
     public static $rules = [
-        'titulo' => 'required|max: 50',
+        // 'titulo' => 'required|max: 50',
         'fecha' => 'required',
         'hora' => 'required',
     ];
@@ -107,5 +110,10 @@ class cita extends Model
     public function cliente()
   	{
   		return $this->belongsTo('App\Cliente');
+  	}
+
+    public function tienda()
+  	{
+  		return $this->belongsTo('App\tienda');
   	}
 }

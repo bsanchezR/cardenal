@@ -19,6 +19,7 @@ class cuponController extends InfyOmBaseController
 
     public function __construct(cuponRepository $cuponRepo)
     {
+        $this->middleware('auth');
         $this->cuponRepository = $cuponRepo;
     }
 

@@ -129,7 +129,11 @@ class pedido extends Model
         'user_id',
         'tienda_id',
         'folio',
+        'total',
         'control',
+        'tipo_pago',
+        'monto',
+        'checado',
         'fecha_pedido',
         'fecha_entrega',
         'fecha_produccion',
@@ -162,7 +166,6 @@ class pedido extends Model
         'user_id' => 'required',
         'tienda_id' => 'required',
         'folio' => 'required',
-        'fecha_pedido' => 'required'
     ];
 
     public function cliente()
