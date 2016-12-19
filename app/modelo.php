@@ -65,6 +65,8 @@ class modelo extends Model
         'nombre',
         'marca_id',
         'codigo',
+        'id_tipo',
+        'precio',
         'max_ancho',
         'color'
     ];
@@ -88,7 +90,8 @@ class modelo extends Model
     public static $rules = [
         'nombre' => 'required',
         'marca_id' => 'required',
-        'codigo' => 'required',
+        'id_tipo' => 'required',
+        'color' => 'required',
         'max_ancho'=> 'required'
     ];
 

@@ -28,6 +28,17 @@ class Authenticate
         }
         else
         {
+          if(strpos($request->route()->getName(),'instalacion') !== false || strpos($request->route()->getName(),'citas_instala') !== false || strpos($request->route()->getName(),'cita_instalaPedido') !== false)
+          {
+            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'instalador' || $request->user()->tipo_usuario == 'admin')
+            {
+              return $next($request);
+            }
+            else
+            {
+              return redirect('/');
+            }
+          }
           if(strpos($request->route()->getName(),'pedidos') !== false  || strpos($request->route()->getName(),'citas') !== false || strpos($request->route()->getName(),'imagen') !== false)
           {
             if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'admin' || $request->user()->tipo_usuario == 'vendedor' )
@@ -39,7 +50,7 @@ class Authenticate
               return redirect('/');
             }
           }
-          if(strpos($request->route()->getName(),'user') !== false || strpos($request->route()->getName(),'cliente') !== false || strpos($request->route()->getName(),'cupons') !== false || strpos($request->route()->getName(),'general') !== false || strpos($request->route()->getName(),'tienda') !== false )
+          if(strpos($request->route()->getName(),'user') !== false || strpos($request->route()->getName(),'cliente') !== false || strpos($request->route()->getName(),'cupons') !== false || strpos($request->route()->getName(),'general') !== false || strpos($request->route()->getName(),'tienda') !== false || strpos($request->route()->getName(),'admin') !== false)
           {
             if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'admin')
             {
@@ -64,17 +75,6 @@ class Authenticate
           if(strpos($request->route()->getName(),'produccion') !== false)
           {
             if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'productor' || $request->user()->tipo_usuario == 'admin')
-            {
-              return $next($request);
-            }
-            else
-            {
-              return redirect('/');
-            }
-          }
-          if(strpos($request->route()->getName(),'instalacion') !== false)
-          {
-            if($request->user()->tipo_usuario == 'administrador' || $request->user()->tipo_usuario == 'instalador' || $request->user()->tipo_usuario == 'admin')
             {
               return $next($request);
             }

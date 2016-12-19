@@ -29,7 +29,8 @@
 <div class="form-group">
     {!! Form::label('password', 'Password :', ['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">
-    {!! Form::text('password', null, ['class' => 'form-control']) !!}
+  
+    {{ Form::password('password', array('class' => 'form-control')) }}
     </div>
 </div>
 <!-- Submit Field -->

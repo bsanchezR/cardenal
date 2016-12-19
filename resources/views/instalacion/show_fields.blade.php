@@ -6,7 +6,13 @@
       {{$cada->tipo}}
     @endforeach</address></div>
 
-      <div class="col-md-6 float-right text-right"><h4 class="invoice-title">Folio</h4>No. <b>#{{$pedido->folio}}</b><div class="divider"></div><div class="invoice-date mrg20B">{{$pedido->fecha_pedido}}</div><button id="imprimir" class="btn btn-alt btn-hover btn-info"><span>Imprimir</span> <i class="glyph-icon icon-print"></i></button>&nbsp;<a class="btn btn-alt btn-hover btn-primary" href="{!! route('instalacion.edit', [$pedido->id]) !!}"><span>Terminar Pedido</span><i class="glyph-icon icon-tag"></i></a>
+      <div class="col-md-6 float-right text-right"><h4 class="invoice-title">Folio</h4>No. <b>#{{$pedido->folio}}</b><div class="divider"></div><div class="invoice-date mrg20B">{{$pedido->fecha_pedido}}</div><button id="imprimir" class="btn btn-alt btn-hover btn-info"><span>Imprimir</span> <i class="glyph-icon icon-print"></i></button>
+      &nbsp;
+      <a class="btn btn-alt btn-hover btn-primary" href="{!! route('instalacion.edit', [$pedido->id]) !!}"><span>Terminar Pedido</span><i class="glyph-icon icon-tag"></i></a>
+      &nbsp;
+      @if($cita)
+      <a class="btn btn-alt btn-hover btn-primary" href="{!! route('cita_instalaPedido', [$pedido->id]) !!}"><span>Hacer cita</span><i class="glyph-icon icon-calendar"></i></a>
+      @endif
       </div>
   </div>
   <br>
@@ -79,13 +85,16 @@
     </tbody>
   </table>
 </div>
-<div class="row">
-  <div class="col-md-offset-4 col-md-4">
-    <h5></h5>
-    <h2 id="comen" class="invoice-client mrg10T">Observaciones</h2>
-    {!! Form::textarea('comentarios', null, ['class' => 'form-control', 'id' => 'mas_comen']) !!}
-  </div>
+@if($subtotal < $pedido->total)
+<div class="row" id="montos_n">
+  <label class="checkbox-inline">
+    <input type="checkbox" id="monto_nuevo" value="0" onchange="nuevos()">Nuevo monto
+  </label><br>
+  <!-- <label id="lab" for="nuevo_monto">Nuevo monto</label> -->
+  <input type="number" min="1" class="form-control" name="nuevo_monto" id="nuevo_monto" placeholder="Cantidad...">
+  <a id="monto_envio" class="btn btn-default">Enviar</a>
 </div>
+@endif
 <br>
 </div>
 <div id="codigo" class="">
@@ -94,6 +103,9 @@
 <script type="text/javascript" src="{{ asset('barcode.all.min.js') }}"></script>
 <script type="text/javascript">
 $('#codigo').hide();
+var id_pedido ={!! $pedido->id !!};
+var id_user ={!! Auth::user()->id !!};
+console.log(id_pedido,id_user);
 function imprime(numero)
 {
   $('#codigo').show();
@@ -147,5 +159,42 @@ $("#imprimir").click(function () {
         window.frames["frame1"].print();
         frame1.remove();
     }, 500);
+});
+
+
+$('#monto_envio').click(function()
+{
+  $('#loader').show();
+  var y =$('#nuevo_monto').val();
+  console.log(y);
+  var url = "http://localhost:8000/monto_pedidos/"+id_pedido+','+y+','+id_user;
+  $.ajax({url: url , success: function(result)
+  {
+      $('#loader').delay(500).fadeOut("slow");
+      if(result != null)
+      {
+        $('#montos_n').hide();
+      }
+  }});
+});
+
+function nuevos()
+{
+  var y=document.getElementById("monto_nuevo").checked;
+  if(y)
+  {
+    $('#nuevo_monto').show();
+    $('#monto_envio').show();
+  }
+  else
+  {
+    $('#nuevo_monto').hide();
+    $('#monto_envio').hide();
+  }
+}
+
+$(document).ready(function(){
+  $('#nuevo_monto').hide();
+  $('#monto_envio').hide();
 });
 </script>

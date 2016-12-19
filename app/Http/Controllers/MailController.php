@@ -29,19 +29,19 @@ class MailController extends Controller
        $key->color;
        if($key->motor == null)
        {
-           $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,null);
+           $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->modelo_id, $key->tipo, $key->alto, $key->ancho,null);
        }
        if($key->motor == '1 lienzo')
        {
-           $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,1);
+           $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->modelo_id, $key->tipo, $key->alto, $key->ancho,1);
        }
        if($key->motor == '2 lienzos')
        {
-           $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,2);
+           $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->modelo_id, $key->tipo, $key->alto, $key->ancho,2);
        }
        if($key->motor == '3 lienzos')
        {
-           $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->tipo, $key->alto,3);
+           $precios[$i]= app ('App\Http\Controllers\almacenController')->precios($key->modelo_id, $key->tipo, $key->alto, $key->ancho,3);
        }
        $i++;
      }
@@ -54,7 +54,7 @@ class MailController extends Controller
          //remitente
         //  $message->from($pedido->email, $request->name);
         // $message->from($pedido->cliente->email, $pedido->cliente->nombre);
-        $message->to("dra_ker@hotmail.com", $pedido->cliente->nombre);
+        $message->to($pedido->cliente->email , $pedido->cliente->nombre);
 
          //asunto
          $message->subject('Cotización');

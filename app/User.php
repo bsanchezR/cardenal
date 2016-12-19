@@ -42,8 +42,18 @@ class User extends Authenticatable
 	    return $this->hasMany('App\pedido');
     }
 
+    public function pagos_historial()
+    {
+	    return $this->hasMany('App\pagos_historial');
+    }
+
     public function citas()
     {
       return $this->hasMany('App\Models\cita');
+    }
+
+    public function citas_instala()
+    {
+      return $this->hasMany('App\Models\cita_instala');
     }
 }
