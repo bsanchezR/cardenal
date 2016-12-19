@@ -13,10 +13,32 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('codigo', 'Codigo:', ['class' => 'control-label col-sm-3']) !!}
+    {!! Form::label('color', 'Color:', ['class' => 'control-label col-sm-3']) !!}
     <div class="col-sm-6">
-    {!! Form::text('codigo', null, ['class' => 'form-control']) !!}
+    {!! Form::text('color', null, ['class' => 'form-control']) !!}
     </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label('precio', 'Precio al público:', ['class' => 'control-label col-sm-3']) !!}
+    <div class="col-sm-6">
+    {!! Form::text('precio', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+<div class="form-group">
+  {!! Form::label('id_tipo', 'Tipo :', ['class' => 'control-label col-sm-3']) !!}
+  <div class="col-sm-6">
+  <select class="form-control" name="id_tipo">
+      <option value="1">Shangrila</option>
+      <option value="2">Sheer</option>
+      <option value="3">Enrrollable</option>
+      <option value="4">Vertical</option>
+      <option value="5">Romana</option>
+      <option value="6">Panel Japones</option>
+      <option value="7">Open Romana</option>
+  </select>
+  </div>
 </div>
 
 <!-- Submit Field -->

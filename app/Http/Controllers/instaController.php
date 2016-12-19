@@ -71,7 +71,23 @@ class instaController extends InfyOmBaseController
         if($pedido->fecha_instalacion == NULL || $pedido->fecha_instalacion == '' || $pedido->fecha_instalacion == '-0001-11-30 00:00:00' || $pedido->fecha_instalacion == '0000-00-00')
           $pedido->fecha_instalacion = NULL;
 
-        return view('instalacion.show',['pedido' => $pedido, 'persianas' => $pedido->persianas]);
+          $monto=0;
+          foreach ($pedido->pagos_historial as $key)
+          {
+            $monto= $monto+$key->monto;
+          }
+          $bandera=true;
+        if($pedido->citas_instalaciones != null)
+        {
+            foreach ($pedido->citas_instalaciones as $key)
+            {
+              if($key->completado != 'error')
+              {
+                $bandera=false;
+              }
+            }
+        }
+        return view('instalacion.show',['pedido' => $pedido, 'persianas' => $pedido->persianas,'subtotal' => $monto, 'cita' => $bandera]);
     }
 
     /**

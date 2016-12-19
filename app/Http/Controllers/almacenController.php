@@ -866,10 +866,18 @@ class almacenController extends InfyOmBaseController
       return $material;
     }
 
-    public function sheer($alto)
+    public function sheer($modelo, $alto, $ancho)
     {
       $precio=0;
-      $precio = $precio + ($this->cuanto('Tejido')*($alto*2));
+      if($alto < 1)
+      {
+        $alto=1;
+      }
+      if($ancho < 1)
+      {
+        $ancho=1;
+      }
+      $precio = $precio + ($modelo*(($alto*2)*$ancho));
       $precio = $precio + $this->cuanto('Tubo 38 mm');
       $precio = $precio + $this->cuanto('R8');
       $precio = $precio + $this->cuanto('Facia 100');
@@ -886,10 +894,18 @@ class almacenController extends InfyOmBaseController
       return $precio;
     }
 
-    public function sheer_motor($alto,$motor)
+    public function sheer_motor($modelo, $alto, $ancho, $motor)
     {
       $precio=0;
-      $precio = $precio + ($this->cuanto('Tejido')*($alto*2));
+      if($alto < 1)
+      {
+        $alto=1;
+      }
+      if($ancho < 1)
+      {
+        $ancho=1;
+      }
+      $precio = $precio + ($modelo*(($alto*2)*$ancho));
       $precio = $precio + $this->cuanto('Tubo 44 mm');
       $precio = $precio + $this->cuanto('Motor enrrollable');
       $precio = $precio + $this->cuanto('Facia 120');
@@ -904,10 +920,18 @@ class almacenController extends InfyOmBaseController
       return $precio;
     }
 
-    public function enrrollable($alto)
+    public function enrrollable($modelo, $alto, $ancho)
     {
       $precio=0;
-      $precio = $precio + ($this->cuanto('Tejido')*$alto);
+      if($alto < 1)
+      {
+        $alto=1;
+      }
+      if($ancho < 1)
+      {
+        $ancho=1;
+      }
+      $precio = $precio + ($modelo*($alto*$ancho));
       $precio = $precio + $this->cuanto('Tubo 38 mm');
       $precio = $precio + $this->cuanto('R8');
       $precio = $precio + $this->cuanto('Tensor para cadena');
@@ -922,10 +946,18 @@ class almacenController extends InfyOmBaseController
       return $precio;
     }
 
-    public function enrrollable_motor($alto,$motor)
+    public function enrrollable_motor($modelo, $alto, $ancho, $motor)
     {
       $precio=0;
-      $precio = $precio + ($this->cuanto('Tejido')*$alto);
+      if($alto < 1)
+      {
+        $alto=1;
+      }
+      if($ancho < 1)
+      {
+        $ancho=1;
+      }
+      $precio = $precio + ($modelo*($alto*$ancho));
       $precio = $precio + $this->cuanto('Tubo 44 mm');
       $precio = $precio + $this->cuanto('Motor enrrollable');
       $precio = $precio + $this->cuanto('Facia 120');
@@ -936,10 +968,18 @@ class almacenController extends InfyOmBaseController
       return $precio;
     }
 
-    public function vertical($alto)
+    public function vertical($modelo, $alto, $ancho)
     {
       $precio=0;
-      $precio = $precio + ($this->cuanto('Tejido')*$alto);
+      if($alto < 1)
+      {
+        $alto=1;
+      }
+      if($ancho < 1)
+      {
+        $ancho=1;
+      }
+      $precio = $precio + ($modelo*($alto*$ancho));
       $precio = $precio + $this->cuanto('Riel con piñon');
       $precio = $precio + $this->cuanto('Carro de arrastre');
       $precio = $precio + $this->cuanto('Percha plastica');
@@ -960,10 +1000,18 @@ class almacenController extends InfyOmBaseController
       return $precio;
     }
 
-    public function shangrila($alto)
+    public function shangrila($modelo, $alto, $ancho)
     {
       $precio=0;
-      $precio = $precio + ($this->cuanto('Tejido')*$alto);
+      if($alto < 1)
+      {
+        $alto=1;
+      }
+      if($ancho < 1)
+      {
+        $ancho=1;
+      }
+      $precio = $precio + ($modelo*($alto*$ancho));
       $precio = $precio + $this->cuanto('Tubo 38 mm');
       $precio = $precio + $this->cuanto('Facia 100');
       $precio = $precio + $this->cuanto('Perfileria (shangri-la)');
@@ -975,10 +1023,18 @@ class almacenController extends InfyOmBaseController
       return $precio;
     }
 
-    public function shangrila_motor($alto,$motor)
+    public function shangrila_motor($modelo, $alto, $ancho, $motor)
     {
       $precio=0;
-      $precio = $precio + ($this->cuanto('Tejido')*$alto);
+      if($alto < 1)
+      {
+        $alto=1;
+      }
+      if($ancho < 1)
+      {
+        $ancho=1;
+      }
+      $precio = $precio + ($modelo*($alto*$ancho));
       $precio = $precio + $this->cuanto('Tubo 44 mm');
       $precio = $precio + $this->cuanto('Motor enrrollable');
       $precio = $precio + $this->cuanto('Facia 120');
@@ -990,42 +1046,43 @@ class almacenController extends InfyOmBaseController
       return $precio;
     }
 
-    public function precios($tipo,$alto,$motor)
+    public function precios($id, $tipo, $alto, $ancho, $motor)
     {
+      $modelo= \App\modelo::find($id);
       $precio=0;
       switch ($tipo)
       {
         case 'sheer': if($motor == null)
                       {
-                        $precio = $this->sheer($alto);
+                        $precio = $this->sheer($modelo->precio, $alto, $ancho);
                       }
                       else
                       {
-                        $precio = $this->sheer_motor($alto,$motor);
+                        $precio = $this->sheer_motor($modelo->precio, $alto, $ancho,$motor);
                       }
                       break;
         case 'enrrollable': if($motor == null)
                             {
-                              $precio = $this->enrrollable($alto);
+                              $precio = $this->enrrollable($modelo->precio, $alto, $ancho);
                             }
                             else
                             {
-                              $precio = $this->enrrollable_motor($alto,$motor);
+                              $precio = $this->enrrollable_motor($modelo->precio, $alto, $ancho,$motor);
                             }
                       break;
-        case 'vertical':  $precio = $this->vertical($alto);
+        case 'vertical':  $precio = $this->vertical($modelo->precio, $alto, $ancho);
                           break;
         case 'shangri-la':  if($motor == null)
                             {
-                                $precio = $this->shangrila($alto);
+                                $precio = $this->shangrila($modelo->precio, $alto, $ancho);
                             }
                             else
                             {
-                              $precio = $this->shangrila_motor($alto,$motor);
+                              $precio = $this->shangrila_motor($modelo->precio, $alto, $ancho,$motor);
                             }
                       break;
       }
-      return $precio;
+      return round($precio, 0, PHP_ROUND_HALF_UP);;
     }
 
     public function stock($tipo,$motor)

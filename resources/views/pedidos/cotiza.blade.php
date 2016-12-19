@@ -79,7 +79,7 @@
 <div class="row" style="margin-top:25px;">
   <div id="hecho" class="col-xs-12" style="margin-top:10px; padding: 10px; text-align:center;">
   </div>
-  @if(Auth::user()->tipo_usuario === 'administrador' || Auth::user()->tipo_usuario === 'admin')
+  @if(($pedido->monto+ $pedido->total_pagos($pedido->id)) < $pedido->total)
   <div id="dinero" class="col-xs-12" style="margin-top:10px; text-align:center;">
     <label class="checkbox-inline">
       <input type="checkbox" id="monto_nuevo" value="0" onchange="nuevos()">Nuevo monto
@@ -666,7 +666,7 @@
     //   $('#contado').hide();
     //   $('#credito').hide();
     // }
-    if(y == 'credito3' || y == 'credito6' || y == 'credito12')
+    if(y == 'credito3' || y == 'credito6' || y == 'credito12' || y == 0)
     {
       $('#contado').hide();
     }
@@ -884,6 +884,11 @@
             $("#datatable-responsive_length").hide();
             $("#datatable-responsive_filter").hide();
             $("#datatable-responsive_paginate").hide();
+            $("#pedido").hide();
+            $("#entrega").hide();
+            $("#instalacion").hide();
+            $("#terminos").hide();
+            $("#pagos").hide();
             var contents = $("#para_impresion").html();
             impresion= contents;
             // console.log(pedido_s.monto, parseInt(pedido_s.monto) < pedido_s.total);
@@ -910,6 +915,14 @@
             $("#datatable-responsive_length").show();
             $("#datatable-responsive_filter").show();
             $("#datatable-responsive_paginate").show();
+            if(pedido_s.estado == 'cotizacion')
+            {
+              $("#pedido").show();
+              $("#entrega").show();
+              $("#instalacion").show();
+              $("#pagos").show();
+              $("#terminos").show();
+            }
             setTimeout(function () {
                 window.frames["frame1"].focus();
                 window.frames["frame1"].print();

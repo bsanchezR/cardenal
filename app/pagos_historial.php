@@ -114,30 +114,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *      )
  * )
  */
-class pedido extends Model
+class pagos_historial extends Model
 {
     use SoftDeletes;
 
-    public $table = 'pedidos';
+    public $table = 'pagos_historial';
 
 
     protected $dates = ['deleted_at'];
 
 
     public $fillable = [
-        'cliente_id',
-        'user_id',
-        'tienda_id',
-        'folio',
-        'total',
-        'control',
-        'tipo_pago',
+        'pedido_id',
         'monto',
-        'checado',
-        'fecha_pedido',
-        'fecha_entrega',
-        'fecha_produccion',
-        'fecha_instalacion',
+        'fecha',
+        'user_id',
     ];
 
     /**
@@ -146,11 +137,9 @@ class pedido extends Model
      * @var array
      */
     protected $casts = [
-        'cliente_id' => 'integer',
-        'user_id' => 'integer',
-        'folio' => 'string',
-        'control' => 'string',
-        'fecha_pedido' => 'date',
+        'pedido_id' => 'integer',
+        'monto' => 'string',
+        'fecha' => 'date',
         'fecha_entrega' => 'date',
         'fecha_produccion' => 'date',
         'fecha_instalacion' => 'date'
@@ -162,60 +151,17 @@ class pedido extends Model
      * @var array
      */
     public static $rules = [
-        'cliente_id' => 'required',
-        'user_id' => 'required',
-        'tienda_id' => 'required',
-        'folio' => 'required',
+        'pedido_id' => 'required',
+        'monto' => 'required',
     ];
-
-    public function cliente()
-  	{
-  		return $this->belongsTo('App\Cliente');
-  	}
-
-    public function tienda()
-  	{
-  		return $this->belongsTo('App\tienda');
-  	}
-
-    public function persianas()
-    {
-	    return $this->hasMany('App\persiana');
-    }
-
-    public function images()
-    {
-	    return $this->hasMany('App\images');
-    }
-
-    public function cupons()
-    {
-	    return $this->hasMany('App\Models\cupon');
-    }
-
-    public function citas_instalaciones()
-    {
-	    return $this->hasMany('App\Models\cita_instala');
-    }
-
-    public function pagos_historial()
-    {
-	    return $this->hasMany('App\pagos_historial');
-    }
 
     public function user()
   	{
   		return $this->belongsTo('App\User');
   	}
 
-    public static function total_pagos($id)
+    public function pedido()
   	{
-      $pedido = \App\pedido::find($id);
-  		$total=0;
-      foreach ($pedido->pagos_historial as $key)
-      {
-        $total=$total+$key->monto;
-      }
-      return $total;
+  		return $this->belongsTo('App\pedido');
   	}
 }
